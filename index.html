@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mansee Bal Bhargava | Urban Design & Architecture</title>
+    <meta name="description" content="Portfolio of Mansee Bal Bhargava - Entrepreneur, Researcher, and Educator in Architecture and Urban Design.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- WebGL Ripples Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
+</head>
+<body>
+    <!-- WebGL Fluid Canvas -->
+    <div id="webgl-water-bg" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMDAwJyBoZWlnaHQ9JzEwMDAnPjxkZWZzPjxyYWRpYWxHcmFkaWVudCBpZD0nZycgY3g9JzUwJScgY3k9JzUwJScgcj0nNTAlJz48c3RvcCBvZmZzZXQ9JzAlJyBzdG9wLWNvbG9yPScjMDYxZTM4Jy8+PHN0b3Agb2Zmc2V0PScxMDAlJyBzdG9wLWNvbG9yPScjMDEwYjE0Jy8+PC9yYWRpYWxHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9JzEwMDAnIGhlaWdodD0nMTAwMCcgZmlsbD0ndXJsKCNnKScvPjwvc3ZnPg=='); background-size: cover; background-position: center;"></div>
+    <!-- Water Bubbles -->
+    <div class="bubbles-container" id="bubblesContainer"></div>
+
+    <!-- Floating Socials -->
+    <div class="floating-socials">
+        <a href="https://www.instagram.com/manseebal/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+        <a href="https://twitter.com/manseebal" aria-label="Twitter / X" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.linkedin.com/in/mansee-bal-bhargava-6583a915/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://www.facebook.com/bal.mansee/" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://tinyurl.com/4s7st69h" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+    </div>
+    <nav class="navbar">
+        <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">MBB.</a>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#portfolio">Dimensions</a>
+            <a href="#connect">Initiatives</a>
+            <a href="contact.html" class="nav-cta">Let's Talk</a>
+        </div>
+    </nav>
+
+    <header class="hero" id="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 class="reveal-text">
+                <span class="tooltip-container" data-tooltip="Minded Reverence & Adoration">Mansee</span> 
+                <span class="tooltip-container" data-tooltip="Strength & Determination">Bal</span> <br>
+                <span class="tooltip-container tooltip-side gradient-text" data-tooltip="Vedic Rituals & Ayurved">Bhargava</span>
+            </h1>
+            <p class="mobile-name-meaning reveal-text delay-1">(Minded Reverence • Strength • Vedic Rituals)</p>
+            <p class="subtitle reveal-text delay-1">Entrepreneur • Researcher • Educator • Speaker • Mentor</p>
+            <div class="fields-pill reveal-text delay-2">
+                <span>Architecture</span>
+                <span class="dot"></span>
+                <span>Urban Design</span>
+                <span class="dot"></span>
+                <span>Planning</span>
+                <span class="dot"></span>
+                <span>Management</span>
+                <span class="dot"></span>
+                <span>Governance</span>
+            </div>
+
+            <div class="social-links reveal-text delay-4">
+                <a href="https://www.instagram.com/manseebal/" aria-label="Instagram" class="social-icon" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+                <a href="https://twitter.com/manseebal" aria-label="Twitter / X" class="social-icon" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                <a href="https://www.linkedin.com/in/mansee-bal-bhargava-6583a915/" aria-label="LinkedIn" class="social-icon" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                <a href="https://www.facebook.com/bal.mansee/" aria-label="Facebook" class="social-icon" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
+                <a href="https://tinyurl.com/4s7st69h" aria-label="YouTube" class="social-icon" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+        </div>
+    </header>
+
+
+    <section id="portfolio" class="grid-section">
+        <div class="section-header">
+            <h2>Explore Dimensions</h2>
+            <p>Discover the facets of my professional journey</p>
+        </div>
+        <div class="bento-grid">
+            <!-- Practice -->
+            <a href="practice.html" class="bento-card group">
+                <div class="card-bg practice-bg"></div>
+                <div class="card-content">
+                    <i class="fa-solid fa-pen-nib"></i>
+                    <h3>Practice</h3>
+                    <p class="hover-text">Applied architectural and urban design in the real world.</p>
+                </div>
+            </a>
+            <!-- Research -->
+            <a href="research.html" class="bento-card group">
+                <div class="card-bg research-bg"></div>
+                <div class="card-content">
+                    <i class="fa-solid fa-microscope"></i>
+                    <h3>Research</h3>
+                </div>
+            </a>
+            <!-- Teaching -->
+            <a href="teaching.html" class="bento-card group">
+                <div class="card-bg teaching-bg"></div>
+                <div class="card-content">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <h3>Teaching</h3>
+                </div>
+            </a>
+            <!-- Purpose -->
+            <a href="purpose.html" class="bento-card group">
+                <div class="card-bg purpose-bg"></div>
+                <div class="card-content">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <h3>Purpose</h3>
+                    <p class="hover-text">The core mission driving my endeavors.</p>
+                </div>
+            </a>
+            <!-- Response -->
+            <a href="response.html" class="bento-card group">
+                <div class="card-bg response-bg"></div>
+                <div class="card-content">
+                    <i class="fa-solid fa-reply-all"></i>
+                    <h3>Response</h3>
+                </div>
+            </a>
+            <!-- Talks -->
+            <a href="talks.html" class="bento-card group">
+                <div class="card-bg talks-bg"></div>
+                <div class="card-content">
+                    <i class="fa-solid fa-microphone"></i>
+                    <h3>Talks</h3>
+                </div>
+            </a>
+            <!-- People -->
+            <a href="people.html" class="bento-card group">
+                <div class="card-bg people-bg"></div>
+                <div class="card-content">
+                    <i class="fa-solid fa-users"></i>
+                    <h3>People</h3>
+                </div>
+            </a>
+            <!-- Resume -->
+            <a href="resume.html" class="bento-card group">
+                <div class="card-bg resume-bg"></div>
+                <div class="card-content">
+                    <i class="fa-regular fa-file-lines"></i>
+                    <h3>Resume</h3>
+                </div>
+            </a>
+            <!-- Travel -->
+            <a href="travel.html" class="bento-card group">
+                <div class="card-bg travel-bg"></div>
+                <div class="card-content">
+                    <i class="fa-solid fa-earth-americas"></i>
+                    <h3>Travel</h3>
+                    <p class="hover-text">Global perspectives shaping urban understanding.</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Initiatives Section -->
+    <section id="connect" class="connect-section">
+        <div class="section-header">
+            <h2 class="gradient-text">Current Roles & Initiatives</h2>
+            <p>Organizations and projects I currently lead or advise</p>
+        </div>
+        <div class="connect-grid">
+            <div class="connect-card">
+                <i class="fa-solid fa-user-tie role-icon"></i>
+                <h3>Individual</h3>
+                <a href="tel:+919824092804"><i class="fas fa-phone"></i> +91 98240 92804</a>
+                <a href="http://www.mansee.in" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i> www.mansee.in</a>
+            </div>
+            <div class="connect-card">
+                <i class="fa-solid fa-building-columns role-icon"></i>
+                <h3>Institutional EDC</h3>
+                <a href="tel:+917940059169"><i class="fas fa-phone"></i> +91 79 4005 9169</a>
+                <a href="http://www.edc.org.in" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i> www.edc.org.in</a>
+            </div>
+            <div class="connect-card">
+                <i class="fa-solid fa-hand-holding-droplet role-icon"></i>
+                <h3>Initiative WforW</h3>
+                <a href="tel:+917948007098"><i class="fas fa-phone"></i> +91 79 4800 7098</a>
+                <a href="http://www.wforw.in" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i> www.wforw.in</a>
+            </div>
+            <div class="connect-card">
+                <i class="fa-solid fa-earth-europe role-icon"></i>
+                <h3>International ICBM</h3>
+                <a href="tel:+494421944204"><i class="fas fa-phone"></i> +49 (0)4421 944 204</a>
+                <a href="https://uol.de/en/icbm/geoecology/mitarbeiter" target="_blank" rel="noopener noreferrer"><i class="fas fa-globe"></i> uol.de/en/icbm</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- The About Section -->
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <div class="about-glass-panel">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <div class="section-header">
+                    <h2>Learn more about me</h2>
+                    <div class="header-line"></div>
+                </div>
+                <p class="about-bio">
+                    A trans-disciplinary learner with 25 years of experience in the built environment, dedicated to ecological restoration and mitigating water distress. I view the built environment as a complex socio-ecological system, championing <strong>gender-sensitive governance</strong> to empower civil society.
+                </p>
+                <p class="about-bio highlight-bio">
+                    Driven by humanity and biodiversity, my philosophy is simple: <strong>we must slow down to heal the planet</strong>. At heart, an inquisitive child for whom the value of freedom is immeasurable.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <h2 class="footer-logo">MBB.</h2>
+            <div class="footer-nav">
+                <a href="index.html">Home</a>
+                <a href="purpose.html">Passion</a>
+                <a href="response.html">Reaction</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <p>&copy; 2026 Mansee Bal Bhargava. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
