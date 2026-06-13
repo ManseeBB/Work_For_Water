@@ -65,7 +65,7 @@
         </div>
     </header>
 
-        <section class="page-content">
+        <section class="page-content people-page-content">
         <div class="subpage-container">
             <div class="people-intro-card">
                 <p>
@@ -74,458 +74,98 @@
             </div>
 
             <h3 class="people-section-title">Mentors, Collaborators & Peers</h3>
-            <div class="people-directory-grid">
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-award"></i>
-                    </div>
-                    <span class="profile-name">EDRC Fellows</span>
+            
+            <div class="honeycomb-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="honeycomb-search" placeholder="Search people by name, role, or affiliation...">
                 </div>
-                <div class="profile-details-row">
-                    until Dec 2020 <a href="http://www.mansee.in/wp-content/uploads/2021/08/RCF-BIO_Aug2021.pdf" rel="noopener" target="_blank">EDRC Fellows until Aug 2021</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-pen-nib"></i>
-                    </div>
-                    <span class="profile-name">Akshay Bhargava</span>
-                </div>
-                <div class="profile-details-row">
-                    Landscape Architect, <a href="http://www.edc.org.in/">Environmental Design Consultants Ahmedabad</a>
+                <div class="filter-tags">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="mentor">Mentors</button>
+                    <button class="filter-btn" data-filter="collaborator">Collaborators</button>
+                    <button class="filter-btn" data-filter="peer">Peers & Academic Network</button>
                 </div>
             </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
+
+            <div class="honeycomb-layout-container">
+                <div class="honeycomb-grid-column">
+                    <div class="honeycomb-wrapper">
+                        <div id="honeycomb-grid" class="honeycomb-grid"></div>
                     </div>
-                    <span class="profile-name">Alka Bharat</span>
                 </div>
-                <div class="profile-details-row">
-                    Prof and Head, <a href="http://manit.ac.in/web/year2010/Profile/Architecture_Planning/Brief%20CV%20alka%20bharat%200810.pdf">Dept of Arch. &amp; Planning, M.A.N.I.T. Bhopal</a>
+
+                <div class="honeycomb-side-column">
+                    <div id="honeycomb-details-panel" class="honeycomb-details-panel">
+                        <div class="panel-placeholder">
+                            <i class="fas fa-users-cog"></i>
+                            <p>Hover over or tap a person in the network to view their professional profile and connections.</p>
+                        </div>
+                        <div class="panel-content hidden">
+                            <div class="panel-header">
+                                <div class="panel-meta">
+                                    <h4 class="panel-name"></h4>
+                                    <span class="panel-tag"></span>
+                                </div>
+                            </div>
+                            <p class="panel-desc"></p>
+                            <div class="panel-connections">
+                                <h5>Connected colleagues in this network:</h5>
+                                <div class="connections-list"></div>
+                            </div>
+                            <a href="" target="_blank" class="panel-link hidden">Visit Profile <i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Anil Gupta</span>
-                </div>
-                <div class="profile-details-row">
-                    Professor-Mentor, <a href="http://www.iimahd.ernet.in/~anilg/">IIMA</a>, Srishti, HBN, NIF, etc
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-clock"></i>
-                    </div>
-                    <span class="profile-name">Late Barry Moore</span>
-                </div>
-                <div class="profile-details-row">
-                    Professor) <a href="http://www-old.dow.cam.ac.uk/index.php/about/news/456-moore">Dept. of Land Economy, University of Cambridge</a>, UK
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Bibhu P Nayak</span>
-                </div>
-                <div class="profile-details-row">
-                    Associate Professor, <a href="https://www.tiss.edu/view/9/employee/bibhu-prasad-nayak/">TISS Hyderabad)</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">BV Doshi</span>
-                </div>
-                <div class="profile-details-row">
-                    Architect-Professor-Mentor) <a href="http://www.sangath.org/">http://www.sangath.org/</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Carley Pennink</span>
-                </div>
-                <div class="profile-details-row">
-                    Head, International Projects, <a href="http://www.ihs.nl/about_ihs/ihs_staff/management_team/carley_pennink/">IHS-Erasmus University Rotterdam</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-pen-nib"></i>
-                    </div>
-                    <span class="profile-name">Claudio Acioly</span>
-                </div>
-                <div class="profile-details-row">
-                    Architect-Urban Planner, <a href="http://unhabitat.org/tag/claudio-acioly/">UN Habitat</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Donald Housing</span>
-                </div>
-                <div class="profile-details-row">
-                    Institute for a Secure and Sustainable Environment, University of TN
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Eduardo S. Brondizio</span>
-                </div>
-                <div class="profile-details-row">
-                    Professor<strong>, </strong>Anthropology Department, <a href="http://www.indiana.edu/~anthro/people/faculty/ebrondiz.shtml">Indiana University, Bloomington</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Fawzia Taranum</span>
-                </div>
-                <div class="profile-details-row">
-                    Assistant Professor, <a href="https://www.terisas.ac.in/faculty.php?id=50">TERI School of Advance Sciences</a>, Delhi
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <span class="profile-name">Gautamee Baviskar</span>
-                </div>
-                <div class="profile-details-row">
-                    <a href="http://www.gautameebaviskar.wix.com/website">Urban Planner-Student- Researcher</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-tie"></i>
-                    </div>
-                    <span class="profile-name">Ganesh Shankar</span>
-                </div>
-                <div class="profile-details-row">
-                    Managing Director, <a href="http://www.fluxgentech.com/home-1">Fluxgen Engineering Technologies</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-clock"></i>
-                    </div>
-                    <span class="profile-name">Late Elinor Ostrom</span>
-                </div>
-                <div class="profile-details-row">
-                    Nobel Laureate and <a href="https://ostromworkshop.indiana.edu/about/nobelprize.html">The Ostrom Workshop</a>, Indiana University, Bloomington
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-pen-nib"></i>
-                    </div>
-                    <span class="profile-name">Gita Goven</span>
-                </div>
-                <div class="profile-details-row">
-                    Architect-Urban Designer, <a href="http://argdesign.co.za/">ArgDesign CapeTown</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <span class="profile-name">Harsh Vardhan</span>
-                </div>
-                <div class="profile-details-row">
-                    <a href="http://www.birdfair.org/">Environmentalist-Jaipur</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Jacko van Ast</span>
-                </div>
-                <div class="profile-details-row">
-                    Prof. Dept. of Public Administration, <a href="http://www.eur.nl/fsw/english/publicadministration/contact/staff/profiel_mis/10101/">Faculty of Social Science</a>, Erasmus University Rotterdam
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-pen-nib"></i>
-                    </div>
-                    <span class="profile-name">Jaime Izurieta</span>
-                </div>
-                <div class="profile-details-row">
-                    Architect-<a href="http://gkillcity.com/autor/jaime-izurieta-varea">Urban Designer</a>-Manager
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Jan Fransen</span>
-                </div>
-                <div class="profile-details-row">
-                    Deputy Director, <a href="http://www.ihs.nl/about_ihs/ihs_staff/management_team/jan_fransen/">IHS</a>- Erasmus University Rotterdam
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-tie"></i>
-                    </div>
-                    <span class="profile-name">Kenji Otsuka</span>
-                </div>
-                <div class="profile-details-row">
-                    Director, Environment and Natural Resource Studies Group, <a href="http://www.ide.go.jp/English/Researchers/otsuka_kenji_en.html">IDE-JETRO</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-pen-nib"></i>
-                    </div>
-                    <span class="profile-name">Kinny Soni</span>
-                </div>
-                <div class="profile-details-row">
-                    <a href="http://kinnysoni.com/">Architect-Interior Designer</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <span class="profile-name">Kirti Pathak</span>
-                </div>
-                <div class="profile-details-row">
-                    Social Activist Ajmer
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <span class="profile-name">Klaus</span>
-                </div>
-                <div class="profile-details-row">
-                    <strong>Eisenack</strong> (Resource Economics Group, <a href="http://resource-economics.hu-berlin.de">Humboldt-Universität zu</a> Berlin
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Madhubharti Sharma</span>
-                </div>
-                <div class="profile-details-row">
-                    Professor, Faculty of Planning, <a href="http://cept.ac.in/10/110/faculty-of-planning/staffmember/56/madhu-bharti">CEPT Universit</a>y
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Marco Janssen</span>
-                </div>
-                <div class="profile-details-row">
-                    Professor, School of Sustainability and Director, <a href="http://www.marcojanssen.info/">CBIE- ASU Tempe</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Neelkanth Chhaya</span>
-                </div>
-                <div class="profile-details-row">
-                    <a href="http://www.mandazhi.net/Neelkanthchhaya.html">Architect- Professor</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Prabhat Kumar Singh</span>
-                </div>
-                <div class="profile-details-row">
-                    Professor, Dept. of Civil Engineering, <a href="https://www.iitbhu.ac.in/dept/civ/people/psinghciv">IIT-BHU</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-pen-nib"></i>
-                    </div>
-                    <span class="profile-name">Pratap Patil</span>
-                </div>
-                <div class="profile-details-row">
-                    Architect-<a href="http://www.pratapdpatil.com/">Urban Designer</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">PVK Rameshwar</span>
-                </div>
-                <div class="profile-details-row">
-                    Architect-<a href="http://www.shilanyas.com/about-us">Urban Designe</a>r- Professor
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Rolf Kunneke</span>
-                </div>
-                <div class="profile-details-row">
-                    Professor of Economics of Infrastructures, <a href="http://www.tbm.tudelft.nl/en/about-faculty/professors/professor-profile/rolf-kuenneke/">TU Delft</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-pen-nib"></i>
-                    </div>
-                    <span class="profile-name">Sanal Thathapuzha</span>
-                </div>
-                <div class="profile-details-row">
-                    <a href="http://sanalthathapuzha.com/">Architect</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Sandeep Sankat</span>
-                </div>
-                <div class="profile-details-row">
-                    Architect-Professor, <a href="http://www.spabhopal.ac.in/sandeepsankat.aspx">Department of Architecture, SPA</a> Bhopal
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <span class="profile-name">Sanjay Das</span>
-                </div>
-                <div class="profile-details-row">
-                    Digital Transformation Leader, <a href="https://www.linkedin.com/in/sanjay-das-0174701?authType=name&amp;authToken=-qoK&amp;trk=wonton-desktop">SAP- Europe at IBM</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Shrawan K Acharya</span>
-                </div>
-                <div class="profile-details-row">
-                    Professor, <a href="http://www.jnu.ac.in/FacultyStaff/ShowProfile.asp?SendUserName=skacharya">School of Social Sciences, JNU</a>, Delhi
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <span class="profile-name">Subhasish Borah and Bidisha Das</span>
-                </div>
-                <div class="profile-details-row">
-                    <a href="https://folkloretea.com/">Folklore</a> and <a href="https://www.instagram.com/kohuwacollective/">Kohuwa</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Tine de Moor</span>
-                </div>
-                <div class="profile-details-row">
-                    Professor, <a href="https://www.rsm.nl/people/tine-de-moor/">RSM Erasmus University Rotterdam</a>
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-pen-nib"></i>
-                    </div>
-                    <span class="profile-name">Ujjval Panchal</span>
-                </div>
-                <div class="profile-details-row">
-                    <a href="http://www.ujjvalpanchal.com/">Architect</a>- Interaction designer
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-tie"></i>
-                    </div>
-                    <span class="profile-name">Urvi Sheth</span>
-                </div>
-                <div class="profile-details-row">
-                    Director, Workshops at <a href="http://urvisheth.com/">CEPT Universit</a>y
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Utpal Sharma</span>
-                </div>
-                <div class="profile-details-row">
-                    Director at <a href="http://www.nirmauni.ac.in/IANU/Faculty/Prof-Utpal-Kumar-Sharma">Institute of Architecture and Planning, Nirma University</a>, Ahmedabad
-                </div>
-            </div>
-            <div class="directory-profile-card">
-                <div class="profile-avatar-row">
-                    <div class="profile-avatar-icon">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span class="profile-name">Zhang Zongyi</span>
-                </div>
-                <div class="profile-details-row">
-                    <a href="http://sem.tongji.edu.cn/semen/?p=12225">SEM-Tongji</a> University Shanghai
-                </div>
-            </div>
+
+            <!-- SEO & Screen Reader Accessibility Fallback -->
+            <div class="sr-only">
+                <h3>Full Collaborators & Mentors Directory</h3>
+                <ul>
+                    <li><strong>Dr. Mansee Bal Bhargava</strong>: Host & Coordinator of this professional network.</li>
+                    <li><strong>EDRC Fellows</strong>: Research and Project Fellows until Dec 2020 & Aug 2021 at EDRC.</li>
+                    <li><strong>Akshay Bhargava</strong>: Landscape Architect, Environmental Design Consultants Ahmedabad.</li>
+                    <li><strong>Alka Bharat</strong>: Prof and Head, Dept of Arch. & Planning, M.A.N.I.T. Bhopal.</li>
+                    <li><strong>Anil Gupta</strong>: Professor-Mentor, IIMA, Srishti, HBN, NIF.</li>
+                    <li><strong>Late Barry Moore</strong>: Professor, Dept. of Land Economy, University of Cambridge, UK.</li>
+                    <li><strong>Bibhu P Nayak</strong>: Associate Professor, TISS Hyderabad.</li>
+                    <li><strong>BV Doshi</strong>: Architect-Professor-Mentor.</li>
+                    <li><strong>Carley Pennink</strong>: Head, International Projects, IHS-Erasmus University Rotterdam.</li>
+                    <li><strong>Claudio Acioly</strong>: Architect-Urban Planner, UN Habitat.</li>
+                    <li><strong>Donald Housing</strong>: Institute for a Secure and Sustainable Environment, University of TN.</li>
+                    <li><strong>Eduardo S. Brondizio</strong>: Professor, Anthropology Department, Indiana University, Bloomington.</li>
+                    <li><strong>Fawzia Taranum</strong>: Assistant Professor, TERI School of Advance Sciences, Delhi.</li>
+                    <li><strong>Gautamee Baviskar</strong>: Urban Planner-Student- Researcher.</li>
+                    <li><strong>Ganesh Shankar</strong>: Managing Director, Fluxgen Engineering Technologies.</li>
+                    <li><strong>Late Elinor Ostrom</strong>: Nobel Laureate and The Ostrom Workshop, Indiana University, Bloomington.</li>
+                    <li><strong>Gita Goven</strong>: Architect-Urban Designer, ArgDesign CapeTown.</li>
+                    <li><strong>Harsh Vardhan</strong>: Environmentalist-Jaipur.</li>
+                    <li><strong>Jacko van Ast</strong>: Prof. Dept. of Public Administration, Faculty of Social Science, Erasmus University Rotterdam.</li>
+                    <li><strong>Jaime Izurieta</strong>: Architect-Urban Designer-Manager.</li>
+                    <li><strong>Jan Fransen</strong>: Deputy Director, IHS- Erasmus University Rotterdam.</li>
+                    <li><strong>Kenji Otsuka</strong>: Director, Environment and Natural Resource Studies Group, IDE-JETRO.</li>
+                    <li><strong>Kinny Soni</strong>: Architect-Interior Designer.</li>
+                    <li><strong>Kirti Pathak</strong>: Social Activist Ajmer.</li>
+                    <li><strong>Klaus Eisenack</strong>: Resource Economics Group, Humboldt-Universität zu Berlin.</li>
+                    <li><strong>Madhubharti Sharma</strong>: Professor, Faculty of Planning, CEPT University.</li>
+                    <li><strong>Marco Janssen</strong>: Professor, School of Sustainability and Director, CBIE- ASU Tempe.</li>
+                    <li><strong>Neelkanth Chhaya</strong>: Architect- Professor.</li>
+                    <li><strong>Prabhat Kumar Singh</strong>: Professor, Dept. of Civil Engineering, IIT-BHU.</li>
+                    <li><strong>Pratap Patil</strong>: Architect-Urban Designer.</li>
+                    <li><strong>PVK Rameshwar</strong>: Architect-Urban Designer- Professor.</li>
+                    <li><strong>Rolf Kunneke</strong>: Professor of Economics of Infrastructures, TU Delft.</li>
+                    <li><strong>Sanal Thathapuzha</strong>: Architect.</li>
+                    <li><strong>Sandeep Sankat</strong>: Architect-Professor, Department of Architecture, SPA Bhopal.</li>
+                    <li><strong>Sanjay Das</strong>: Digital Transformation Leader, SAP- Europe at IBM.</li>
+                    <li><strong>Shrawan K Acharya</strong>: Professor, School of Social Sciences, JNU, Delhi.</li>
+                    <li><strong>Subhasish Borah and Bidisha Das</strong>: Folklore and Kohuwa.</li>
+                    <li><strong>Tine de Moor</strong>: Professor, RSM Erasmus University Rotterdam.</li>
+                    <li><strong>Ujjval Panchal</strong>: Architect- Interaction designer.</li>
+                    <li><strong>Urvi Sheth</strong>: Director, Workshops at CEPT University.</li>
+                    <li><strong>Utpal Sharma</strong>: Director at Institute of Architecture and Planning, Nirma University, Ahmedabad.</li>
+                    <li><strong>Zhang Zongyi</strong>: SEM-Tongji University Shanghai.</li>
+                </ul>
             </div>
         </div>
     </section>
@@ -542,6 +182,7 @@
             <p>&copy; 2026 Mansee Bal Bhargava. All Rights Reserved.</p>
         </div>
     </footer>
+    <script src="people.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
