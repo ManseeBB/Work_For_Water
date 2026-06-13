@@ -1,257 +1,59 @@
 // People Data and Honeycomb Network Logic
-const people = [
-    {
-        name: "Dr. Mansee Bal Bhargava",
-        details: "Host & Coordinator of this professional network. Researcher, Educator, Entrepreneur.",
-        link: "index.html",
-        tags: ["hub"],
-        isHub: true
-    },
-    {
-        name: "EDRC Fellows",
-        details: "Research and Project Fellows until Dec 2020 & Aug 2021 at EDRC.",
-        link: "http://www.mansee.in/wp-content/uploads/2021/08/RCF-BIO_Aug2021.pdf",
-        tags: ["EDRC", "environmental"]
-    },
-    {
-        name: "Akshay Bhargava",
-        details: "Landscape Architect at Environmental Design Consultants (EDC) Ahmedabad.",
-        link: "http://www.edc.org.in/",
-        tags: ["EDC", "architect"]
-    },
-    {
-        name: "Alka Bharat",
-        details: "Prof and Head, Dept of Arch. & Planning, M.A.N.I.T. Bhopal.",
-        link: "http://manit.ac.in/web/year2010/Profile/Architecture_Planning/Brief%20CV%20alka%20bharat%200810.pdf",
-        tags: ["CEPT", "academic"]
-    },
-    {
-        name: "Anil Gupta",
-        details: "Professor-Mentor at IIMA, Srishti, HBN, NIF, etc.",
-        link: "http://www.iimahd.ernet.in/~anilg/",
-        tags: ["academic", "technology"]
-    },
-    {
-        name: "Late Barry Moore",
-        details: "Professor, Dept. of Land Economy, University of Cambridge, UK.",
-        link: "http://www-old.dow.cam.ac.uk/index.php/about/news/456-moore",
-        tags: ["Cambridge", "academic"]
-    },
-    {
-        name: "Bibhu P Nayak",
-        details: "Associate Professor, TISS Hyderabad.",
-        link: "https://www.tiss.edu/view/9/employee/bibhu-prasad-nayak/",
-        tags: ["TISS", "academic"]
-    },
-    {
-        name: "BV Doshi",
-        details: "Architect, Professor, and Pritzker Laureate Mentor at Sangath.",
-        link: "http://www.sangath.org/",
-        tags: ["CEPT", "architect"]
-    },
-    {
-        name: "Carley Pennink",
-        details: "Head, International Projects, IHS-Erasmus University Rotterdam.",
-        link: "http://www.ihs.nl/about_ihs/ihs_staff/management_team/carley_pennink/",
-        tags: ["IHS", "academic"]
-    },
-    {
-        name: "Claudio Acioly",
-        details: "Architect-Urban Planner, UN Habitat.",
-        link: "http://unhabitat.org/tag/claudio-acioly/",
-        tags: ["IHS", "architect"]
-    },
-    {
-        name: "Donald Housing",
-        details: "Institute for a Secure and Sustainable Environment, University of TN.",
-        tags: ["academic", "environmental"]
-    },
-    {
-        name: "Eduardo S. Brondizio",
-        details: "Professor, Anthropology Department, Indiana University, Bloomington.",
-        link: "http://www.indiana.edu/~anthro/people/faculty/ebrondiz.shtml",
-        tags: ["Ostrom", "academic"]
-    },
-    {
-        name: "Fawzia Taranum",
-        details: "Assistant Professor, TERI School of Advance Sciences, Delhi.",
-        link: "https://www.terisas.ac.in/faculty.php?id=50",
-        tags: ["academic", "environmental"]
-    },
-    {
-        name: "Gautamee Baviskar",
-        details: "Urban Planner, Student, and Researcher.",
-        link: "http://www.gautameebaviskar.wix.com/website",
-        tags: ["academic"]
-    },
-    {
-        name: "Ganesh Shankar",
-        details: "Managing Director, Fluxgen Engineering Technologies.",
-        link: "http://www.fluxgentech.com/home-1",
-        tags: ["technology"]
-    },
-    {
-        name: "Late Elinor Ostrom",
-        details: "Nobel Laureate and Co-founder of The Ostrom Workshop, Indiana University.",
-        link: "https://ostromworkshop.indiana.edu/about/nobelprize.html",
-        tags: ["Ostrom", "academic"]
-    },
-    {
-        name: "Gita Goven",
-        details: "Architect and Urban Designer, ArgDesign CapeTown.",
-        link: "http://argdesign.co.za/",
-        tags: ["architect"]
-    },
-    {
-        name: "Harsh Vardhan",
-        details: "Environmentalist based in Jaipur.",
-        link: "http://www.birdfair.org/",
-        tags: ["environmental"]
-    },
-    {
-        name: "Jacko van Ast",
-        details: "Prof. Dept. of Public Administration, Faculty of Social Science, Erasmus University Rotterdam.",
-        link: "http://www.eur.nl/fsw/english/publicadministration/contact/staff/profiel_mis/10101/",
-        tags: ["IHS", "academic"]
-    },
-    {
-        name: "Jaime Izurieta",
-        details: "Architect, Urban Designer, and Manager.",
-        link: "http://gkillcity.com/autor/jaime-izurieta-varea",
-        tags: ["architect"]
-    },
-    {
-        name: "Jan Fransen",
-        details: "Deputy Director, IHS- Erasmus University Rotterdam.",
-        link: "http://www.ihs.nl/about_ihs/ihs_staff/management_team/jan_fransen/",
-        tags: ["IHS", "academic"]
-    },
-    {
-        name: "Kenji Otsuka",
-        details: "Director, Environment and Natural Resource Studies Group, IDE-JETRO.",
-        link: "http://www.ide.go.jp/English/Researchers/otsuka_kenji_en.html",
-        tags: ["academic", "environmental"]
-    },
-    {
-        name: "Kinny Soni",
-        details: "Architect and Interior Designer.",
-        link: "http://kinnysoni.com/",
-        tags: ["architect"]
-    },
-    {
-        name: "Kirti Pathak",
-        details: "Social Activist based in Ajmer.",
-        tags: ["environmental"]
-    },
-    {
-        name: "Klaus Eisenack",
-        details: "Resource Economics Group, Humboldt-Universität zu Berlin.",
-        link: "http://resource-economics.hu-berlin.de",
-        tags: ["Ostrom", "academic"]
-    },
-    {
-        name: "Madhubharti Sharma",
-        details: "Professor, Faculty of Planning, CEPT University.",
-        link: "http://cept.ac.in/10/110/faculty-of-planning/staffmember/56/madhu-bharti",
-        tags: ["CEPT", "academic"]
-    },
-    {
-        name: "Marco Janssen",
-        details: "Professor, School of Sustainability and Director of CBIE, ASU Tempe.",
-        link: "http://www.marcojanssen.info/",
-        tags: ["Ostrom", "academic"]
-    },
-    {
-        name: "Neelkanth Chhaya",
-        details: "Architect and Professor.",
-        link: "http://www.mandazhi.net/Neelkanthchhaya.html",
-        tags: ["CEPT", "architect", "academic"]
-    },
-    {
-        name: "Prabhat Kumar Singh",
-        details: "Professor, Dept. of Civil Engineering, IIT-BHU.",
-        link: "https://www.iitbhu.ac.in/dept/civ/people/psinghciv",
-        tags: ["academic"]
-    },
-    {
-        name: "Pratap Patil",
-        details: "Architect and Urban Designer.",
-        link: "http://www.pratapdpatil.com/",
-        tags: ["architect"]
-    },
-    {
-        name: "PVK Rameshwar",
-        details: "Architect, Urban Designer, and Professor.",
-        link: "http://www.shilanyas.com/about-us",
-        tags: ["CEPT", "architect", "academic"]
-    },
-    {
-        name: "Rolf Kunneke",
-        details: "Professor of Economics of Infrastructures, TU Delft.",
-        link: "http://www.tbm.tudelft.nl/en/about-faculty/professors/professor-profile/rolf-kuenneke/",
-        tags: ["academic", "technology"]
-    },
-    {
-        name: "Sanal Thathapuzha",
-        details: "Architect.",
-        link: "http://sanalthathapuzha.com/",
-        tags: ["architect"]
-    },
-    {
-        name: "Sandeep Sankat",
-        details: "Architect-Professor, Department of Architecture, SPA Bhopal.",
-        link: "http://www.spabhopal.ac.in/sandeepsankat.aspx",
-        tags: ["academic", "architect"]
-    },
-    {
-        name: "Sanjay Das",
-        details: "Digital Transformation Leader, SAP- Europe at IBM.",
-        link: "https://www.linkedin.com/in/sanjay-das-0174701?authType=name&authToken=-qoK&trk=wonton-desktop",
-        tags: ["technology"]
-    },
-    {
-        name: "Shrawan K Acharya",
-        details: "Professor, School of Social Sciences, JNU, Delhi.",
-        link: "http://www.jnu.ac.in/FacultyStaff/ShowProfile.asp?SendUserName=skacharya",
-        tags: ["academic"]
-    },
-    {
-        name: "Subhasish Borah and Bidisha Das",
-        details: "Folklore and Kohuwa collectives.",
-        link: "https://folkloretea.com/",
-        tags: ["environmental"]
-    },
-    {
-        name: "Tine de Moor",
-        details: "Professor, RSM Erasmus University Rotterdam.",
-        link: "https://www.rsm.nl/people/tine-de-moor/",
-        tags: ["IHS", "academic"]
-    },
-    {
-        name: "Ujjval Panchal",
-        details: "Architect and Interaction Designer.",
-        link: "http://www.ujjvalpanchal.com/",
-        tags: ["architect", "technology"]
-    },
-    {
-        name: "Urvi Sheth",
-        details: "Director, Workshops at CEPT University.",
-        link: "http://urvisheth.com/",
-        tags: ["CEPT", "architect", "academic"]
-    },
-    {
-        name: "Utpal Sharma",
-        details: "Director at Institute of Architecture and Planning, Nirma University, Ahmedabad.",
-        link: "http://www.nirmauni.ac.in/IANU/Faculty/Prof-Utpal-Kumar-Sharma",
-        tags: ["academic"]
-    },
-    {
-        name: "Zhang Zongyi",
-        details: "SEM-Tongji University Shanghai.",
-        link: "http://sem.tongji.edu.cn/semen/?p=12225",
-        tags: ["IHS", "academic"]
+let people = [];
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTYkcq2-Y9OhZsOz8u8VWe0pcjyqQkdl-97ABd1Ddt2rTNX_waZK11S2gh4twljl4YzOOQF1k7nvVfj/pub?output=csv";
+
+// Robust vanilla CSV parser to handle quotes, newlines, and escape characters
+function parseCSV(text) {
+    const lines = [];
+    let row = [""];
+    let inQuotes = false;
+
+    for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        const next = text[i+1];
+        if (c === '"') {
+            if (inQuotes && next === '"') {
+                row[row.length - 1] += '"';
+                i++;
+            } else {
+                inQuotes = !inQuotes;
+            }
+        } else if (c === ',' && !inQuotes) {
+            row.push('');
+        } else if ((c === '\r' || c === '\n') && !inQuotes) {
+            if (c === '\r' && next === '\n') {
+                i++;
+            }
+            lines.push(row);
+            row = [''];
+        } else {
+            row[row.length - 1] += c;
+        }
     }
-];
+    if (row.length > 1 || row[0] !== '') {
+        lines.push(row);
+    }
+    
+    // Map headers to rows
+    const headers = lines[0].map(h => h.trim());
+    const data = [];
+    for (let i = 1; i < lines.length; i++) {
+        const r = lines[i];
+        if (r.length < headers.length) continue;
+        const obj = {};
+        headers.forEach((h, idx) => {
+            let val = r[idx] ? r[idx].trim() : '';
+            if (h === 'isHub') {
+                val = val.toLowerCase() === 'true';
+            } else if (h === 'tags') {
+                val = val.split(',').map(t => t.trim()).filter(t => t !== '');
+            }
+            obj[h] = val;
+        });
+        data.push(obj);
+    }
+    return data;
+}
 
 // Helper to calculate initials from name
 function getInitials(name) {
@@ -635,8 +437,24 @@ function setupInteractions(cellsData) {
 
 // Init Setup on Load
 document.addEventListener("DOMContentLoaded", () => {
-    layoutGrid();
-    window.addEventListener("resize", layoutGrid);
+    // Fetch and parse live data from published Google Sheets
+    fetch(CSV_URL)
+        .then(response => {
+            if (!response.ok) throw new Error("Network response was not ok");
+            return response.text();
+        })
+        .then(csvText => {
+            people = parseCSV(csvText);
+            layoutGrid();
+            window.addEventListener("resize", layoutGrid);
+        })
+        .catch(error => {
+            console.error("Error loading professional network data:", error);
+            const grid = document.getElementById("honeycomb-grid");
+            if (grid) {
+                grid.innerHTML = `<div class="error-placeholder" style="color: var(--text-secondary); padding: 3rem; text-align: center; font-family: var(--font-heading); font-size: 1.1rem; width: 100%;">Failed to load network data. Please refresh or check your internet connection.</div>`;
+            }
+        });
 
     // Search Box Listener
     const search = document.getElementById("honeycomb-search");
