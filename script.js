@@ -353,49 +353,179 @@ function initMain() {
         });
     }
 
-    // 3D Cylinder Carousel for Teaching Cards
-    const teachingCards = document.querySelectorAll('.teaching-card');
+    // 3D Cylinder Carousel for Teaching Cards (Dynamic Google Sheets CSV Integration)
+    const track = document.querySelector('.carousel-track');
     const prevBtn = document.querySelector('.carousel-nav-btn.prev');
     const nextBtn = document.querySelector('.carousel-nav-btn.next');
     const viewport = document.querySelector('.carousel-viewport');
 
-    if (teachingCards.length > 0 && typeof gsap !== 'undefined') {
-        let activeIndex = 0;
+    const TEACHING_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRSppB_DmolzMha_PoBvwvSGkmZLoNBksyGVO63Xjch7n-m__ywR7MNR5P8ZJwrbanYy0KW2fV_afar/pub?gid=1903645478&single=true&output=csv";
+
+    if (track && typeof gsap !== 'undefined' && typeof Papa !== 'undefined') {
+        const cacheBuster = `&t=${new Date().getTime()}`;
+        Papa.parse(TEACHING_CSV_URL + cacheBuster, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                renderTeachingCards(results.data);
+            },
+            error: function(err) {
+                console.error("Error loading teaching CSV from Google Sheets:", err);
+            }
+        });
+    }
+
+    function renderTeachingCards(data) {
+        if (!data || data.length === 0) return;
+        
+        // Clear fallback cards
+        track.innerHTML = '';
+        
+        data.forEach(item => {
+            if (!item.Title || !item.Title.trim()) return;
+            
+            const card = document.createElement('div');
+            card.className = `teaching-card ${item.Category_Color ? item.Category_Color.trim() : 'c-blue'}`;
+            
+            const cardBg = document.createElement('div');
+            cardBg.className = 'card-bg';
+            card.appendChild(cardBg);
+            
+            const imgWrapper = document.createElement('div');
+            imgWrapper.className = 'card-image-wrapper';
+            
+            const imgName = item.Image_Name ? item.Image_Name.trim() : '';
+            const img = document.createElement('img');
+            img.src = imgName ? `teaching/${imgName}` : 'Assests/3rd.jpg';
+            img.alt = item.Title.trim();
+            img.className = 'card-image';
+            imgWrapper.appendChild(img);
+            card.appendChild(imgWrapper);
+            
+            const cardContent = document.createElement('div');
+            cardContent.className = 'card-content';
+            
+            const cardIcon = document.createElement('div');
+            cardIcon.className = 'card-icon';
+            const iconEl = document.createElement('i');
+            
+            let iconClass = 'fas fa-book';
+            if (item.Icon && item.Icon.trim()) {
+                iconClass = item.Icon.trim();
+            } else {
+                const combinedText = `${item.Title || ''} ${item.Description || ''}`.toLowerCase();
+                if (combinedText.includes('yog') || combinedText.includes('spa') || combinedText.includes('meditat')) {
+                    iconClass = 'fas fa-spa';
+                } else if (combinedText.includes('water') || combinedText.includes('lake') || combinedText.includes('river') || combinedText.includes('wetland') || combinedText.includes('drain') || combinedText.includes('waterscape')) {
+                    iconClass = 'fas fa-water';
+                } else if (combinedText.includes('research') || combinedText.includes('thesis') || combinedText.includes('supervis') || combinedText.includes('method') || combinedText.includes('pedagogy')) {
+                    iconClass = 'fas fa-graduation-cap';
+                } else if (combinedText.includes('colour') || combinedText.includes('color') || combinedText.includes('palette') || combinedText.includes('paint') || combinedText.includes('rendering') || combinedText.includes('brush')) {
+                    iconClass = 'fas fa-palette';
+                } else if (combinedText.includes('open space') || combinedText.includes('tree') || combinedText.includes('park') || combinedText.includes('site') || combinedText.includes('pos')) {
+                    iconClass = 'fas fa-tree';
+                } else if (combinedText.includes('housing') || combinedText.includes('residential') || combinedText.includes('home') || combinedText.includes('house') || combinedText.includes('building')) {
+                    iconClass = 'fas fa-home';
+                } else if (combinedText.includes('journalism') || combinedText.includes('newspaper') || combinedText.includes('write') || combinedText.includes('document')) {
+                    iconClass = 'fas fa-newspaper';
+                } else if (combinedText.includes('collective') || combinedText.includes('social') || combinedText.includes('community') || combinedText.includes('people') || combinedText.includes('engineering')) {
+                    iconClass = 'fas fa-users';
+                }
+            }
+            iconEl.className = iconClass;
+            cardIcon.appendChild(iconEl);
+            cardContent.appendChild(cardIcon);
+            
+            const h3 = document.createElement('h3');
+            h3.textContent = item.Title.trim();
+            cardContent.appendChild(h3);
+            
+            const p = document.createElement('p');
+            p.textContent = item.Description ? item.Description.trim() : '';
+            cardContent.appendChild(p);
+            
+            const link = item.Link ? item.Link.trim() : '';
+            if (link) {
+                const a = document.createElement('a');
+                a.href = link;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                a.className = 'course-outline-btn';
+                a.innerHTML = `<i class="fas fa-file-pdf"></i> View Outline`;
+                cardContent.appendChild(a);
+            } else {
+                const span = document.createElement('span');
+                span.className = 'course-outline-btn';
+                span.style.opacity = '0.6';
+                span.style.cursor = 'default';
+                span.innerHTML = `<i class="fas fa-info-circle"></i> Outline N/A`;
+                cardContent.appendChild(span);
+            }
+            
+            card.appendChild(cardContent);
+            track.appendChild(card);
+        });
+        
+        // Initialize the GSAP 3D Cylinder Carousel
+        initCarousel();
+    }
+
+    function initCarousel() {
+        const teachingCards = document.querySelectorAll('.teaching-card');
         const N = teachingCards.length;
+        if (N === 0) return;
+        
+        let activeIndex = 0;
         let isAnimating = false;
         const animationDuration = 0.8; // seconds
         const lockDuration = 800; // milliseconds
 
-        // Dynamically inject placeholder images from Assests (cycling 1st.jpg to 9th.jpg)
-        const placeholderImages = [
-            '1st.jpg', '2nd.jpg', '3rd.jpg', '4th.jpg', '5th.jpg', 
-            '6th.jpg', '7th.jpg', '8th.jpg', '9th.jpg'
-        ];
-        
-        teachingCards.forEach((card, i) => {
-            const imgFilename = placeholderImages[i % placeholderImages.length];
-            const imgWrapper = document.createElement('div');
-            imgWrapper.className = 'card-image-wrapper';
-            
-            const img = document.createElement('img');
-            img.src = `Assests/${imgFilename}`;
-            img.alt = card.querySelector('h3').textContent;
-            img.className = 'card-image';
-            
-            imgWrapper.appendChild(img);
-            
-            // Insert it before card-content
-            const content = card.querySelector('.card-content');
-            if (content) {
-                card.insertBefore(imgWrapper, content);
-            }
-        });
+        // Dynamically generate navigation dots
+        const dotsContainer = document.querySelector('.carousel-dots');
+        if (dotsContainer) {
+            dotsContainer.innerHTML = '';
+            teachingCards.forEach((card, idx) => {
+                const dot = document.createElement('button');
+                dot.className = 'carousel-dot';
+                dot.setAttribute('aria-label', `Go to slide ${idx + 1}`);
+                
+                // Copy category color class
+                const colorClasses = ['c-blue', 'c-purple', 'c-orange', 'c-cyan', 'c-green'];
+                colorClasses.forEach(cls => {
+                    if (card.classList.contains(cls)) {
+                        dot.classList.add(cls);
+                    }
+                });
+
+                dot.onclick = (e) => {
+                    e.stopPropagation();
+                    if (idx !== activeIndex) {
+                        triggerTransition(idx);
+                    }
+                };
+
+                dotsContainer.appendChild(dot);
+            });
+        }
 
         function updateCarousel(nextIndex) {
             activeIndex = nextIndex;
-            const isMobile = window.innerWidth < 768;
-            const radius = isMobile ? 200 : 540;
-            const angleStep = isMobile ? 38 : 28;
+            const w = window.innerWidth;
+            const isMobile = w < 768;
+            let radius = 200;
+            let angleStep = 38;
+
+            if (w >= 1500) {
+                radius = 680;
+                angleStep = 32;
+            } else if (w >= 1200) {
+                radius = 560;
+                angleStep = 32;
+            } else if (w >= 768) {
+                radius = 420;
+                angleStep = 32;
+            }
 
             teachingCards.forEach((card, i) => {
                 let diff = i - activeIndex;
@@ -407,16 +537,22 @@ function initMain() {
                 const img = card.querySelector('.card-image');
                 const content = card.querySelector('.card-content');
 
+                // Toggle side classes for positioning content on inactive cards
+                card.classList.remove('side-left', 'side-right');
+                if (diff < 0) {
+                    card.classList.add('side-left');
+                } else if (diff > 0) {
+                    card.classList.add('side-right');
+                }
+
                 // Enforce proper 3D stacking order to prevent overlapping outlines
                 let zIndex = 0;
                 if (diff === 0) zIndex = 10;
                 else if (absDiff === 1) zIndex = 5;
-                else if (absDiff === 2) zIndex = 2;
-                else if (absDiff === 3) zIndex = 1;
                 
                 card.style.zIndex = zIndex;
 
-                if (absDiff > 3) {
+                if (absDiff > 1) {
                     // Instantly hide card outside active zone to prevent overlapping in the back
                     gsap.to(card, {
                         opacity: 0,
@@ -431,9 +567,9 @@ function initMain() {
                     card.classList.remove('active-card');
                     card.style.filter = 'blur(8px)';
 
-                    // Reset parallax shifts when hidden
-                    if (img) gsap.set(img, { x: 0 });
-                    if (content) gsap.set(content, { x: 0 });
+                    // Reset parallax shifts and scale when hidden
+                    if (img) gsap.set(img, { x: 0, scale: 1.05 });
+                    if (content) gsap.set(content, { clearProps: "x" });
                 } else {
                     const angle = diff * angleStep;
                     const angleRad = angle * Math.PI / 180;
@@ -454,22 +590,10 @@ function initMain() {
                         zOffset = 0;
                         card.classList.add('active-card');
                     } else if (absDiff === 1) {
-                        opacity = 0.50; // Increased opacity to make borders clearly visible
+                        opacity = 0.90; // Solid opacity to show floating category icon box
                         scale = 0.82;
-                        blurVal = 1.5;
+                        blurVal = 0;
                         zOffset = -150; // Setback adjacent cards to prevent 3D outline intersection
-                        card.classList.remove('active-card');
-                    } else if (absDiff === 2) {
-                        opacity = 0.25; // Increased opacity to make borders clearly visible
-                        scale = 0.68;
-                        blurVal = 3.5;
-                        zOffset = -300; // Setback secondary cards further
-                        card.classList.remove('active-card');
-                    } else if (absDiff === 3) {
-                        opacity = 0.08; // Increased opacity to make borders clearly visible
-                        scale = 0.55;
-                        blurVal = 6;
-                        zOffset = -450; // Setback tertiary cards further
                         card.classList.remove('active-card');
                     }
 
@@ -485,10 +609,11 @@ function initMain() {
                         overwrite: "auto"
                     });
 
-                    // Horizontal Parallax Shifts inside the card
+                    // Horizontal Parallax Shifts inside the card & Subtle Scale-Up Transition
                     if (img) {
                         gsap.to(img, {
                             x: diff * -35, // Image shifts opposite to rotation direction
+                            scale: diff === 0 ? 1.25 : 1.05,
                             duration: animationDuration,
                             ease: "power2.out",
                             overwrite: "auto"
@@ -496,16 +621,12 @@ function initMain() {
                     }
 
                     if (content) {
-                        gsap.to(content, {
-                            x: diff * -12, // Text content shifts opposite by a smaller factor
-                            duration: animationDuration,
-                            ease: "power2.out",
-                            overwrite: "auto"
-                        });
+                        // Let CSS transitions handle card content animations for a premium slide-out effect
+                        gsap.set(content, { clearProps: "x" });
                     }
 
-                    // Set blur filter (transitions handled smoothly by CSS)
-                    card.style.filter = blurVal > 0 ? `blur(${blurVal}px)` : 'none';
+                    // Set blur filter
+                    card.style.filter = 'none';
                 }
             });
 
@@ -520,6 +641,16 @@ function initMain() {
                 const percent = (activeIndex / (N - 1)) * 100;
                 progressFill.style.width = `${percent}%`;
             }
+
+            // Sync navigation dots active state
+            const dots = document.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, idx) => {
+                if (idx === activeIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
         }
 
         // Action Trigger
@@ -536,7 +667,7 @@ function initMain() {
 
         // Navigation Clicks
         if (prevBtn) {
-            prevBtn.addEventListener('click', (e) => {
+            prevBtn.onclick = (e) => {
                 e.stopPropagation();
                 if (activeIndex > 0) {
                     triggerTransition(activeIndex - 1);
@@ -544,11 +675,11 @@ function initMain() {
                     // Wrap around
                     triggerTransition(N - 1);
                 }
-            });
+            };
         }
 
         if (nextBtn) {
-            nextBtn.addEventListener('click', (e) => {
+            nextBtn.onclick = (e) => {
                 e.stopPropagation();
                 if (activeIndex < N - 1) {
                     triggerTransition(activeIndex + 1);
@@ -556,7 +687,7 @@ function initMain() {
                     // Wrap around
                     triggerTransition(0);
                 }
-            });
+            };
         }
 
         // Less Sensitive Scroll direction trigger (Mouse Wheel & Trackpad)
@@ -565,7 +696,7 @@ function initMain() {
         let scrollTimeout = null;
 
         if (viewport) {
-            viewport.addEventListener('wheel', (e) => {
+            viewport.onwheel = (e) => {
                 const delta = e.deltaY;
                 
                 // Accumulate scroll input delta
@@ -599,7 +730,7 @@ function initMain() {
                         e.preventDefault();
                     }
                 }
-            }, { passive: false });
+            };
         }
 
         // Mobile Swipe Triggers
@@ -607,12 +738,12 @@ function initMain() {
             let touchStartY = 0;
             let touchStartX = 0;
 
-            viewport.addEventListener('touchstart', (e) => {
+            viewport.ontouchstart = (e) => {
                 touchStartY = e.touches[0].clientY;
                 touchStartX = e.touches[0].clientX;
-            }, { passive: true });
+            };
 
-            viewport.addEventListener('touchmove', (e) => {
+            viewport.ontouchmove = (e) => {
                 if (isAnimating) {
                     e.preventDefault();
                     return;
@@ -655,36 +786,205 @@ function initMain() {
                     touchStartY = touchEndY;
                     touchStartX = touchEndX;
                 }
-            }, { passive: false });
+            };
         }
 
         // Initialize state
         updateCarousel(0);
         
         // Window resize handler for adjusting radius on the fly
-        window.addEventListener('resize', () => {
+        window.onresize = () => {
             updateCarousel(activeIndex);
+        };
+    }
+
+    // Dynamic Academic Credentials from Google Sheets
+    const CREDENTIALS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT5Lxb9oeEHUnQ0wrUcUDlfWR3izrn_zr3La_vRBegvgLOuIMEWeNn6MB7pZhWCROHudg_g5eaKjJJW/pub?gid=566631475&single=true&output=csv";
+
+    const tabsTrack = document.querySelector('.teaching-tabs');
+    if (tabsTrack && typeof Papa !== 'undefined') {
+        const cacheBuster = `&t=${new Date().getTime()}`;
+        Papa.parse(CREDENTIALS_CSV_URL + cacheBuster, {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                renderCredentials(results.data);
+            },
+            error: function(err) {
+                console.error("Error loading academic credentials CSV from Google Sheets:", err);
+            }
         });
     }
 
-    // Teaching Credentials Tab Switching
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    if (tabBtns.length > 0) {
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const targetTab = this.getAttribute('data-tab');
-                
-                // Remove active class from all buttons and panes
-                tabBtns.forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-                
-                // Add active class to clicked button and target pane
-                this.classList.add('active');
-                const targetPane = document.getElementById(targetTab);
-                if (targetPane) {
-                    targetPane.classList.add('active');
+    function renderCredentials(data) {
+        if (!data || data.length === 0) return;
+
+        // Map Category to pane ID and icon class (normalized keys in lowercase)
+        const categoryMap = {
+            "jury member": { name: "Jury Member", id: "jury", icon: "fas fa-check-circle" },
+            "undergrad theses": { name: "Undergrad Theses", id: "undergrad", icon: "fas fa-book" },
+            "postgrad theses": { name: "Postgrad Theses", id: "postgrad", icon: "fas fa-award" },
+            "special courses": { name: "Special Courses", id: "special", icon: "fas fa-certificate" }
+        };
+
+        const tabsContainer = document.querySelector('.teaching-tabs');
+        const tabContentContainer = document.querySelector('.tab-content');
+
+        // Clear existing default lists
+        ["jury member", "undergrad theses", "postgrad theses", "special courses"].forEach(key => {
+            const cat = categoryMap[key];
+            const list = document.querySelector(`#${cat.id} .credentials-list`);
+            if (list) list.innerHTML = '';
+        });
+
+        // Cleanly remove any dynamically created tab buttons and panes from previous loads
+        if (tabsContainer && tabContentContainer) {
+            const allPanes = tabContentContainer.querySelectorAll('.tab-pane');
+            allPanes.forEach(pane => {
+                if (!['jury', 'undergrad', 'postgrad', 'special'].includes(pane.id)) {
+                    pane.remove();
                 }
             });
+            const allBtns = tabsContainer.querySelectorAll('.tab-btn');
+            allBtns.forEach(btn => {
+                const dataTab = btn.getAttribute('data-tab');
+                if (!['jury', 'undergrad', 'postgrad', 'special'].includes(dataTab)) {
+                    btn.remove();
+                }
+            });
+        }
+
+        data.forEach(item => {
+            let category = item.Category ? item.Category.trim() : '';
+            const content = item.Content ? item.Content.trim() : '';
+            const link = item.Link ? item.Link.trim() : '';
+
+            if (!content) return; // Skip rows with no content
+
+            if (!category) {
+                category = "Category N/A";
+            }
+
+            const normKey = category.toLowerCase();
+
+            // Dynamically generate new tab buttons and panes if they don't match the defaults
+            if (!categoryMap[normKey]) {
+                const sanitizedId = category.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                
+                // Add to map
+                categoryMap[normKey] = { name: category, id: sanitizedId, icon: "fas fa-info-circle" };
+                
+                // Set icon based on category keywords
+                const lowerCat = category.toLowerCase();
+                if (lowerCat.includes('phd') || lowerCat.includes('advising') || lowerCat.includes('supervis') || lowerCat.includes('teach')) {
+                    categoryMap[normKey].icon = "fas fa-graduation-cap";
+                } else if (lowerCat.includes('lecture') || lowerCat.includes('talk') || lowerCat.includes('invited') || lowerCat.includes('speak')) {
+                    categoryMap[normKey].icon = "fas fa-microphone";
+                } else if (lowerCat.includes('award') || lowerCat.includes('honor') || lowerCat.includes('credit')) {
+                    categoryMap[normKey].icon = "fas fa-award";
+                } else if (lowerCat.includes('publication') || lowerCat.includes('paper') || lowerCat.includes('book')) {
+                    categoryMap[normKey].icon = "fas fa-book-open";
+                } else if (lowerCat.includes('n/a') || lowerCat.includes('other')) {
+                    categoryMap[normKey].icon = "fas fa-folder-open";
+                }
+
+                // Append new tab button
+                if (tabsContainer) {
+                    const newBtn = document.createElement('button');
+                    newBtn.className = 'tab-btn';
+                    newBtn.setAttribute('data-tab', sanitizedId);
+                    newBtn.innerHTML = `<i class="${categoryMap[normKey].icon}"></i> ${category}`;
+                    tabsContainer.appendChild(newBtn);
+                }
+
+                // Append new tab pane
+                if (tabContentContainer) {
+                    const newPane = document.createElement('div');
+                    newPane.className = 'tab-pane';
+                    newPane.id = sanitizedId;
+                    
+                    const newList = document.createElement('ul');
+                    newList.className = 'credentials-list';
+                    newPane.appendChild(newList);
+                    
+                    tabContentContainer.appendChild(newPane);
+                }
+            }
+
+            const mapConfig = categoryMap[normKey];
+            const list = document.querySelector(`#${mapConfig.id} .credentials-list`);
+            if (!list) return;
+
+            const li = document.createElement('li');
+            
+            // Icon
+            const icon = document.createElement('i');
+            icon.className = mapConfig.icon;
+            li.appendChild(icon);
+
+            // Text and Link container span
+            const textSpan = document.createElement('span');
+            
+            // Format Thesis/Advising items (names before the first colon) as bold
+            const isThesisCategory = normKey.includes('theses') || normKey.includes('thesis') || normKey.includes('supervision') || normKey.includes('advising') || normKey.includes('phd');
+            if (isThesisCategory && content.includes(':')) {
+                const colonIndex = content.indexOf(':');
+                const namePart = content.substring(0, colonIndex);
+                const restPart = content.substring(colonIndex); // Includes the colon itself
+                
+                const strong = document.createElement('strong');
+                strong.textContent = namePart;
+                textSpan.appendChild(strong);
+                
+                const restText = document.createTextNode(restPart);
+                textSpan.appendChild(restText);
+            } else {
+                textSpan.appendChild(document.createTextNode(content));
+            }
+
+            // Append "Read More" Link if present
+            if (link) {
+                const a = document.createElement('a');
+                a.href = link;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                a.style.color = 'var(--accent)';
+                a.style.textDecoration = 'none';
+                a.style.borderBottom = '1px dashed var(--accent)';
+                a.style.marginLeft = '4px';
+                a.style.fontWeight = '500';
+                a.style.whiteSpace = 'nowrap';
+                a.innerHTML = `Read More <i class="fas fa-external-link-alt" style="font-size: 0.7rem; margin-left: 2px;"></i>`;
+                textSpan.appendChild(a);
+            }
+
+            li.appendChild(textSpan);
+            list.appendChild(li);
+        });
+    }
+
+    // Teaching Credentials Tab Switching (Event Delegation for Dynamic Tabs)
+    const tabsContainer = document.querySelector('.teaching-tabs');
+    if (tabsContainer) {
+        tabsContainer.addEventListener('click', function(e) {
+            const btn = e.target.closest('.tab-btn');
+            if (!btn) return;
+            
+            const targetTab = btn.getAttribute('data-tab');
+            
+            // Remove active class from all buttons and panes
+            const allBtns = tabsContainer.querySelectorAll('.tab-btn');
+            const allPanes = document.querySelectorAll('.tab-pane');
+            
+            allBtns.forEach(b => b.classList.remove('active'));
+            allPanes.forEach(p => p.classList.remove('active'));
+            
+            btn.classList.add('active');
+            const targetPane = document.getElementById(targetTab);
+            if (targetPane) {
+                targetPane.classList.add('active');
+            }
         });
     }
 

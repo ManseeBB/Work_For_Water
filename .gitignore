@@ -1,1 +1,8 @@
 Backup/
+Assests/
+teaching/
+Mansee_Custom_Theme/Assests/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

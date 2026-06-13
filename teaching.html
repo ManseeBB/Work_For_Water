@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <!-- PapaParse for Google Sheets integration -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <!-- GSAP & ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -118,18 +120,7 @@
                             </div>
                         </div>
 
-                        <!-- Card 2: Thesis Supervision -->
-                        <div class="teaching-card c-purple">
-                            <div class="card-bg"></div>
-                            <div class="card-content">
-                                <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
-                                <h3>Thesis Supervision</h3>
-                                <p>Frameworks, expectations, and guidelines for students undergoing academic thesis research.</p>
-                                <a href="https://www.mansee.in/wp-content/uploads/2020/09/2020.Theses-supervision.MBB_.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
-                            </div>
-                        </div>
-
-                        <!-- Card 3: Research Method -->
+<!-- Card 2: Research Method -->
                         <div class="teaching-card c-blue">
                             <div class="card-bg"></div>
                             <div class="card-content">
@@ -140,7 +131,7 @@
                             </div>
                         </div>
 
-                        <!-- Card 4: Social Engineering -->
+<!-- Card 3: Social Engineering -->
                         <div class="teaching-card c-green">
                             <div class="card-bg"></div>
                             <div class="card-content">
@@ -151,7 +142,7 @@
                             </div>
                         </div>
 
-                        <!-- Card 5: Colour in BE -->
+<!-- Card 4: Colour in BE -->
                         <div class="teaching-card c-orange">
                             <div class="card-bg"></div>
                             <div class="card-content">
@@ -162,51 +153,7 @@
                             </div>
                         </div>
 
-                        <!-- Card 6: Waterscape -->
-                        <div class="teaching-card c-blue">
-                            <div class="card-bg"></div>
-                            <div class="card-content">
-                                <div class="card-icon"><i class="fas fa-water"></i></div>
-                                <h3>Waterscape</h3>
-                                <p>An unconventional course exploring the critical relationships between water resources, ecology, architecture, and urban governance to build climate-resilient citizenship.</p>
-                                <a href="https://www.mansee.in/wp-content/uploads/2018/07/course-outline-Waterscape-Dr.-Mansee-Bal-Bhargava.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
-                            </div>
-                        </div>
-
-                        <!-- Card 7: Yog -->
-                        <div class="teaching-card c-orange">
-                            <div class="card-bg"></div>
-                            <div class="card-content">
-                                <div class="card-icon"><i class="fas fa-spa"></i></div>
-                                <h3>Yog</h3>
-                                <p>Connecting physical well-being, mindfulness, and design thinking for spatial practitioners.</p>
-                                <a href="https://www.mansee.in/wp-content/uploads/2018/07/course-outline-yog-mansee.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
-                            </div>
-                        </div>
-
-                        <!-- Card 8: Journalism of BE -->
-                        <div class="teaching-card c-green">
-                            <div class="card-bg"></div>
-                            <div class="card-content">
-                                <div class="card-icon"><i class="fas fa-newspaper"></i></div>
-                                <h3>Journalism of BE</h3>
-                                <p>Writing, documenting, and communicating architectural planning concepts to civil society.</p>
-                                <a href="https://www.mansee.in/wp-content/uploads/2018/02/course-outline-Journalism-of-BE-mansee.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
-                            </div>
-                        </div>
-
-                        <!-- Card 9: Thesis Workshop -->
-                        <div class="teaching-card c-purple">
-                            <div class="card-bg"></div>
-                            <div class="card-content">
-                                <div class="card-icon"><i class="fas fa-book-reader"></i></div>
-                                <h3>Thesis Workshop</h3>
-                                <p>Interactive bootcamps helping students narrow down thesis topics, structure inquiries, and build methodologies.</p>
-                                <a href="https://www.mansee.in/wp-content/uploads/2018/02/course-outline-tips-to-do-Theiss-mansee.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
-                            </div>
-                        </div>
-
-                        <!-- Card 10: Public Open Space -->
+<!-- Card 5: Public Open Space -->
                         <div class="teaching-card c-cyan">
                             <div class="card-bg"></div>
                             <div class="card-content">
@@ -217,51 +164,40 @@
                             </div>
                         </div>
 
-                        <!-- Card 11: Ar is not abt Buildings -->
-                        <div class="teaching-card c-orange">
+<!-- Card 6: Thesis Supervision -->
+                        <div class="teaching-card c-purple">
                             <div class="card-bg"></div>
                             <div class="card-content">
-                                <div class="card-icon"><i class="fas fa-building"></i></div>
-                                <h3>Ar is not abt Buildings</h3>
-                                <p>Challenging the definition of architecture beyond structures, focusing on spaces and human interactions.</p>
-                                <a href="https://www.mansee.in/wp-content/uploads/2018/02/course-outline-Ar-in-not-abt-Buildins-alone-mansee.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
+                                <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+                                <h3>Thesis Supervision</h3>
+                                <p>Frameworks, expectations, and guidelines for students undergoing academic thesis research.</p>
+                                <a href="https://www.mansee.in/wp-content/uploads/2020/09/2020.Theses-supervision.MBB_.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
                             </div>
                         </div>
 
-                        <!-- Card 12: Governing SES -->
-                        <div class="teaching-card c-blue">
-                            <div class="card-bg"></div>
-                            <div class="card-content">
-                                <div class="card-icon"><i class="fas fa-globe-americas"></i></div>
-                                <h3>Governing SES</h3>
-                                <p>Governing complex Social-Ecological Systems (SES) using institutional analysis frameworks.</p>
-                                <span class="course-outline-btn" style="opacity: 0.6; cursor: default;"><i class="fas fa-info-circle"></i> Outline N/A</span>
-                            </div>
-                        </div>
-
-                        <!-- Card 13: Urban Lake Management -->
+<!-- Card 7: Waterscape -->
                         <div class="teaching-card c-blue">
                             <div class="card-bg"></div>
                             <div class="card-content">
                                 <div class="card-icon"><i class="fas fa-water"></i></div>
-                                <h3>Urban Lake Management</h3>
-                                <p>Strategic approaches to restoring, planning, and preserving urban water bodies.</p>
-                                <a href="https://www.mansee.in/wp-content/uploads/2018/07/course-outline-Urban-lake-management-Dr.-Mansee-Bal-Bhargava.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
+                                <h3>Waterscape</h3>
+                                <p>An unconventional course exploring the critical relationships between water resources, ecology, architecture, and urban governance to build climate-resilient citizenship.</p>
+                                <a href="https://www.mansee.in/wp-content/uploads/2018/07/course-outline-Waterscape-Dr.-Mansee-Bal-Bhargava.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
                             </div>
                         </div>
 
-                        <!-- Card 14: Collective Action -->
-                        <div class="teaching-card c-green">
+<!-- Card 8: Yog -->
+                        <div class="teaching-card c-orange">
                             <div class="card-bg"></div>
                             <div class="card-content">
-                                <div class="card-icon"><i class="fas fa-hands-helping"></i></div>
-                                <h3>Collective Action</h3>
-                                <p>Mobilizing communities and institutions for sustainable spatial and resource management.</p>
-                                <a href="https://www.mansee.in/wp-content/uploads/2018/02/course-outline-CA-to-community-action-mansee.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
+                                <div class="card-icon"><i class="fas fa-spa"></i></div>
+                                <h3>Yog</h3>
+                                <p>Connecting physical well-being, mindfulness, and design thinking for spatial practitioners.</p>
+                                <a href="https://www.mansee.in/wp-content/uploads/2018/07/course-outline-yog-mansee.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
                             </div>
                         </div>
 
-                        <!-- Card 15: Housing -->
+<!-- Card 9: Housing -->
                         <div class="teaching-card c-cyan">
                             <div class="card-bg"></div>
                             <div class="card-content">
@@ -272,18 +208,51 @@
                             </div>
                         </div>
 
-                        <!-- Card 16: Keywords -->
+<!-- Card 10: Thesis Workshop -->
                         <div class="teaching-card c-purple">
                             <div class="card-bg"></div>
                             <div class="card-content">
-                                <div class="card-icon"><i class="fas fa-tags"></i></div>
-                                <h3>Keywords</h3>
-                                <p>Conceptual vocabulary list focusing on critical terms and discourse in contemporary design.</p>
-                                <a href="https://www.mansee.in/wp-content/uploads/2018/01/THE-SAFFRON-FEVER.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
+                                <div class="card-icon"><i class="fas fa-book-reader"></i></div>
+                                <h3>Thesis Workshop</h3>
+                                <p>Interactive bootcamps helping students narrow down thesis topics, structure inquiries, and build methodologies.</p>
+                                <a href="https://www.mansee.in/wp-content/uploads/2018/02/course-outline-tips-to-do-Theiss-mansee.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
                             </div>
                         </div>
 
-                        <!-- Card 17: Urban Design Studio -->
+<!-- Card 11: Governing SES -->
+                        <div class="teaching-card c-blue">
+                            <div class="card-bg"></div>
+                            <div class="card-content">
+                                <div class="card-icon"><i class="fas fa-globe-americas"></i></div>
+                                <h3>Governing SES</h3>
+                                <p>Governing complex Social-Ecological Systems (SES) using institutional analysis frameworks.</p>
+                                <span class="course-outline-btn" style="opacity: 0.6; cursor: default;"><i class="fas fa-info-circle"></i> Outline N/A</span>
+                            </div>
+                        </div>
+
+<!-- Card 12: Journalism of BE -->
+                        <div class="teaching-card c-green">
+                            <div class="card-bg"></div>
+                            <div class="card-content">
+                                <div class="card-icon"><i class="fas fa-newspaper"></i></div>
+                                <h3>Journalism of BE</h3>
+                                <p>Writing, documenting, and communicating architectural planning concepts to civil society.</p>
+                                <a href="https://www.mansee.in/wp-content/uploads/2018/02/course-outline-Journalism-of-BE-mansee.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
+                            </div>
+                        </div>
+
+<!-- Card 13: Ar is not abt Buildings -->
+                        <div class="teaching-card c-orange">
+                            <div class="card-bg"></div>
+                            <div class="card-content">
+                                <div class="card-icon"><i class="fas fa-building"></i></div>
+                                <h3>Ar is not abt Buildings</h3>
+                                <p>Challenging the definition of architecture beyond structures, focusing on spaces and human interactions.</p>
+                                <a href="https://www.mansee.in/wp-content/uploads/2018/02/course-outline-Ar-in-not-abt-Buildins-alone-mansee.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
+                            </div>
+                        </div>
+
+<!-- Card 14: Urban Design Studio -->
                         <div class="teaching-card c-cyan">
                             <div class="card-bg"></div>
                             <div class="card-content">
@@ -294,7 +263,29 @@
                             </div>
                         </div>
 
-                        <!-- Card 18: House Design -->
+<!-- Card 15: Keywords -->
+                        <div class="teaching-card c-purple">
+                            <div class="card-bg"></div>
+                            <div class="card-content">
+                                <div class="card-icon"><i class="fas fa-tags"></i></div>
+                                <h3>Keywords</h3>
+                                <p>Conceptual vocabulary list focusing on critical terms and discourse in contemporary design.</p>
+                                <a href="https://www.mansee.in/wp-content/uploads/2018/01/THE-SAFFRON-FEVER.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
+                            </div>
+                        </div>
+
+<!-- Card 16: Urban Lake Management -->
+                        <div class="teaching-card c-blue">
+                            <div class="card-bg"></div>
+                            <div class="card-content">
+                                <div class="card-icon"><i class="fas fa-water"></i></div>
+                                <h3>Urban Lake Management</h3>
+                                <p>Strategic approaches to restoring, planning, and preserving urban water bodies.</p>
+                                <a href="https://www.mansee.in/wp-content/uploads/2018/07/course-outline-Urban-lake-management-Dr.-Mansee-Bal-Bhargava.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
+                            </div>
+                        </div>
+
+<!-- Card 17: House Design -->
                         <div class="teaching-card c-orange">
                             <div class="card-bg"></div>
                             <div class="card-content">
@@ -305,18 +296,7 @@
                             </div>
                         </div>
 
-                        <!-- Card 19: Rendering -->
-                        <div class="teaching-card c-orange">
-                            <div class="card-bg"></div>
-                            <div class="card-content">
-                                <div class="card-icon"><i class="fas fa-paint-brush"></i></div>
-                                <h3>Rendering</h3>
-                                <p>Visual communication techniques to represent spatial plans, shadows, and textures effectively.</p>
-                                <span class="course-outline-btn" style="opacity: 0.6; cursor: default;"><i class="fas fa-info-circle"></i> Outline N/A</span>
-                            </div>
-                        </div>
-
-                        <!-- Card 20: Site Analysis -->
+<!-- Card 18: Site Analysis -->
                         <div class="teaching-card c-cyan">
                             <div class="card-bg"></div>
                             <div class="card-content">
@@ -327,13 +307,35 @@
                             </div>
                         </div>
 
-                        <!-- Card 21: Master's Works -->
+<!-- Card 19: Master's Works -->
                         <div class="teaching-card c-purple">
                             <div class="card-bg"></div>
                             <div class="card-content">
                                 <div class="card-icon"><i class="fas fa-briefcase"></i></div>
                                 <h3>Master's Works</h3>
                                 <p>Highlights and collections of advanced student works and planning projects under my mentorship.</p>
+                                <span class="course-outline-btn" style="opacity: 0.6; cursor: default;"><i class="fas fa-info-circle"></i> Outline N/A</span>
+                            </div>
+                        </div>
+
+<!-- Card 20: Collective Action -->
+                        <div class="teaching-card c-green">
+                            <div class="card-bg"></div>
+                            <div class="card-content">
+                                <div class="card-icon"><i class="fas fa-hands-helping"></i></div>
+                                <h3>Collective Action</h3>
+                                <p>Mobilizing communities and institutions for sustainable spatial and resource management.</p>
+                                <a href="https://www.mansee.in/wp-content/uploads/2018/02/course-outline-CA-to-community-action-mansee.pdf" target="_blank" rel="noopener noreferrer" class="course-outline-btn"><i class="fas fa-file-pdf"></i> View Outline</a>
+                            </div>
+                        </div>
+
+<!-- Card 21: Rendering -->
+                        <div class="teaching-card c-orange">
+                            <div class="card-bg"></div>
+                            <div class="card-content">
+                                <div class="card-icon"><i class="fas fa-paint-brush"></i></div>
+                                <h3>Rendering</h3>
+                                <p>Visual communication techniques to represent spatial plans, shadows, and textures effectively.</p>
                                 <span class="course-outline-btn" style="opacity: 0.6; cursor: default;"><i class="fas fa-info-circle"></i> Outline N/A</span>
                             </div>
                         </div>
@@ -347,6 +349,7 @@
                     <div class="carousel-progress-bar">
                         <div class="carousel-progress-fill"></div>
                     </div>
+                    <div class="carousel-dots"></div>
                 </div>
             </div>
 
@@ -414,7 +417,7 @@
                             <li><i class="fas fa-certificate"></i> Institutional Analysis Development Framework, Social-ecological Framework and Governing the Commons, at The Ostrom Workshop Bloomington with Prof. Elinor Ostrom.</li>
                             <li><i class="fas fa-certificate"></i> Advanced Research Methodology for PhD in Public Administration, at Netherlands Institute of Governance.</li>
                             <li><i class="fas fa-certificate"></i> Teacher’s Training for Yogasanas, Meditation and Yogic Science and Second Degree in REIKI for Natural Healing, at Shivanand Ashram, Ahmedabad.</li>
-                            <li><i class="fas fa-certificate"></i> Advanced Yog Training at Vasant Nature Cure, Ahmedabad. <a href="https://www.mansee.in/wp-content/uploads/2018/07/Yog-Group-for-teaching-Page-website.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Read More</a></li>
+                            <li><i class="fas fa-certificate"></i> <span>Advanced Yog Training at Vasant Nature Cure, Ahmedabad. <a href="https://www.mansee.in/wp-content/uploads/2018/07/Yog-Group-for-teaching-Page-website.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none; border-bottom: 1px dashed var(--accent); margin-left: 4px; font-weight: 500; white-space: nowrap;">Read More <i class="fas fa-external-link-alt" style="font-size: 0.7rem; margin-left: 2px;"></i></a></span></li>
                         </ul>
                     </div>
                 </div>

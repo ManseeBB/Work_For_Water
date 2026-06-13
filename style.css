@@ -1857,7 +1857,7 @@ footer p {
 .carousel-viewport {
     position: relative;
     width: 100%;
-    height: 480px;
+    height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1866,16 +1866,22 @@ footer p {
     overflow: visible;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 769px) {
     .carousel-viewport {
-        height: 620px;
+        height: 380px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .carousel-viewport {
+        height: 500px;
     }
 }
 
 .carousel-track {
     position: relative;
-    width: 290px;
-    height: 420px;
+    width: 300px;
+    height: 200px;
     transform-style: preserve-3d;
     display: flex;
     align-items: center;
@@ -1883,17 +1889,24 @@ footer p {
     will-change: transform;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 769px) {
     .carousel-track {
-        width: 400px;
-        height: 550px;
+        width: 520px;
+        height: 320px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .carousel-track {
+        width: 700px;
+        height: 410px;
     }
 }
 
 .teaching-card {
     position: absolute;
-    width: 290px;
-    height: 420px;
+    width: 300px;
+    height: 200px;
     transform-style: preserve-3d;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
@@ -1905,13 +1918,20 @@ footer p {
     border-radius: 28px;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 769px) {
     .teaching-card {
-        width: 400px;
-        height: 550px;
+        width: 520px;
+        height: 320px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .teaching-card {
+        width: 700px;
+        height: 410px;
     }
 }
 
@@ -1922,17 +1942,27 @@ footer p {
 /* Dynamic Placeholder Image Styles */
 .card-image-wrapper {
     position: relative;
-    width: 100%;
-    height: 160px;
+    width: 35%;
+    height: 100%;
     overflow: hidden;
     z-index: 2;
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
-@media (min-width: 1024px) {
+.teaching-card.active-card .card-image-wrapper {
+    opacity: 1;
+}
+
+@media (min-width: 769px) {
     .card-image-wrapper {
-        height: 250px;
+        width: 38%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card-image-wrapper {
+        width: 40%;
     }
 }
 
@@ -1962,7 +1992,7 @@ footer p {
 }
 
 .teaching-card.active-card .card-bg {
-    background: rgba(6, 30, 56, 0.98); /* Opaque active card to hide background outlines completely */
+    background: rgba(6, 30, 56, 1.0); /* Fully opaque active card to prevent background images showing through */
     border-color: rgba(255, 255, 255, 0.15);
 }
 
@@ -1999,33 +2029,160 @@ footer p {
 
 .teaching-card .card-content {
     position: relative;
-    z-index: 3;
-    padding: 1.5rem;
+    z-index: 1; /* Layer behind the image wrapper (z-index 2) */
+    padding: 1.2rem;
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    height: calc(100% - 160px);
+    gap: 0.5rem;
+    width: 65%;
+    height: 100%;
     justify-content: space-between;
-    transform: translateY(20px) scale(0.95);
+    transform: translateX(-150px) scale(0.95); /* Shifted behind the image wrapper */
     opacity: 0;
-    transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
     transition-delay: 0s;
     will-change: transform, opacity;
+    box-sizing: border-box;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 769px) {
     .teaching-card .card-content {
-        padding: 2.5rem;
-        gap: 1rem;
-        height: calc(100% - 250px);
+        padding: 1.5rem 1.6rem;
+        gap: 0.5rem;
+        width: 62%;
+    }
+    .teaching-card h3 {
+        font-size: 1.6rem !important;
+    }
+    .teaching-card p {
+        font-size: 1.05rem !important;
+    }
+    .teaching-card .card-icon {
+        font-size: 2.4rem !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .teaching-card .card-content {
+        padding: 2rem 2.2rem;
+        gap: 0.8rem;
+        width: 60%;
+    }
+    .teaching-card h3 {
+        font-size: 2.4rem !important;
+    }
+    .teaching-card p {
+        font-size: 1.15rem !important;
+        -webkit-line-clamp: 3 !important;
+    }
+    .teaching-card .card-icon {
+        font-size: 3.2rem !important;
+    }
+    .course-outline-btn {
+        padding: 0.8rem 1.8rem !important;
+        font-size: 1.05rem !important;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-150px) scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) scale(1);
+        opacity: 1;
     }
 }
 
 .teaching-card.active-card .card-content {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    transition-delay: 0.35s;
+    animation: slideInLeft 0.7s cubic-bezier(0.25, 1, 0.5, 1) both;
+    animation-delay: 0.35s;
 }
+
+
+.teaching-card:not(.active-card) .card-bg {
+    opacity: 0 !important;
+}
+
+.teaching-card:not(.active-card) .card-content {
+    display: none !important;
+}
+
+@media (min-width: 1200px) {
+    .teaching-card:not(.active-card) .card-content {
+        display: flex !important;
+        opacity: 0.95 !important;
+        position: absolute !important;
+        top: 50% !important;
+        transform: translateY(-50%) scale(1.0) !important;
+        padding: 0 !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition-delay: 0s !important;
+        box-sizing: border-box !important;
+        z-index: 3 !important;
+        
+        /* Sleek visible glass box styling */
+        width: 220px !important;
+        height: 220px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 28px !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+    }
+    
+    .teaching-card:not(.active-card) .card-content h3,
+    .teaching-card:not(.active-card) .card-content p,
+    .teaching-card:not(.active-card) .card-content .course-outline-btn {
+        display: none !important;
+    }
+    
+    .teaching-card:not(.active-card) .card-icon {
+        font-size: 5.5rem !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        opacity: 1.0 !important;
+    }
+    
+    /* Category-coded border/glow for the small box based on card class */
+    .teaching-card.c-blue:not(.active-card) .card-content {
+        border-color: rgba(0, 180, 216, 0.8) !important;
+        box-shadow: 0 8px 32px rgba(0, 180, 216, 0.45) !important;
+    }
+    .teaching-card.c-purple:not(.active-card) .card-content {
+        border-color: rgba(168, 85, 247, 0.8) !important;
+        box-shadow: 0 8px 32px rgba(168, 85, 247, 0.45) !important;
+    }
+    .teaching-card.c-orange:not(.active-card) .card-content {
+        border-color: rgba(245, 158, 11, 0.8) !important;
+        box-shadow: 0 8px 32px rgba(245, 158, 11, 0.45) !important;
+    }
+    .teaching-card.c-cyan:not(.active-card) .card-content {
+        border-color: rgba(6, 182, 212, 0.8) !important;
+        box-shadow: 0 8px 32px rgba(6, 182, 212, 0.45) !important;
+    }
+    .teaching-card.c-green:not(.active-card) .card-content {
+        border-color: rgba(16, 185, 129, 0.8) !important;
+        box-shadow: 0 8px 32px rgba(16, 185, 129, 0.45) !important;
+    }
+    
+    /* Left inactive card content placement */
+    .teaching-card.side-left:not(.active-card) .card-content {
+        left: 10px !important;
+        right: auto !important;
+    }
+    
+    /* Right inactive card content placement */
+    .teaching-card.side-right:not(.active-card) .card-content {
+        right: 10px !important;
+        left: auto !important;
+    }
+}
+
+
 
 .teaching-card .card-icon {
     font-size: 2rem;
@@ -2158,12 +2315,31 @@ footer p {
     transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.carousel-nav-btn.prev {
-    left: calc(50% - 310px);
+@media (min-width: 769px) {
+    .carousel-nav-btn.prev {
+        left: max(calc(30px - 50vw + 50%), calc(50% - 515px));
+    }
+    .carousel-nav-btn.next {
+        right: max(calc(30px - 50vw + 50%), calc(50% - 515px));
+    }
 }
 
-.carousel-nav-btn.next {
-    right: calc(50% - 310px);
+@media (min-width: 1200px) {
+    .carousel-nav-btn.prev {
+        left: max(calc(35px - 50vw + 50%), calc(50% - 675px));
+    }
+    .carousel-nav-btn.next {
+        right: max(calc(35px - 50vw + 50%), calc(50% - 675px));
+    }
+}
+
+@media (min-width: 1500px) {
+    .carousel-nav-btn.prev {
+        left: max(calc(45px - 50vw + 50%), calc(50% - 755px));
+    }
+    .carousel-nav-btn.next {
+        right: max(calc(45px - 50vw + 50%), calc(50% - 755px));
+    }
 }
 
 .carousel-nav-btn:hover {
@@ -2187,6 +2363,12 @@ footer p {
     width: 100%;
     max-width: 320px;
     margin-top: 1.5rem;
+}
+
+@media (min-width: 769px) {
+    .carousel-controls {
+        max-width: 480px;
+    }
 }
 
 .carousel-indicator {
@@ -2213,37 +2395,115 @@ footer p {
     transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: nowrap;
+    max-width: 100%;
+}
+
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, background, box-shadow;
+}
+
+.carousel-dot:hover {
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(1.2);
+}
+
+.carousel-dot.active {
+    transform: scale(1.4);
+}
+
+.carousel-dot.c-blue.active {
+    background: #00b4d8;
+    box-shadow: 0 0 10px rgba(0, 180, 216, 0.8), 0 0 20px rgba(0, 180, 216, 0.4);
+}
+
+.carousel-dot.c-purple.active {
+    background: #a855f7;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.8), 0 0 20px rgba(168, 85, 247, 0.4);
+}
+
+.carousel-dot.c-orange.active {
+    background: #f59e0b;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.8), 0 0 20px rgba(245, 158, 11, 0.4);
+}
+
+.carousel-dot.c-cyan.active {
+    background: #06b6d4;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.8), 0 0 20px rgba(6, 182, 212, 0.4);
+}
+
+.carousel-dot.c-green.active {
+    background: #10b981;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.8), 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
 /* Mobile Responsiveness for Carousel */
 @media (max-width: 1024px) {
     .carousel-nav-btn.prev {
-        left: 20px;
+        left: 35px;
     }
     .carousel-nav-btn.next {
-        right: 20px;
+        right: 35px;
     }
 }
 
 @media (max-width: 768px) {
+    .carousel-section {
+        overflow: hidden;
+    }
     .carousel-viewport {
-        height: 420px;
+        height: 300px;
     }
     .carousel-track {
-        width: 85vw;
-        height: 320px;
+        width: 80vw;
+        max-width: 340px;
+        height: 210px;
     }
     .teaching-card {
-        width: 85vw;
-        height: 310px;
+        width: 80vw;
+        max-width: 340px;
+        height: 220px;
+        flex-direction: row;
+    }
+    .card-image-wrapper {
+        width: 35%;
+        height: 100%;
     }
     .teaching-card .card-content {
-        padding: 2rem;
-        gap: 0.8rem;
+        padding: 0.8rem 1rem;
+        gap: 0.3rem;
+        width: 65%;
+        height: 100%;
     }
     .teaching-card h3 {
-        font-size: 1.4rem;
+        font-size: 1.15rem;
     }
     .teaching-card p {
-        font-size: 0.9rem;
+        font-size: 0.78rem;
+        -webkit-line-clamp: 2;
+    }
+    .teaching-card .card-icon {
+        font-size: 1.5rem;
+    }
+    .course-outline-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+        margin-top: 0.1rem;
+        white-space: nowrap;
     }
     .carousel-nav-btn {
         width: 48px;
@@ -2251,10 +2511,10 @@ footer p {
         font-size: 1.1rem;
     }
     .carousel-nav-btn.prev {
-        left: 10px;
+        left: 25px;
     }
     .carousel-nav-btn.next {
-        right: 10px;
+        right: 25px;
     }
 }
 
@@ -4881,8 +5141,8 @@ footer p {
 }
 
 .talk-item-card {
-    background: rgba(6, 30, 56, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(6, 30, 56, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 16px;
     padding: 1.5rem 2rem;
     display: flex;
@@ -5273,3 +5533,667 @@ footer p {
     color: var(--accent);
     text-decoration: underline;
 }
+
+/* ==========================================================================
+   Talks Page Netflix-Style Background Wall & Glassmorphism
+   ========================================================================== */
+
+.talks-bg-wall-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    transform: rotate(-6deg) scale(1.2) translateY(-2%);
+    pointer-events: none; /* Make it unclickable so it doesn't hijack scroll/clicks */
+    opacity: 0.48; /* Increased from 0.32 for higher brightness */
+    transition: opacity 0.5s ease;
+}
+
+/* Background overlay gradient mask to blend with primary theme background */
+.talks-bg-wall-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: radial-gradient(circle at 50% 50%, rgba(1, 11, 20, 0.1) 0%, rgba(1, 11, 20, 0.65) 75%, var(--bg-color) 100%);
+    pointer-events: none;
+}
+
+/* Individual marquee track in background */
+.bg-marquee-row {
+    display: flex;
+    width: max-content;
+    gap: 2rem;
+    pointer-events: none;
+}
+
+/* Left to right marquee row */
+.bg-marquee-row-ltr {
+    animation: marquee-scroll-ltr 90s linear infinite;
+    will-change: transform;
+}
+
+/* Right to left marquee row */
+.bg-marquee-row-rtl {
+    animation: marquee-scroll-rtl 90s linear infinite;
+    will-change: transform;
+}
+
+/* Paused state if user triggers control toggler */
+.bg-marquee-row.animation-paused {
+    animation-play-state: paused !important;
+}
+
+@keyframes marquee-scroll-ltr {
+    0% {
+        transform: translate3d(-50%, 0, 0);
+    }
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes marquee-scroll-rtl {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
+/* Background flyer card */
+.bg-flyer-card {
+    width: 240px;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(6, 30, 56, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+}
+
+.bg-flyer-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+}
+
+/* Row-specific dimensions to match flyer format groups */
+#bg-row-1 .bg-flyer-card {
+    width: 260px;
+    height: 160px; /* Landscape layout */
+}
+
+#bg-row-2 .bg-flyer-card {
+    width: 200px;
+    height: 200px; /* Square layout */
+}
+
+#bg-row-3 .bg-flyer-card {
+    width: 170px;
+    height: 230px; /* Portrait layout */
+}
+
+/* Talks Page Specific Glassmorphic Subpage Container */
+.talks-glass-container {
+    max-width: 1200px !important;
+    background: rgba(6, 30, 56, 0.28) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 24px;
+    padding: 3rem 2.5rem !important;
+    backdrop-filter: blur(25px) saturate(120%);
+    -webkit-backdrop-filter: blur(25px) saturate(120%);
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+    z-index: 1;
+}
+
+/* Animation control panel */
+.talks-anim-control-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+}
+
+.anim-toggle-btn {
+    background: rgba(6, 30, 56, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+    padding: 0.5rem 1.25rem;
+    border-radius: 30px;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+}
+
+.anim-toggle-btn:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+    background: rgba(6, 30, 56, 0.8);
+    box-shadow: 0 0 10px rgba(0, 180, 216, 0.25);
+}
+
+.anim-toggle-btn i {
+    font-size: 0.9rem;
+}
+
+/* Restoring/Enhancing Lightbox styles */
+.lightbox-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(1, 11, 20, 0.95);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.lightbox-content-wrapper {
+    position: relative;
+    max-width: 90%;
+    max-height: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-img {
+    max-width: 100%;
+    max-height: 75vh;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    object-fit: contain;
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.lightbox-modal.active .lightbox-img {
+    transform: scale(1);
+}
+
+.lightbox-caption {
+    margin-top: 1.5rem;
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-align: center;
+    max-width: 600px;
+    line-height: 1.5;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    padding: 0 1rem;
+}
+
+/* Lightbox Buttons */
+.lightbox-btn {
+    position: absolute;
+    background: rgba(6, 30, 56, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10002;
+}
+
+.lightbox-btn:hover {
+    background: var(--accent);
+    color: var(--bg-color);
+    box-shadow: 0 0 15px var(--accent-glow);
+    border-color: transparent;
+}
+
+.lightbox-close {
+    top: 20px;
+    right: 20px;
+    position: fixed;
+}
+
+.lightbox-prev {
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.lightbox-next {
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .talks-bg-wall-container {
+        transform: rotate(-4deg) scale(1.15) translateY(0);
+        gap: 1rem;
+    }
+    
+    .bg-flyer-card {
+        width: 160px;
+        height: 120px;
+    }
+    
+    #bg-row-1 .bg-flyer-card {
+        width: 170px;
+        height: 105px;
+    }
+
+    #bg-row-2 .bg-flyer-card {
+        width: 130px;
+        height: 130px;
+    }
+
+    #bg-row-3 .bg-flyer-card {
+        width: 110px;
+        height: 150px;
+    }
+
+    .talks-glass-container {
+        padding: 1.75rem 1.25rem !important;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        border-radius: 16px;
+    }
+
+    .talks-anim-control-wrapper {
+        margin-bottom: 1rem;
+    }
+    
+    .lightbox-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .lightbox-prev {
+        left: 10px;
+    }
+    
+    .lightbox-next {
+        right: 10px;
+    }
+    
+    .lightbox-caption {
+        font-size: 0.95rem;
+    }
+}
+
+/* ==========================================================================
+   Visual Grid Gallery Section
+   ========================================================================== */
+.flyers-gallery-section {
+    margin-top: 1.5rem;
+    margin-bottom: 3.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.gallery-title {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.gallery-title i {
+    color: var(--accent);
+}
+
+.gallery-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.flyers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Individual gallery flyer card */
+.gallery-flyer-card {
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 4/3;
+    background: rgba(1, 11, 20, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                border-color 0.4s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-flyer-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(1, 11, 20, 0.85) 0%, rgba(1, 11, 20, 0.1) 60%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.gallery-flyer-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: rgba(1, 11, 20, 0.3);
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* Hover interactions */
+.gallery-flyer-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    border-color: var(--accent);
+    box-shadow: 0 12px 25px rgba(0, 180, 216, 0.2), 0 0 1px 1px var(--accent);
+    z-index: 2;
+}
+
+.gallery-flyer-card:hover img {
+    transform: scale(1.08);
+}
+
+.gallery-flyer-card:hover::after {
+    opacity: 1;
+}
+
+.gallery-flyer-title-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.85rem;
+    z-index: 2;
+    transform: translateY(8px);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.3s ease;
+}
+
+.gallery-flyer-card:hover .gallery-flyer-title-overlay {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.gallery-flyer-title-overlay h5 {
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+/* Gallery Section Divider */
+.gallery-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.08) 80%, transparent);
+    margin: 3rem 0;
+}
+
+/* Responsive tweaks for gallery section */
+@media (max-width: 768px) {
+    .flyers-gallery-section {
+        margin-bottom: 2.5rem;
+    }
+    
+    .gallery-title {
+        font-size: 1.35rem;
+    }
+    
+    .gallery-subtitle {
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .flyers-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 1rem;
+    }
+    
+    .gallery-flyer-card {
+        height: auto;
+    }
+    
+    .gallery-flyer-title-overlay {
+        padding: 0.65rem;
+    }
+    
+    .gallery-flyer-title-overlay h5 {
+        font-size: 0.7rem;
+    }
+    
+    .gallery-divider {
+        margin: 2rem 0;
+    }
+}
+
+/* ==========================================================================
+   Talks Category Tabs Navigation Styling
+   ========================================================================== */
+.talks-page-content {
+    max-width: 1200px !important;
+}
+
+.talks-tabs-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: -1rem auto 2.5rem;
+    max-width: 100%;
+    padding: 0 1rem;
+}
+
+.talks-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(6, 30, 56, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 30px;
+    padding: 0.45rem;
+    position: relative;
+    max-width: 100%;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.65);
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.6rem 1.35rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    position: relative;
+    z-index: 2;
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+}
+
+.tab-btn.active {
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--accent), #0077b6);
+    box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+.tab-count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active .tab-count-badge {
+    background: rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   Mid-List Flyers Gallery Insertion Styling
+   ========================================================================== */
+.mid-list-gallery-wrapper {
+    background: rgba(6, 30, 56, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 1.5rem 0;
+    position: relative;
+    z-index: 1;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: fadeInTalk 0.4s ease-out forwards;
+}
+
+.mid-list-gallery-title {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mid-list-gallery-title i {
+    color: var(--accent);
+}
+
+.mid-list-gallery-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+}
+
+.mid-list-flyers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+    gap: 1.25rem;
+}
+
+.mid-list-gallery-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.06) 20%, rgba(255,255,255,0.06) 80%, transparent);
+    margin: 2rem 0;
+}
+
+/* Card dynamic animations on filter/render */
+@keyframes fadeInTalk {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.talk-item-card.fade-in-card {
+    animation: fadeInTalk 0.4s ease-out forwards;
+}
+
+@media (max-width: 768px) {
+    .talks-tabs-wrapper {
+        margin-bottom: 1.75rem;
+    }
+    
+    .talks-tabs {
+        width: 100%;
+        border-radius: 25px;
+        padding: 0.35rem;
+    }
+    
+    .tab-btn {
+        font-size: 0.825rem;
+        padding: 0.5rem 1.05rem;
+    }
+    
+    .mid-list-gallery-wrapper {
+        padding: 1.25rem;
+        margin: 1rem 0;
+        border-radius: 16px;
+    }
+    
+    .mid-list-gallery-title {
+        font-size: 1.15rem;
+    }
+    
+    .mid-list-flyers-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 0.75rem;
+    }
+}
+
+
+
