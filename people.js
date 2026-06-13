@@ -379,7 +379,7 @@ function layoutGrid() {
         if (!person.isHub) {
             const d = Math.sqrt(xRaw * xRaw + yRaw * yRaw);
             if (d > 0) {
-                const push = hexWidth * 0.16; // Push out by ~16% of hex width to make room for larger hub
+                const push = hexWidth * 0.35; // Push out by ~35% of hex width to make room for extra spacing around hub
                 xRaw += (xRaw / d) * push;
                 yRaw += (yRaw / d) * push;
             }
