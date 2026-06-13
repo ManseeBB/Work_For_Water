@@ -268,25 +268,31 @@ function getInitials(name) {
     return cleanParts[0] ? cleanParts[0].substring(0, 2).toUpperCase() : "MB";
 }
 
-// Generate gradient based on name hash
-function getGradient(name, isHub) {
-    if (isHub) {
-        return "linear-gradient(135deg, #ffcc00, #ff6b00)"; // Gold for the hub
+// Helper to get primary category
+function getPrimaryCategory(person) {
+    if (person.isHub) return "hub";
+    if (person.tags.includes("CEPT") || person.tags.includes("Ostrom") || person.name.includes("Barry Moore") || person.name.includes("Anil Gupta")) {
+        return "mentor";
     }
-    const colors = [
-        ['#a855f7', '#6366f1'], // Purple to Indigo
-        ['#ec4899', '#f43f5e'], // Pink to Rose
-        ['#3b82f6', '#06b6d4'], // Blue to Cyan
-        ['#10b981', '#3b82f6'], // Emerald to Blue
-        ['#f59e0b', '#ef4444'], // Amber to Red
-        ['#84cc16', '#10b981'], // Lime to Emerald
-    ];
-    let hash = 0;
-    for (let i = 0; i < name.length; i++) {
-        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    if (person.tags.includes("IHS") || person.tags.includes("EDRC") || person.tags.includes("EDC") || person.tags.includes("technology")) {
+        return "collaborator";
     }
-    const index = Math.abs(hash) % colors.length;
-    return `linear-gradient(135deg, ${colors[index][0]}, ${colors[index][1]})`;
+    return "peer";
+}
+
+// Generate gradient based on category
+function getGradient(person) {
+    if (person.isHub) {
+        return "linear-gradient(135deg, #ff9f1c, #ff4000)"; // Gold/Amber hub
+    }
+    const cat = getPrimaryCategory(person);
+    if (cat === "mentor") {
+        return "linear-gradient(135deg, #8a2be2, #da70d6)"; // Purple/Violet
+    }
+    if (cat === "collaborator") {
+        return "linear-gradient(135deg, #00b4d8, #0077b6)"; // Cyan/Blue
+    }
+    return "linear-gradient(135deg, #13ad89, #20bf55)"; // Emerald Green
 }
 
 // Global active filter state
@@ -365,28 +371,78 @@ function layoutGrid() {
     // Clear grid
     grid.innerHTML = "";
 
-    // Generate spiral coordinates for matching nodes
-    const spiralCoords = generateSpiralCoords(filteredPeople.length);
+    // Partition filtered people by category
+    const hubNode = filteredPeople.find(p => p.isHub);
+    const mentors = filteredPeople.filter(p => !p.isHub && getPrimaryCategory(p) === "mentor");
+    const collaborators = filteredPeople.filter(p => !p.isHub && getPrimaryCategory(p) === "collaborator");
+    const peers = filteredPeople.filter(p => !p.isHub && getPrimaryCategory(p) === "peer");
+
+    // Generate pool of spiral coordinates (ample size to make sure each sector has enough)
+    const poolSize = Math.max(150, filteredPeople.length * 4);
+    const rawCoords = generateSpiralCoords(poolSize);
+
+    // Group raw coordinates into sectors based on their angles
+    const sectorA = []; // Mentors (East/Right)
+    const sectorB = []; // Collaborators (South/South-West)
+    const sectorC = []; // Peers (North-West/North)
+
+    rawCoords.forEach(coord => {
+        if (coord.q === 0 && coord.r === 0) return; // skip center
+
+        // Convert hex coord to Cartesian to compute angle
+        const x = coord.q * colWidth + coord.r * (colWidth / 2);
+        const y = coord.r * rowHeight;
+        const d = Math.sqrt(x * x + y * y);
+        let deg = Math.atan2(y, x) * 180 / Math.PI;
+        if (deg < 0) deg += 360;
+
+        // Symmetric 120-degree sectors
+        let sector;
+        if (deg >= 300 || deg < 60) sector = "A";
+        else if (deg >= 60 && deg < 180) sector = "B";
+        else sector = "C";
+
+        const coordWithData = { ...coord, x, y, d };
+        if (sector === "A") sectorA.push(coordWithData);
+        else if (sector === "B") sectorB.push(coordWithData);
+        else sectorC.push(coordWithData);
+    });
+
+    // Sort sector coordinates by distance from origin (closest first)
+    sectorA.sort((a, b) => a.d - b.d);
+    sectorB.sort((a, b) => a.d - b.d);
+    sectorC.sort((a, b) => a.d - b.d);
+
     const cellsData = [];
 
-    // Calculate raw positions and apply radial push to make room for a larger center hub
-    filteredPeople.forEach((person, index) => {
-        const coord = spiralCoords[index];
-        let xRaw = coord.q * colWidth + coord.r * (colWidth / 2);
-        let yRaw = coord.r * rowHeight;
+    // Assign hub to center
+    if (hubNode) {
+        cellsData.push({ person: hubNode, xRaw: 0, yRaw: 0 });
+    }
 
-        // Radial push outward (except for the hub itself)
-        if (!person.isHub) {
-            const d = Math.sqrt(xRaw * xRaw + yRaw * yRaw);
-            if (d > 0) {
-                const push = hexWidth * 0.35; // Push out by ~35% of hex width to make room for extra spacing around hub
-                xRaw += (xRaw / d) * push;
-                yRaw += (yRaw / d) * push;
+    // Helper to assign people to coordinates in their designated sector pool
+    function assignToSector(list, sectorPool) {
+        list.forEach((person, index) => {
+            const coord = sectorPool[index];
+            if (coord) {
+                // Apply radial push to clear space around the center hub
+                let xRaw = coord.x;
+                let yRaw = coord.y;
+                const d = coord.d;
+                if (d > 0) {
+                    const push = hexWidth * 0.35; // Keep the same spacious push around center
+                    xRaw += (coord.x / d) * push;
+                    yRaw += (coord.y / d) * push;
+                }
+                cellsData.push({ person, xRaw, yRaw });
             }
-        }
+        });
+    }
 
-        cellsData.push({ person, xRaw, yRaw });
-    });
+    // Assign categories
+    assignToSector(mentors, sectorA);
+    assignToSector(collaborators, sectorB);
+    assignToSector(peers, sectorC);
 
     // Calculate bounds of raw coordinates
     let minX = 0, maxX = 0, minY = 0, maxY = 0;
@@ -432,7 +488,7 @@ function layoutGrid() {
         
         const hexIn = document.createElement("div");
         hexIn.className = "honeycomb-cell-in";
-        hexIn.style.background = getGradient(cell.person.name, cell.person.isHub);
+        hexIn.style.background = getGradient(cell.person);
         
         const content = document.createElement("div");
         content.className = "honeycomb-content";
@@ -529,17 +585,23 @@ function setupInteractions(cellsData) {
         const hoveredCell = cellsData.find(c => c.person.originalIdx === hoveredIdx);
         if (!hoveredCell) return;
 
+        const hoveredCategory = getPrimaryCategory(hoveredCell.person);
+
         cellsData.forEach(c => {
-            const index = c.person.originalIdx;
-            if (index === hoveredIdx) {
-                c.element.classList.add("active");
-                c.element.classList.remove("dimmed");
-            } else if (areConnected(hoveredCell.person, c.person)) {
+            const category = getPrimaryCategory(c.person);
+            if (hoveredCell.person.isHub) {
+                // Hovering over center hub lights up all tiles
                 c.element.classList.add("active");
                 c.element.classList.remove("dimmed");
             } else {
-                c.element.classList.remove("active");
-                c.element.classList.add("dimmed");
+                // Hovering over category node lights up its group + the center hub
+                if (category === hoveredCategory || c.person.isHub) {
+                    c.element.classList.add("active");
+                    c.element.classList.remove("dimmed");
+                } else {
+                    c.element.classList.remove("active");
+                    c.element.classList.add("dimmed");
+                }
             }
         });
     }
