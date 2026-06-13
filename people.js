@@ -332,10 +332,10 @@ function layoutGrid() {
     const width = container.clientWidth;
     
     // Set hexagon sizes responsively
-    let hexWidth = 110;
+    let hexWidth = 120;
     let gap = 14;
     if (width < 768) {
-        hexWidth = 90;
+        hexWidth = 95;
         gap = 10;
     }
     if (width < 480) {
@@ -443,7 +443,7 @@ function layoutGrid() {
         
         const nameLabel = document.createElement("div");
         nameLabel.className = "hex-name-label";
-        nameLabel.innerHTML = cell.person.name.replace(/ /g, "<br>");
+        nameLabel.textContent = cell.person.name;
         
         content.appendChild(initials);
         content.appendChild(nameLabel);
