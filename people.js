@@ -429,8 +429,16 @@ function layoutGrid() {
         group.forEach(person => {
             const coord = outerCoords[coordIdx++];
             if (coord) {
-                // No extra push (as requested: "remove the extra space we kept around the main hub")
-                cellsData.push({ person, xRaw: coord.x, yRaw: coord.y });
+                // Apply a minor radial push of 0.18 * hexWidth to clear the 1.35x larger center hub
+                let xRaw = coord.x;
+                let yRaw = coord.y;
+                const d = Math.sqrt(coord.x * coord.x + coord.y * coord.y);
+                if (d > 0) {
+                    const push = hexWidth * 0.18; // Exactly clear the larger center node boundary
+                    xRaw += (coord.x / d) * push;
+                    yRaw += (coord.y / d) * push;
+                }
+                cellsData.push({ person, xRaw, yRaw });
             }
         });
     });
@@ -561,11 +569,10 @@ function setupInteractions(cellsData) {
         if (selectedNodeIndex !== null) {
             const index = selectedNodeIndex;
             updateDetails(people[index], index);
-            highlightNode(index);
-            return;
+        } else {
+            placeholder.classList.remove("hidden");
+            panelContent.classList.add("hidden");
         }
-        placeholder.classList.remove("hidden");
-        panelContent.classList.add("hidden");
         cellsData.forEach(c => {
             c.element.classList.remove("dimmed");
             c.element.classList.remove("active");
