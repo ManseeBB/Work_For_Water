@@ -6386,7 +6386,6 @@ footer p {
 
 /* Hover and Active states */
 .honeycomb-cell:hover {
-    transform: scale(1.18);
     z-index: 10;
 }
 
@@ -6396,7 +6395,6 @@ footer p {
 
 .honeycomb-cell.active {
     z-index: 9;
-    transform: scale(1.12);
 }
 
 .honeycomb-cell.active .honeycomb-cell-in {

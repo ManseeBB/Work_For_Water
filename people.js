@@ -280,19 +280,34 @@ function getPrimaryCategory(person) {
     return "peer";
 }
 
+const categoryColors = {
+    mentor: "linear-gradient(135deg, #8a2be2, #da70d6)",       // Purple/Violet
+    collaborator: "linear-gradient(135deg, #00b4d8, #0077b6)", // Cyan/Blue
+    peer: "linear-gradient(135deg, #13ad89, #20bf55)",         // Emerald Green
+};
+
 // Generate gradient based on category
 function getGradient(person) {
     if (person.isHub) {
         return "linear-gradient(135deg, #ff9f1c, #ff4000)"; // Gold/Amber hub
     }
     const cat = getPrimaryCategory(person);
-    if (cat === "mentor") {
-        return "linear-gradient(135deg, #8a2be2, #da70d6)"; // Purple/Violet
+    if (categoryColors[cat]) {
+        return categoryColors[cat];
     }
-    if (cat === "collaborator") {
-        return "linear-gradient(135deg, #00b4d8, #0077b6)"; // Cyan/Blue
+    // Dynamic color fallback for new categories using a hash of the category name
+    const colors = [
+        ["#ff5e62", "#ff9966"], // Coral/Orange
+        ["#de1159", "#f43f5e"], // Rose
+        ["#ffb300", "#f57c00"], // Amber
+        ["#9c27b0", "#e91e63"]  // Purple/Pink
+    ];
+    let hash = 0;
+    for (let i = 0; i < cat.length; i++) {
+        hash = cat.charCodeAt(i) + ((hash << 5) - hash);
     }
-    return "linear-gradient(135deg, #13ad89, #20bf55)"; // Emerald Green
+    const index = Math.abs(hash) % colors.length;
+    return `linear-gradient(135deg, ${colors[index][0]}, ${colors[index][1]})`;
 }
 
 // Global active filter state
@@ -373,76 +388,52 @@ function layoutGrid() {
 
     // Partition filtered people by category
     const hubNode = filteredPeople.find(p => p.isHub);
-    const mentors = filteredPeople.filter(p => !p.isHub && getPrimaryCategory(p) === "mentor");
-    const collaborators = filteredPeople.filter(p => !p.isHub && getPrimaryCategory(p) === "collaborator");
-    const peers = filteredPeople.filter(p => !p.isHub && getPrimaryCategory(p) === "peer");
+    const nonHubs = filteredPeople.filter(p => !p.isHub);
 
-    // Generate pool of spiral coordinates (ample size to make sure each sector has enough)
-    const poolSize = Math.max(150, filteredPeople.length * 4);
-    const rawCoords = generateSpiralCoords(poolSize);
+    // Get all unique categories (excluding hub) sorted to keep order stable
+    const uniqueCats = Array.from(new Set(nonHubs.map(p => getPrimaryCategory(p)))).sort();
 
-    // Group raw coordinates into sectors based on their angles
-    const sectorA = []; // Mentors (East/Right)
-    const sectorB = []; // Collaborators (South/South-West)
-    const sectorC = []; // Peers (North-West/North)
-
-    rawCoords.forEach(coord => {
-        if (coord.q === 0 && coord.r === 0) return; // skip center
-
-        // Convert hex coord to Cartesian to compute angle
-        const x = coord.q * colWidth + coord.r * (colWidth / 2);
-        const y = coord.r * rowHeight;
-        const d = Math.sqrt(x * x + y * y);
-        let deg = Math.atan2(y, x) * 180 / Math.PI;
-        if (deg < 0) deg += 360;
-
-        // Symmetric 120-degree sectors
-        let sector;
-        if (deg >= 300 || deg < 60) sector = "A";
-        else if (deg >= 60 && deg < 180) sector = "B";
-        else sector = "C";
-
-        const coordWithData = { ...coord, x, y, d };
-        if (sector === "A") sectorA.push(coordWithData);
-        else if (sector === "B") sectorB.push(coordWithData);
-        else sectorC.push(coordWithData);
+    // Group non-hubs by category
+    const catGroups = {};
+    uniqueCats.forEach(cat => {
+        catGroups[cat] = nonHubs.filter(p => getPrimaryCategory(p) === cat);
     });
 
-    // Sort sector coordinates by distance from origin (closest first)
-    sectorA.sort((a, b) => a.d - b.d);
-    sectorB.sort((a, b) => a.d - b.d);
-    sectorC.sort((a, b) => a.d - b.d);
+    // Generate pool of spiral coordinates (exactly matching number of nodes)
+    const rawCoords = generateSpiralCoords(filteredPeople.length);
+
+    // Separate center coordinate (0,0) and the rest
+    const outerCoords = [];
+    rawCoords.forEach(coord => {
+        if (coord.q === 0 && coord.r === 0) return;
+        // Convert hex coordinate to Cartesian position
+        const x = coord.q * colWidth + coord.r * (colWidth / 2);
+        const y = coord.r * rowHeight;
+        outerCoords.push({ ...coord, x, y });
+    });
+
+    // Sort outer coordinates by X coordinate to arrange them into horizontal bands (Left to Right)
+    outerCoords.sort((a, b) => a.x - b.x);
 
     const cellsData = [];
 
-    // Assign hub to center
+    // Assign hub to center (0,0)
     if (hubNode) {
         cellsData.push({ person: hubNode, xRaw: 0, yRaw: 0 });
     }
 
-    // Helper to assign people to coordinates in their designated sector pool
-    function assignToSector(list, sectorPool) {
-        list.forEach((person, index) => {
-            const coord = sectorPool[index];
+    // Assign coordinates to each category group in horizontal order (Left to Right)
+    let coordIdx = 0;
+    uniqueCats.forEach(cat => {
+        const group = catGroups[cat];
+        group.forEach(person => {
+            const coord = outerCoords[coordIdx++];
             if (coord) {
-                // Apply radial push to clear space around the center hub
-                let xRaw = coord.x;
-                let yRaw = coord.y;
-                const d = coord.d;
-                if (d > 0) {
-                    const push = hexWidth * 0.35; // Keep the same spacious push around center
-                    xRaw += (coord.x / d) * push;
-                    yRaw += (coord.y / d) * push;
-                }
-                cellsData.push({ person, xRaw, yRaw });
+                // No extra push (as requested: "remove the extra space we kept around the main hub")
+                cellsData.push({ person, xRaw: coord.x, yRaw: coord.y });
             }
         });
-    }
-
-    // Assign categories
-    assignToSector(mentors, sectorA);
-    assignToSector(collaborators, sectorB);
-    assignToSector(peers, sectorC);
+    });
 
     // Calculate bounds of raw coordinates
     let minX = 0, maxX = 0, minY = 0, maxY = 0;
