@@ -492,15 +492,10 @@ function layoutGrid() {
         const content = document.createElement("div");
         content.className = "honeycomb-content";
         
-        const initials = document.createElement("div");
-        initials.className = "hex-initials";
-        initials.innerText = getInitials(cell.person.name);
-        
         const nameLabel = document.createElement("div");
         nameLabel.className = "hex-name-label";
         nameLabel.textContent = cell.person.name;
         
-        content.appendChild(initials);
         content.appendChild(nameLabel);
         hexIn.appendChild(content);
         cellEl.appendChild(hexIn);
