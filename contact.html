@@ -100,6 +100,14 @@
             <div class="contact-form-container glass-panel">
                 <h2>Send a Message</h2>
                 <p>Fill out the form below to get in touch for collaborations and inquiries.</p>
+                <div class="contact-topic-badge" id="contact-topic-badge" style="display: none;">
+                    <span class="badge-content">
+                        <i class="fa-solid fa-circle-info"></i> Inquiry Category: <strong id="contact-topic-name"></strong>
+                    </span>
+                    <button type="button" class="clear-topic-btn" id="clear-topic-btn" title="Clear this topic">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
                 <form class="contact-form" id="contact-form">
                     <!-- Honeypot Field (Spam protection) -->
                     <div class="form-group-honeypot" style="display: none !important;">

@@ -1,6 +1,6 @@
 // People Data and Honeycomb Network Logic
 let people = [];
-const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTYkcq2-Y9OhZsOz8u8VWe0pcjyqQkdl-97ABd1Ddt2rTNX_waZK11S2gh4twljl4YzOOQF1k7nvVfj/pub?output=csv";
+const CSV_URL = "data/people.csv";
 
 // Robust vanilla CSV parser to handle quotes, newlines, and escape characters
 function parseCSV(text) {
@@ -146,7 +146,72 @@ function generateSpiralCoords(maxNodes) {
     return coords;
 }
 
-// Layout Grid Function (Concentric Spiral Grid)
+// Mobile Layout Function (Interlocked vertical grid fitting mobile screen width)
+function layoutMobileGrid(filteredPeople, width, hexWidth, hexHeight, colWidth, rowHeight, gap) {
+    let colsEven = Math.floor((width - gap) / colWidth);
+    if (colsEven < 1) colsEven = 1;
+    let colsOdd = colsEven - 1;
+    if (colsOdd < 1 && colsEven > 1) colsOdd = 1;
+    if (colsEven === 1) colsOdd = 1;
+
+    const cellsData = [];
+    let row = 0;
+    let col = 0;
+
+    // Place Hub at the very beginning (top-left/center)
+    const sortedPeople = [...filteredPeople];
+    const hubIdx = sortedPeople.findIndex(p => p.isHub);
+    if (hubIdx > -1) {
+        const hub = sortedPeople.splice(hubIdx, 1)[0];
+        sortedPeople.unshift(hub);
+    }
+
+    for (let i = 0; i < sortedPeople.length; i++) {
+        const person = sortedPeople[i];
+        let maxCols = (row % 2 === 0) ? colsEven : colsOdd;
+        if (col >= maxCols) {
+            col = 0;
+            row++;
+            maxCols = (row % 2 === 0) ? colsEven : colsOdd;
+        }
+
+        let xRaw = col * colWidth;
+        if (row % 2 !== 0 && colsEven > 1) {
+            xRaw += colWidth / 2;
+        }
+
+        const yRaw = row * rowHeight;
+        cellsData.push({ person, xRaw, yRaw, row, col });
+        col++;
+    }
+
+    // Center each row horizontally
+    const rowsMap = {};
+    cellsData.forEach(cell => {
+        if (!rowsMap[cell.row]) rowsMap[cell.row] = [];
+        rowsMap[cell.row].push(cell);
+    });
+
+    Object.keys(rowsMap).forEach(rStr => {
+        const r = parseInt(rStr);
+        const rowCells = rowsMap[r];
+        if (rowCells.length === 0) return;
+
+        const xs = rowCells.map(c => c.xRaw);
+        const minX = Math.min(...xs);
+        const maxX = Math.max(...xs);
+        const rowWidth = (maxX - minX) + hexWidth;
+        const offset = (width - rowWidth) / 2 - minX;
+
+        rowCells.forEach(cell => {
+            cell.xRaw += offset;
+        });
+    });
+
+    return cellsData;
+}
+
+// Layout Grid Function (Concentric Spiral Grid / Mobile Interlocked Row Grid)
 function layoutGrid() {
     const grid = document.getElementById("honeycomb-grid");
     const container = grid.parentElement;
@@ -188,62 +253,67 @@ function layoutGrid() {
     // Clear grid
     grid.innerHTML = "";
 
-    // Partition filtered people by category
-    const hubNode = filteredPeople.find(p => p.isHub);
-    const nonHubs = filteredPeople.filter(p => !p.isHub);
+    const isMobile = width < 768;
+    let cellsData = [];
 
-    // Get all unique categories (excluding hub) sorted to keep order stable
-    const uniqueCats = Array.from(new Set(nonHubs.map(p => getPrimaryCategory(p)))).sort();
+    if (isMobile) {
+        cellsData = layoutMobileGrid(filteredPeople, width, hexWidth, hexHeight, colWidth, rowHeight, gap);
+    } else {
+        // Partition filtered people by category
+        const hubNode = filteredPeople.find(p => p.isHub);
+        const nonHubs = filteredPeople.filter(p => !p.isHub);
 
-    // Group non-hubs by category
-    const catGroups = {};
-    uniqueCats.forEach(cat => {
-        catGroups[cat] = nonHubs.filter(p => getPrimaryCategory(p) === cat);
-    });
+        // Get all unique categories (excluding hub) sorted to keep order stable
+        const uniqueCats = Array.from(new Set(nonHubs.map(p => getPrimaryCategory(p)))).sort();
 
-    // Generate pool of spiral coordinates (exactly matching number of nodes)
-    const rawCoords = generateSpiralCoords(filteredPeople.length);
-
-    // Separate center coordinate (0,0) and the rest
-    const outerCoords = [];
-    rawCoords.forEach(coord => {
-        if (coord.q === 0 && coord.r === 0) return;
-        // Convert hex coordinate to Cartesian position
-        const x = coord.q * colWidth + coord.r * (colWidth / 2);
-        const y = coord.r * rowHeight;
-        outerCoords.push({ ...coord, x, y });
-    });
-
-    // Sort outer coordinates by X coordinate to arrange them into horizontal bands (Left to Right)
-    outerCoords.sort((a, b) => a.x - b.x);
-
-    const cellsData = [];
-
-    // Assign hub to center (0,0)
-    if (hubNode) {
-        cellsData.push({ person: hubNode, xRaw: 0, yRaw: 0 });
-    }
-
-    // Assign coordinates to each category group in horizontal order (Left to Right)
-    let coordIdx = 0;
-    uniqueCats.forEach(cat => {
-        const group = catGroups[cat];
-        group.forEach(person => {
-            const coord = outerCoords[coordIdx++];
-            if (coord) {
-                // Apply a minor radial push of 0.18 * hexWidth to clear the 1.35x larger center hub
-                let xRaw = coord.x;
-                let yRaw = coord.y;
-                const d = Math.sqrt(coord.x * coord.x + coord.y * coord.y);
-                if (d > 0) {
-                    const push = hexWidth * 0.18; // Exactly clear the larger center node boundary
-                    xRaw += (coord.x / d) * push;
-                    yRaw += (coord.y / d) * push;
-                }
-                cellsData.push({ person, xRaw, yRaw });
-            }
+        // Group non-hubs by category
+        const catGroups = {};
+        uniqueCats.forEach(cat => {
+            catGroups[cat] = nonHubs.filter(p => getPrimaryCategory(p) === cat);
         });
-    });
+
+        // Generate pool of spiral coordinates (exactly matching number of nodes)
+        const rawCoords = generateSpiralCoords(filteredPeople.length);
+
+        // Separate center coordinate (0,0) and the rest
+        const outerCoords = [];
+        rawCoords.forEach(coord => {
+            if (coord.q === 0 && coord.r === 0) return;
+            // Convert hex coordinate to Cartesian position
+            const x = coord.q * colWidth + coord.r * (colWidth / 2);
+            const y = coord.r * rowHeight;
+            outerCoords.push({ ...coord, x, y });
+        });
+
+        // Sort outer coordinates by X coordinate to arrange them into horizontal bands (Left to Right)
+        outerCoords.sort((a, b) => a.x - b.x);
+
+        // Assign hub to center (0,0)
+        if (hubNode) {
+            cellsData.push({ person: hubNode, xRaw: 0, yRaw: 0 });
+        }
+
+        // Assign coordinates to each category group in horizontal order (Left to Right)
+        let coordIdx = 0;
+        uniqueCats.forEach(cat => {
+            const group = catGroups[cat];
+            group.forEach(person => {
+                const coord = outerCoords[coordIdx++];
+                if (coord) {
+                    // Apply a minor radial push of 0.18 * hexWidth to clear the 1.35x larger center hub
+                    let xRaw = coord.x;
+                    let yRaw = coord.y;
+                    const d = Math.sqrt(coord.x * coord.x + coord.y * coord.y);
+                    if (d > 0) {
+                        const push = hexWidth * 0.18; // Exactly clear the larger center node boundary
+                        xRaw += (coord.x / d) * push;
+                        yRaw += (coord.y / d) * push;
+                    }
+                    cellsData.push({ person, xRaw, yRaw });
+                }
+            });
+        });
+    }
 
     // Calculate bounds of raw coordinates
     let minX = 0, maxX = 0, minY = 0, maxY = 0;
@@ -255,16 +325,17 @@ function layoutGrid() {
     }
 
     const gridWidth = maxX - minX + hexWidth;
-    const gridHeight = maxY - minY + hexHeight * 1.35; // Account for larger hub
+    const gridHeight = maxY - minY + (isMobile ? hexHeight : hexHeight * 1.35); // Account for larger hub on desktop only
 
-    const globalXOffset = Math.max(0, (width - gridWidth) / 2) - minX;
-    const globalYOffset = -minY + 20; // 20px padding at the top
+    const globalXOffset = isMobile ? 0 : (Math.max(0, (width - gridWidth) / 2) - minX);
+    const globalYOffset = isMobile ? 20 : (-minY + 20); // 20px padding at the top
 
     // Render Hexagons
     cellsData.forEach((cell) => {
-        // Size the center hub 35% larger
-        const currentHexWidth = cell.person.isHub ? hexWidth * 1.35 : hexWidth;
-        const currentHexHeight = cell.person.isHub ? hexHeight * 1.35 : hexHeight;
+        // Size the center hub 35% larger on desktop only
+        const sizeHub = cell.person.isHub && !isMobile;
+        const currentHexWidth = sizeHub ? hexWidth * 1.35 : hexWidth;
+        const currentHexHeight = sizeHub ? hexHeight * 1.35 : hexHeight;
 
         const xPos = cell.xRaw + globalXOffset - (currentHexWidth - hexWidth) / 2;
         const yPos = cell.yRaw + globalYOffset - (currentHexHeight - hexHeight) / 2;
@@ -330,6 +401,23 @@ function setupInteractions(cellsData) {
     const panelLink = detailsPanel.querySelector(".panel-link");
     const connectionsList = detailsPanel.querySelector(".connections-list");
 
+    let clearTimer = null;
+
+    function scheduleClear() {
+        if (clearTimer) clearTimeout(clearTimer);
+        clearTimer = setTimeout(() => {
+            clearDetails();
+            clearTimer = null;
+        }, 3000);
+    }
+
+    function cancelClear() {
+        if (clearTimer) {
+            clearTimeout(clearTimer);
+            clearTimer = null;
+        }
+    }
+
     function updateDetails(person, index) {
         placeholder.classList.add("hidden");
         panelContent.classList.remove("hidden");
@@ -366,14 +454,15 @@ function setupInteractions(cellsData) {
         if (selectedNodeIndex !== null) {
             const index = selectedNodeIndex;
             updateDetails(people[index], index);
+            highlightNode(index);
         } else {
             placeholder.classList.remove("hidden");
             panelContent.classList.add("hidden");
+            cellsData.forEach(c => {
+                c.element.classList.remove("dimmed");
+                c.element.classList.remove("active");
+            });
         }
-        cellsData.forEach(c => {
-            c.element.classList.remove("dimmed");
-            c.element.classList.remove("active");
-        });
     }
 
     function highlightNode(hoveredIdx) {
@@ -406,17 +495,21 @@ function setupInteractions(cellsData) {
         const idx = cell.person.originalIdx;
         
         cell.element.addEventListener("mouseenter", () => {
+            if (selectedNodeIndex !== null) return; // Ignore hover if a node is selected
+            cancelClear();
             highlightNode(idx);
             updateDetails(cell.person, idx);
         });
 
         cell.element.addEventListener("mouseleave", () => {
-            clearDetails();
+            if (selectedNodeIndex !== null) return; // Ignore hover if a node is selected
+            scheduleClear();
         });
 
         // Touch/Click Toggle
         cell.element.addEventListener("click", (e) => {
             e.stopPropagation();
+            cancelClear();
             if (selectedNodeIndex === idx) {
                 selectedNodeIndex = null;
                 clearDetails();
@@ -428,11 +521,41 @@ function setupInteractions(cellsData) {
         });
     });
 
-    // Clear on clicking anywhere outside grid
-    document.addEventListener("click", () => {
-        selectedNodeIndex = null;
-        clearDetails();
-    });
+    // Keep details open when hovering over the details panel itself
+    if (detailsPanel) {
+        detailsPanel.addEventListener("mouseenter", () => {
+            if (selectedNodeIndex !== null) return; // Ignore hover if a node is selected
+            cancelClear();
+        });
+        detailsPanel.addEventListener("mouseleave", () => {
+            if (selectedNodeIndex !== null) return; // Ignore hover if a node is selected
+            scheduleClear();
+        });
+
+        // Close details button click handler
+        const closeBtn = detailsPanel.querySelector("#close-details-btn");
+        if (closeBtn) {
+            closeBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                selectedNodeIndex = null;
+                cancelClear();
+                clearDetails();
+            });
+        }
+    }
+
+    // Restore state if a node is selected (e.g. after layoutGrid due to filter/resize)
+    if (selectedNodeIndex !== null) {
+        const selectedCell = cellsData.find(c => c.person.originalIdx === selectedNodeIndex);
+        if (selectedCell) {
+            highlightNode(selectedNodeIndex);
+            updateDetails(selectedCell.person, selectedNodeIndex);
+        } else {
+            // Selected node is no longer in current cellsData (filtered out)
+            selectedNodeIndex = null;
+            clearDetails();
+        }
+    }
 }
 
 // Init Setup on Load

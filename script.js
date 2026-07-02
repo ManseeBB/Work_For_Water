@@ -359,10 +359,10 @@ function initMain() {
     const nextBtn = document.querySelector('.carousel-nav-btn.next');
     const viewport = document.querySelector('.carousel-viewport');
 
-    const TEACHING_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRSppB_DmolzMha_PoBvwvSGkmZLoNBksyGVO63Xjch7n-m__ywR7MNR5P8ZJwrbanYy0KW2fV_afar/pub?gid=1903645478&single=true&output=csv";
+    const TEACHING_CSV_URL = "data/teaching_slideshow.csv";
 
     if (track && typeof gsap !== 'undefined' && typeof Papa !== 'undefined') {
-        const cacheBuster = `&t=${new Date().getTime()}`;
+        const cacheBuster = `?t=${new Date().getTime()}`;
         Papa.parse(TEACHING_CSV_URL + cacheBuster, {
             download: true,
             header: true,
@@ -799,11 +799,11 @@ function initMain() {
     }
 
     // Dynamic Academic Credentials from Google Sheets
-    const CREDENTIALS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT5Lxb9oeEHUnQ0wrUcUDlfWR3izrn_zr3La_vRBegvgLOuIMEWeNn6MB7pZhWCROHudg_g5eaKjJJW/pub?gid=566631475&single=true&output=csv";
+    const CREDENTIALS_CSV_URL = "data/teaching_credentials.csv";
 
     const tabsTrack = document.querySelector('.teaching-tabs');
     if (tabsTrack && typeof Papa !== 'undefined') {
-        const cacheBuster = `&t=${new Date().getTime()}`;
+        const cacheBuster = `?t=${new Date().getTime()}`;
         Papa.parse(CREDENTIALS_CSV_URL + cacheBuster, {
             download: true,
             header: true,
@@ -1026,7 +1026,7 @@ function toggleReveal(btn, id) {
 // ---------------------------------------------------------
 
 // Change this URL to your Google Sheets Published CSV link later!
-const SPREADSHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTz8DEv50SYuwwCTd_vxL7NzsWt0Ir_4y1QWS7qSevFm2N7iiUb5k0pICmCvhvCpS3Jgk8Fc59ovWfz/pub?output=csv";
+const SPREADSHEET_CSV_URL = "data/projects_database.csv";
 
 const CATEGORY_MAP = {
     "Institutional": { num: "01", icon: "fa-university", color: "c-blue", title: "Institutional<br>& Campus" },
@@ -1041,7 +1041,7 @@ function initMindMap() {
     if (!container) return; // Only run on practice.html
 
     if (typeof Papa !== 'undefined') {
-        const cacheBuster = `&t=${new Date().getTime()}`;
+        const cacheBuster = `?t=${new Date().getTime()}`;
         Papa.parse(SPREADSHEET_CSV_URL + cacheBuster, {
             download: true,
             header: true,
@@ -1242,7 +1242,7 @@ document.addEventListener('click', (e) => {
 // DYNAMIC RESEARCH PAGE 3D SEPTAGON TUNNEL & REAL-TIME SEARCH
 // ---------------------------------------------------------
 
-const RESEARCH_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQysLY9yKZ4NEaFbuDBDosAPlth1YzoKEH1Wj7O-VGLarH5_QRz93Onu7QH88vUnLJow8DX0eOVuj7T/pub?output=csv";
+const RESEARCH_CSV_URL = "data/research.csv";
 const RESEARCH_CACHE_KEY = "mbb_publications_data";
 
 // Map category names from CSV to sidebar navigation buttons and details panels
@@ -1359,7 +1359,7 @@ function initResearch() {
     
     // Fetch fresh data from CSV
     if (typeof Papa !== 'undefined') {
-        const cacheBuster = `&t=${new Date().getTime()}`;
+        const cacheBuster = `?t=${new Date().getTime()}`;
         Papa.parse(RESEARCH_CSV_URL + cacheBuster, {
             download: true,
             header: true,

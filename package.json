@@ -1,0 +1,7 @@
+{
+  "name": "mansee-portfolio",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "python validate_and_download.py"
+  }
+}

@@ -71,6 +71,7 @@
 <div class="bg-marquee-row bg-marquee-row-ltr" id="bg-row-3"></div>
 </div>
 <div class="talks-bg-wall-overlay"></div>
+<div class="flyers-grid-view" id="flyers-grid-view" style="display: none;"></div>
 <div class="subpage-container talks-glass-container">
 <div class="talks-stats-grid">
 <div class="talk-stat-card">
@@ -90,6 +91,9 @@
 <div class="talks-anim-control-wrapper">
 <button aria-label="Pause Background Animation" class="anim-toggle-btn" id="anim-toggle-btn">
 <i class="fas fa-pause"></i> <span>Pause Background</span>
+</button>
+<button class="anim-toggle-btn" id="view-flyers-btn" style="margin-left: 10px;">
+<i class="fas fa-images"></i> <span>View All Flyers Grid</span>
 </button>
 </div>
 <div class="talks-search-box-wrapper">
@@ -1117,6 +1121,111 @@
                     renderTalksList();
                 });
             });
+
+            // --- Flyers Grid View Implementation ---
+            const viewFlyersBtn = document.getElementById('view-flyers-btn');
+            const flyersGridView = document.getElementById('flyers-grid-view');
+            const talksGlassContainer = document.querySelector('.talks-glass-container');
+            const innerHero = document.querySelector('.inner-hero');
+            const dimensionsNavWrapper = document.querySelector('.dimensions-nav-wrapper');
+            
+            function renderFlyersGrid() {
+                if (!flyersGridView) return;
+                
+                // Clear existing content
+                flyersGridView.innerHTML = '';
+                
+                // Create grid header
+                const gridHeader = document.createElement('div');
+                gridHeader.className = 'flyers-grid-header';
+                gridHeader.innerHTML = `
+                    <h2>Visual Flyer Gallery</h2>
+                    <button class="anim-toggle-btn" id="back-to-talks-btn">
+                        <i class="fas fa-arrow-left"></i> <span>Back to Talks Log</span>
+                    </button>
+                `;
+                flyersGridView.appendChild(gridHeader);
+                
+                // Add unique flyers
+                globalFlyersList.forEach((flyer, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'grid-flyer-card no-select no-drag';
+                    card.innerHTML = `
+                        <img src="${flyer.url}" alt="${flyer.title.replace(/"/g, '&quot;')}" loading="lazy" class="no-drag">
+                        <div class="grid-flyer-caption">
+                            <h5>${flyer.title}</h5>
+                        </div>
+                    `;
+                    
+                    // Clicking a flyer opens it in the secure modal/lightbox
+                    card.onclick = (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (typeof openSecureViewer === 'function') {
+                            openSecureViewer(flyer.url, false);
+                        } else {
+                            currentFlyersList = [...globalFlyersList];
+                            openLightbox(idx);
+                        }
+                    };
+                    
+                    flyersGridView.appendChild(card);
+                });
+                
+                // Bind back button
+                document.getElementById('back-to-talks-btn').onclick = (e) => {
+                    e.preventDefault();
+                    toggleFlyersGrid(false);
+                };
+            }
+            
+            function toggleFlyersGrid(showGrid) {
+                if (showGrid) {
+                    // 1. Fade out the hero image, sub-navigation, and the main talks content container
+                    talksGlassContainer.classList.add('fade-out-active');
+                    innerHero.classList.add('fade-out-active');
+                    if (dimensionsNavWrapper) {
+                        dimensionsNavWrapper.classList.add('fade-out-active');
+                    }
+                    
+                    // 2. Wait for the 400ms transition to complete, then swap display states and fade in the grid
+                    setTimeout(() => {
+                        document.body.classList.add('flyers-grid-mode');
+                        renderFlyersGrid();
+                        flyersGridView.style.display = 'grid';
+                        
+                        // Small browser paint frame delay to trigger fade-in transition
+                        setTimeout(() => {
+                            flyersGridView.classList.add('active');
+                        }, 50);
+                    }, 400);
+                } else {
+                    // 1. Fade out the flyer grid
+                    flyersGridView.classList.remove('active');
+                    
+                    // 2. Wait for the grid fade-out to finish, then swap layout states and fade back the main content
+                    setTimeout(() => {
+                        flyersGridView.style.display = 'none';
+                        document.body.classList.remove('flyers-grid-mode');
+                        
+                        // Small browser paint frame delay before starting fade-in
+                        setTimeout(() => {
+                            talksGlassContainer.classList.remove('fade-out-active');
+                            innerHero.classList.remove('fade-out-active');
+                            if (dimensionsNavWrapper) {
+                                dimensionsNavWrapper.classList.remove('fade-out-active');
+                            }
+                        }, 50);
+                    }, 400);
+                }
+            }
+            
+            if (viewFlyersBtn) {
+                viewFlyersBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    toggleFlyersGrid(true);
+                });
+            }
 
             // --- Search Input Listener ---
             if (searchInput) {

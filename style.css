@@ -1172,6 +1172,56 @@ footer p {
     margin-bottom: 2rem;
 }
 
+/* Contact Topic Badge */
+.contact-topic-badge {
+    display: none; /* Controlled by JS */
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 180, 216, 0.08);
+    border: 1px solid rgba(0, 180, 216, 0.25);
+    border-radius: 12px;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    animation: fadeIn 0.4s ease;
+    backdrop-filter: blur(10px);
+}
+
+.contact-topic-badge .badge-content {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.contact-topic-badge .badge-content i {
+    color: var(--accent);
+    font-size: 1.1rem;
+}
+
+.contact-topic-badge strong {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.clear-topic-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    transition: all 0.2s ease;
+}
+
+.clear-topic-btn:hover {
+    color: var(--text-primary);
+    transform: scale(1.15);
+}
+
 .link-group {
     margin-bottom: 3rem;
 }
@@ -1512,8 +1562,26 @@ footer p {
     font-size: 1.1rem;
     line-height: 1.8;
     color: rgba(255, 255, 255, 0.75);
-    margin: 0;
+    margin: 0 0 1.5rem 0;
 }
+
+.practice-intro p:last-child {
+    margin-bottom: 0;
+}
+
+.practice-intro a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.3s ease, border-bottom-color 0.3s ease;
+    border-bottom: 1px dashed rgba(0, 180, 216, 0.4);
+    font-weight: 500;
+}
+
+.practice-intro a:hover {
+    color: var(--text-secondary);
+    border-bottom-color: var(--text-secondary);
+}
+
 
 @media (max-width: 768px) {
     .practice-intro {
@@ -2626,7 +2694,10 @@ footer p {
     z-index: 10;
 }
 
-.travel-intro h2 {
+.travel-intro h1,
+.travel-intro h2,
+.travel-intro h3,
+.travel-intro h4 {
     font-size: clamp(2rem, 3vw, 2.5rem);
     margin-bottom: 2rem;
     text-align: center;
@@ -2648,6 +2719,20 @@ footer p {
 .travel-intro p:last-child {
     margin-bottom: 0;
 }
+
+.travel-intro a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.3s ease, border-bottom-color 0.3s ease;
+    border-bottom: 1px dashed rgba(0, 180, 216, 0.4);
+    font-weight: 500;
+}
+
+.travel-intro a:hover {
+    color: var(--text-secondary);
+    border-bottom-color: var(--text-secondary);
+}
+
 
 @media (max-width: 768px) {
     .travel-intro {
@@ -3357,6 +3442,11 @@ footer p {
         display: flex;
         flex-direction: column;
     }
+
+    #travel-map {
+        flex: 1;
+        height: auto !important;
+    }
     
     #details-panel {
         position: relative;
@@ -3383,6 +3473,46 @@ footer p {
     
     .travel-map-wrapper:has(#details-panel:not(.details-panel-hidden)) #map-reset-btn {
         bottom: 270px;
+    }
+
+    /* Responsive Glassmorphic Travel Table -> Horizontal Scrolling */
+    .glass-table-wrapper {
+        overflow-x: auto !important;
+        overflow-y: auto !important;
+        max-height: 1200px !important;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .glass-travel-table {
+        min-width: 900px !important;
+        width: 100% !important;
+    }
+    
+    #travel-table-container {
+        position: relative;
+    }
+    
+    #travel-table-container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 60px;
+        background: linear-gradient(to right, rgba(3, 7, 18, 0), rgba(3, 7, 18, 0.95));
+        pointer-events: none;
+        z-index: 10;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    #travel-table-container.table-container-visible::after {
+        opacity: 1;
+    }
+    
+    #travel-table-container.scrolled-end::after {
+        opacity: 0 !important;
+        pointer-events: none;
     }
 }
 
@@ -3459,7 +3589,6 @@ footer p {
 
 #travel-table-container.table-container-visible {
     max-height: 1200px;
-    overflow-y: auto;
     opacity: 1;
     margin-bottom: 4rem;
 }
@@ -3471,8 +3600,28 @@ footer p {
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 16px !important;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.05) !important;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 1200px;
     margin: 0 auto;
+}
+
+/* Custom Scrollbar for Glass Table Wrapper (Horizontal scrolling) */
+.glass-table-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+
+.glass-table-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.glass-table-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.glass-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #ffcc00;
 }
 
 /* Custom Scrollbar for Table container */
@@ -3973,10 +4122,28 @@ footer p {
     line-height: 1.85;
     color: rgba(255, 255, 255, 0.85);
     font-weight: 300;
-    margin-bottom: 0;
+    margin-bottom: 1.5rem;
     position: relative;
     z-index: 1;
 }
+
+.research-intro-card .intro-content p:last-child {
+    margin-bottom: 0;
+}
+
+.research-intro-card .intro-content a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.3s ease, border-bottom-color 0.3s ease;
+    border-bottom: 1px dashed rgba(0, 180, 216, 0.4);
+    font-weight: 500;
+}
+
+.research-intro-card .intro-content a:hover {
+    color: var(--text-secondary);
+    border-bottom-color: var(--text-secondary);
+}
+
 
 .research-intro-card .intro-content p::first-letter {
     font-size: 2.2rem;
@@ -4889,7 +5056,7 @@ footer p {
         width: 90%;
     }
 }
-}
+
 
 /* =========================================================
    RESTORED SUBPAGES DESIGN SYSTEM (Resume, Purpose, Response, Talks, People)
@@ -4952,51 +5119,140 @@ footer p {
 }
 
 /* 2. Resume Page Styles */
-.resume-intro-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 3rem;
-    align-items: center;
-    margin-bottom: 4rem;
+.resume-page-content {
+    max-width: none !important;
 }
 
-@media (max-width: 768px) {
-    .resume-intro-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
+.resume-container {
+    max-width: 1350px !important;
+}
+
+.resume-layout-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 3.5rem;
+    align-items: start;
+    margin-bottom: 4rem;
+    width: 100%;
+}
+
+.resume-sidebar {
+    position: sticky;
+    top: 110px; /* Under navbar */
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    z-index: 10;
+}
+
+.resume-profile-frame {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    background: rgba(6, 30, 56, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.resume-profile-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.resume-profile-frame:hover {
+    border-color: var(--accent);
+    box-shadow: 0 25px 50px rgba(0, 180, 216, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateY(-5px);
+}
+
+.resume-profile-frame:hover img {
+    transform: scale(1.05);
 }
 
 .resume-statement {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--text-primary);
+    background: rgba(6, 30, 56, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(25px) saturate(120%);
+    -webkit-backdrop-filter: blur(25px) saturate(120%);
+}
+
+.resume-statement p {
+    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.resume-statement p:last-child {
+    margin-bottom: 0;
+}
+
+.resume-statement p:first-of-type {
     font-size: 1.15rem;
-    line-height: 1.8;
-    color: rgba(255, 255, 255, 0.85);
+    font-family: var(--font-heading);
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-left: 3px solid var(--accent);
+    padding-left: 1.25rem;
+    line-height: 1.7;
 }
 
 .resume-statement strong {
     color: var(--accent);
+    font-weight: 600;
 }
 
 .resume-cv-download-card {
-    background: rgba(6, 30, 56, 0.5);
-    border: 1px solid rgba(0, 180, 216, 0.2);
+    background: rgba(6, 30, 56, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 24px;
-    padding: 2.5rem;
+    padding: 2.25rem 1.75rem;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 180, 216, 0.08);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 
 .resume-cv-download-card h3 {
     font-family: var(--font-heading);
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     margin-bottom: 0.5rem;
     color: var(--text-primary);
+    font-weight: 700;
 }
 
 .resume-cv-download-card p {
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 992px) {
+    .resume-layout-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    
+    .resume-sidebar {
+        position: static;
+        max-width: 450px;
+        margin: 0 auto;
+        width: 100%;
+    }
+    
+    .resume-statement {
+        padding: 2.25rem 1.75rem;
+    }
 }
 
 .download-btn {
@@ -5035,9 +5291,13 @@ footer p {
     background: rgba(6, 30, 56, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 16px;
-    padding: 2rem 1.5rem;
+    padding: 2.2rem 1.5rem 1.8rem;
     text-align: center;
     transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .pillar-card:hover {
@@ -5046,7 +5306,7 @@ footer p {
     background: rgba(6, 30, 56, 0.45);
 }
 
-.pillar-card i {
+.pillar-card > i {
     font-size: 2rem;
     color: var(--accent);
     margin-bottom: 1rem;
@@ -5063,6 +5323,39 @@ footer p {
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.65);
     line-height: 1.5;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.pillar-connect-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    color: var(--accent);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: auto;
+    letter-spacing: 0.5px;
+}
+
+.pillar-connect-btn i {
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1;
+    display: inline-block;
+    transition: transform 0.3s ease;
+    color: inherit;
+}
+
+.pillar-card:hover .pillar-connect-btn {
+    color: var(--text-primary);
+}
+
+.pillar-card:hover .pillar-connect-btn i {
+    transform: translateX(4px);
 }
 
 /* 3. Talks Page Styles */
@@ -5442,6 +5735,24 @@ footer p {
     font-size: 1.15rem;
     line-height: 1.8;
     color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 1.5rem 0;
+}
+
+.people-intro-card p:last-child {
+    margin-bottom: 0;
+}
+
+.people-intro-card a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.3s ease, border-bottom-color 0.3s ease;
+    border-bottom: 1px dashed rgba(0, 180, 216, 0.4);
+    font-weight: 500;
+}
+
+.people-intro-card a:hover {
+    color: var(--text-secondary);
+    border-bottom-color: var(--text-secondary);
 }
 
 .people-section-title {
@@ -5692,6 +6003,25 @@ footer p {
     box-shadow: 0 0 10px rgba(0, 180, 216, 0.25);
 }
 
+/* Emphasized visual grid gallery view button */
+#view-flyers-btn {
+    background: linear-gradient(135deg, var(--accent) 0%, rgba(0, 119, 182, 0.85) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    font-weight: 600 !important;
+    padding: 0.65rem 1.6rem !important;
+    font-size: 0.9rem !important;
+    border-radius: 30px !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+#view-flyers-btn:hover {
+    background: linear-gradient(135deg, #00c4ec 0%, #0077b6 100%) !important;
+    box-shadow: 0 6px 20px rgba(0, 180, 216, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    transform: translateY(-2px) scale(1.03) !important;
+}
+
 .anim-toggle-btn i {
     font-size: 0.9rem;
 }
@@ -5786,6 +6116,18 @@ footer p {
     top: 20px;
     right: 20px;
     position: fixed;
+    background: rgba(255, 90, 95, 0.2) !important;
+    border: 1.5px solid rgba(255, 90, 95, 0.5) !important;
+    color: #ff7b7f !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.lightbox-close:hover {
+    background: #ff5a5f !important;
+    color: #fff !important;
+    border-color: transparent !important;
+    box-shadow: 0 0 15px rgba(255, 90, 95, 0.6) !important;
+    transform: scale(1.08) !important;
 }
 
 .lightbox-prev {
@@ -6483,6 +6825,30 @@ footer p {
     line-height: 1.6;
 }
 
+.close-details-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    color: var(--text-secondary);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.close-details-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    transform: scale(1.05);
+}
+
 .panel-content {
     transition: opacity 0.3s ease;
     display: flex;
@@ -6629,5 +6995,470 @@ footer p {
     border: 0;
 }
 
+
+/* ==========================================================================
+   SECURE VIEWER MODAL STYLES (NO DOWNLOAD / PRINT RESTRICTED VIEW)
+   ========================================================================== */
+
+/* Disable selection globally for protected visual content */
+.no-select {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+
+.no-drag {
+    -webkit-user-drag: none !important;
+    user-drag: none !important;
+}
+
+/* Modal Overlay Backdrop */
+.secure-viewer-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(1, 11, 20, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 10000; /* Extremely high z-index to overlay everything, including navbar */
+    display: none; /* Controlled via JS */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.secure-viewer-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* Header/Toolbar styling */
+.secure-viewer-header {
+    width: 100%;
+    max-width: 1200px;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(6, 30, 56, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: none;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    backdrop-filter: blur(10px);
+}
+
+.secure-viewer-title {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.secure-viewer-title i {
+    color: var(--accent);
+}
+
+/* Toolbar Control Group */
+.secure-viewer-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.viewer-control-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.viewer-control-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.viewer-control-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.2);
+    box-shadow: none;
+}
+
+.viewer-page-indicator {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    min-width: 80px;
+    text-align: center;
+}
+
+.viewer-close-btn {
+    background: rgba(255, 90, 95, 0.25) !important;
+    border: 1.5px solid rgba(255, 90, 95, 0.6) !important;
+    color: #ff7b7f !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.viewer-close-btn:hover {
+    background: #ff5a5f !important;
+    color: #fff !important;
+    border-color: transparent !important;
+    box-shadow: 0 0 15px rgba(255, 90, 95, 0.6) !important;
+    transform: scale(1.08) !important;
+}
+
+/* Content Container styling */
+.secure-viewer-body {
+    width: 100%;
+    max-width: 1200px;
+    height: calc(100vh - 160px);
+    background: #020912;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    position: relative;
+    overflow: auto; /* Allow scrolling for large pages */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align start to scroll naturally downward */
+    padding: 2rem;
+}
+
+/* Secure Image & Canvas Wrapper */
+.secure-media-wrapper {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    margin: auto;
+}
+
+/* Shield overlay overlaying the actual image or canvas to prevent clicks / selection */
+.secure-click-shield {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background: transparent;
+    cursor: default;
+}
+
+.secure-viewer-img {
+    max-width: 100%;
+    max-height: calc(100vh - 200px);
+    display: block;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    pointer-events: none; /* Native browser drag prevention */
+}
+
+/* Canvas styling for rendering PDF pages */
+.secure-viewer-canvas {
+    max-width: 100%;
+    display: block;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: #fff;
+    border-radius: 4px;
+}
+
+/* PDF loading indicator overlay */
+.secure-viewer-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    z-index: 5;
+    color: var(--text-secondary);
+}
+
+.secure-viewer-loader i {
+    font-size: 2.5rem;
+    color: var(--accent);
+}
+
+/* Sandboxed iframe fallback wrapper */
+.secure-iframe-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.secure-viewer-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #020912;
+}
+
+/* CORS fallback banner style */
+.cors-fallback-notice {
+    background: rgba(255, 159, 28, 0.1);
+    border: 1px solid rgba(255, 159, 28, 0.2);
+    color: #ff9f1c;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+/* Print Overrides to prevent Ctrl+P PDF saving */
+@media print {
+    /* Hide everything including document/image viewer when printing */
+    body, html, .secure-viewer-modal, #premium-lightbox, #lightbox-modal {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+}
+
+/* ==========================================================================
+   Visual Flyer Grid View (Talks Page Extension)
+   ========================================================================== */
+
+/* State transitions: Fading elements */
+.fade-out-active {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    transition: opacity 0.4s ease, visibility 0.4s ease !important;
+}
+
+/* Grid Container View */
+.flyers-grid-view {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 2rem auto 4rem;
+    padding: 0 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    z-index: 5;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.flyers-grid-view.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Header within Grid View */
+.flyers-grid-header {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+/* Emphasized Premium Back to Talks Button */
+#back-to-talks-btn {
+    background: linear-gradient(135deg, var(--accent) 0%, rgba(0, 119, 182, 0.85) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    font-weight: 600 !important;
+    padding: 0.65rem 1.6rem !important;
+    font-size: 0.9rem !important;
+    border-radius: 30px !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+#back-to-talks-btn:hover {
+    background: linear-gradient(135deg, #00c4ec 0%, #0077b6 100%) !important;
+    box-shadow: 0 6px 20px rgba(0, 180, 216, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    transform: translateY(-2px) scale(1.03) !important;
+}
+
+.flyers-grid-header h2 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* Individual grid card flyer */
+.grid-flyer-card {
+    background: rgba(6, 30, 56, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.grid-flyer-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    opacity: 0.85;
+}
+
+/* Captions inside Grid View */
+.grid-flyer-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(1, 11, 20, 0.95) 0%, rgba(1, 11, 20, 0.4) 75%, transparent 100%);
+    padding: 1.25rem 1rem 0.75rem;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 2;
+}
+
+.grid-flyer-caption h5 {
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    margin: 0 0 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Hover effects */
+.grid-flyer-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent);
+    box-shadow: 0 15px 30px rgba(0, 180, 216, 0.25);
+}
+
+.grid-flyer-card:hover img {
+    transform: scale(1.08);
+    opacity: 1;
+}
+
+.grid-flyer-card:hover .grid-flyer-caption {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive Overrides */
+@media (max-width: 1200px) {
+    .flyers-grid-view {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .flyers-grid-view {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .flyers-grid-view {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .flyers-grid-header h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .flyers-grid-view {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Active body changes for un-slanted backgrounds in Grid mode */
+body.flyers-grid-mode .talks-bg-wall-container {
+    transform: none !important;
+    opacity: 0.15 !important; /* Heavily fade the scrolling marquee so it's not distracting */
+}
+
+body.flyers-grid-mode .talks-bg-wall-overlay {
+    background: var(--bg-color) !important; /* Make backdrop dark and flat */
+}
+
+/* Collapse main layout to prevent empty scrolling space at the top of grid view */
+body.flyers-grid-mode .inner-hero,
+body.flyers-grid-mode .talks-glass-container,
+body.flyers-grid-mode .dimensions-nav-wrapper {
+    display: none !important;
+}
+
+/* Offset for fixed navbar when layout is collapsed in grid view */
+body.flyers-grid-mode .flyers-grid-view {
+    margin-top: 100px !important;
+}
+
+/* Teaching Page Pedagogy Panel Styles */
+.pedagogy-intro-panel p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.pedagogy-intro-panel a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.3s ease, border-bottom-color 0.3s ease;
+    border-bottom: 1px dashed rgba(0, 180, 216, 0.4);
+    font-weight: 500;
+}
+
+.pedagogy-intro-panel a:hover {
+    color: var(--text-secondary);
+    border-bottom-color: var(--text-secondary);
+}
 
 

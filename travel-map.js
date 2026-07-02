@@ -200,7 +200,7 @@ class TravelMapController {
     }
 
     loadCSVData() {
-        const csvPath = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRe_Apew1QOi1mLUa91ZO8G0NpKX7S2c1puCQRI4IXe4Qdp01tGzM82e0DKTbDneNQpJydAwmZzGJuJ/pub?gid=0&single=true&output=csv';
+        const csvPath = 'data/travel_database.csv';
         const separator = csvPath.includes('?') ? '&' : '?';
         const cacheBuster = `${separator}t=${new Date().getTime()}`;
 
