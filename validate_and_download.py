@@ -87,6 +87,17 @@ CONFIGS = [
         },
         "image_column": "Drive_Link",
         "image_dest_dir": "Assests/Talks"
+    },
+    {
+        "name": "talks_database",
+        "url": "https://docs.google.com/spreadsheets/d/e/YOUR_TALKS_SHEET_ID/pub?output=csv",
+        "dest": "data/talks_database.csv",
+        "required_headers": ["Title", "Date_Year", "Host", "Poster_Link", "Video_Link", "Read_More_Link"],
+        "validators": {
+            "Title": lambda val: len(val.strip()) > 0
+        },
+        "image_column": "Poster_Link",
+        "image_dest_dir": "Assests/Talks"
     }
 ]
 
