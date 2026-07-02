@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&amp;family=Outfit:wght@300;500;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <link href="style.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
 <body>
 <!-- Floating Socials -->
@@ -843,39 +844,38 @@
             document.getElementById('count-research').textContent = categoriesData.research.length;
             document.getElementById('count-social').textContent = categoriesData.social.length;
 
-            // --- Background Marquee Implementation ---
-            // Build the background scrolling wall using all flyers globally to keep page visual context rich
+            // --- Flyers Database Loader ---
+            const FLYERS_CSV_URL = "data/flyers_database.csv";
+            const fallbackFlyers = [
+                { title: "All water is holy water...", url: "Assests/Talks/2021.July_.Green-Verandah.jpg" },
+                { title: "Urban Lakes as a Socio-Ecological System", url: "Assests/Talks/2021.July_.TISS_.jpg" },
+                { title: "The Climate Convo with Hemang Vellore", url: "Assests/Talks/climate-convo.jpg" },
+                { title: "The 'Ds' of Water Conservation & Management", url: "Assests/Talks/2021.June_.Ds_.jpg" },
+                { title: "What will it take to make Indian Cities Water Resilient?", url: "Assests/Talks/2021.June_.Jal_.jpg" },
+                { title: "Satyagraha", url: "Assests/Talks/2021.May_Satyagraha.jpg" },
+                { title: "Interactive Workshop on Water Management", url: "Assests/Talks/2021.April_Consulate.jpg" },
+                { title: "Live Research projects Workshop", url: "Assests/Talks/PHOTO-2021-02-13-19-01-33.jpg" },
+                { title: "A Social-Ecological Approach to Urban Lake Governance and Sustainability in India", url: "Assests/Talks/PHOTO-2021-02-01-11-51-53.jpg" },
+                { title: "SDG06 and Ways to achieve by the Youth", url: "Assests/Talks/2020.Dec_SDG06.jpg" },
+                { title: "Time has Arrived for Women to Lead", url: "Assests/Talks/APGFWN.jpg" },
+                { title: "My Experiment with Learning, Loving, and Living the Urban Lakes of India", url: "Assests/Talks/CEPT4.jpg" },
+                { title: "The Future Planning of cities after Corona", url: "Assests/Talks/Netherlands.jpg" },
+                { title: "Interactive Water Governance", url: "Assests/Talks/CEPT3.jpg" },
+                { title: "Rebuild our Lives by Social Entrepreneurship", url: "Assests/Talks/Sdps.jpg" },
+                { title: "Water Governance", url: "Assests/Talks/CEPT2.jpg" },
+                { title: "Planning for the New Normal", url: "Assests/Talks/ITPI-Srilanka.jpg" },
+                { title: "The politics of water development in India", url: "Assests/Talks/RV-College.jpg" }
+            ];
+
+            let globalFlyersList = [];
             const bgContainer = document.getElementById('bg-wall-container');
             const bgRow1 = document.getElementById('bg-row-1');
             const bgRow2 = document.getElementById('bg-row-2');
             const bgRow3 = document.getElementById('bg-row-3');
-            
-            const globalFlyersList = [];
-            const processedGlobalUrls = new Set();
 
-            talkCards.forEach(card => {
-                const titleElement = card.querySelector('.talk-title-row');
-                const title = titleElement ? titleElement.textContent.trim() : (card.getAttribute('data-title') || '');
-                const posterLink = Array.from(card.querySelectorAll('a')).find(a => {
-                    const text = a.textContent.toLowerCase();
-                    const href = a.getAttribute('href') || '';
-                    return text.includes('view poster') || href.toLowerCase().endsWith('.jpg') || href.toLowerCase().endsWith('.jpeg') || href.toLowerCase().endsWith('.png');
-                });
-
-                if (posterLink) {
-                    let url = posterLink.getAttribute('href');
-                    if (url.startsWith('http://')) {
-                        url = url.replace('http://', 'https://');
-                    }
-                    if (!processedGlobalUrls.has(url)) {
-                        processedGlobalUrls.add(url);
-                        globalFlyersList.push({ title: title, url: url });
-                    }
-                }
-            });
-
-            if (globalFlyersList.length > 0 && bgContainer) {
-                // Function to load image dimensions dynamically
+            async function initMarquee() {
+                if (globalFlyersList.length === 0 || !bgContainer) return;
+                
                 function getImageDimensions(url) {
                     return new Promise((resolve) => {
                         const img = new Image();
@@ -885,7 +885,6 @@
                     });
                 }
 
-                // Analyze all flyer dimensions in parallel
                 const flyersWithSizes = await Promise.all(
                     globalFlyersList.map(async (flyer) => {
                         const dims = await getImageDimensions(flyer.url);
@@ -904,17 +903,14 @@
                     })
                 );
 
-                // Group flyers by size category
                 const landscapeFlyers = flyersWithSizes.filter(f => f.sizeType === 'landscape');
                 const squareFlyers = flyersWithSizes.filter(f => f.sizeType === 'square');
                 const portraitFlyers = flyersWithSizes.filter(f => f.sizeType === 'portrait');
 
-                // Distribute to rows based on size (Row 1: Landscape, Row 2: Square, Row 3: Portrait)
                 let r1Data = landscapeFlyers;
                 let r2Data = squareFlyers;
                 let r3Data = portraitFlyers;
 
-                // Fallbacks to avoid empty rows
                 if (r1Data.length === 0) {
                     r1Data = squareFlyers.length > 0 ? squareFlyers : (portraitFlyers.length > 0 ? portraitFlyers : globalFlyersList);
                 }
@@ -985,31 +981,8 @@
                     return;
                 }
 
-                // 2. Extract and deduplicate flyers from filtered cards
-                currentFlyersList = [];
-                const processedUrls = new Set();
-
-                filteredCards.forEach(card => {
-                    const titleElement = card.querySelector('.talk-title-row');
-                    const title = titleElement ? titleElement.textContent.trim() : (card.getAttribute('data-title') || '');
-                    
-                    const posterLink = Array.from(card.querySelectorAll('a')).find(a => {
-                        const text = a.textContent.toLowerCase();
-                        const href = a.getAttribute('href') || '';
-                        return text.includes('view poster') || href.toLowerCase().endsWith('.jpg') || href.toLowerCase().endsWith('.jpeg') || href.toLowerCase().endsWith('.png');
-                    });
-
-                    if (posterLink) {
-                        let url = posterLink.getAttribute('href');
-                        if (url.startsWith('http://')) {
-                            url = url.replace('http://', 'https://');
-                        }
-                        if (!processedUrls.has(url)) {
-                            processedUrls.add(url);
-                            currentFlyersList.push({ title: title, url: url });
-                        }
-                    }
-                });
+                // 2. Use the flyer database pool
+                currentFlyersList = globalFlyersList;
 
                 // 3. Render cards and inject the mid-list flyer gallery every 8 items
                 let flyersSectionsInserted = 0;
@@ -1337,8 +1310,36 @@
                 }
             });
 
-            // Initial Render
-            renderTalksList();
+            // Initial Render - Load flyers first
+            const cacheBuster = `?t=${new Date().getTime()}`;
+            Papa.parse(FLYERS_CSV_URL + cacheBuster, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    const parsedFlyers = results.data.map(item => {
+                        return {
+                            title: item.Title || '',
+                            url: item.Drive_Link ? `Assests/Talks/${item.Drive_Link}` : ''
+                        };
+                    }).filter(item => item.url !== '');
+                    
+                    if (parsedFlyers.length > 0) {
+                        globalFlyersList = parsedFlyers;
+                    } else {
+                        globalFlyersList = fallbackFlyers;
+                    }
+                    
+                    initMarquee();
+                    renderTalksList();
+                },
+                error: function(err) {
+                    console.error("Error loading flyers CSV:", err);
+                    globalFlyersList = fallbackFlyers;
+                    initMarquee();
+                    renderTalksList();
+                }
+            });
         });
     </script>
 </body>

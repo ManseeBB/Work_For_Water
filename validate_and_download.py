@@ -75,6 +75,18 @@ CONFIGS = [
             ],
             "Title": lambda val: len(val.strip()) > 0
         }
+    },
+    {
+        "name": "flyers_database",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmBa0BcQPRRis1cGpm8de0H7kFv_IxGO_o6OksYQabmRhpfyEKiBsq9wusmtUq_WGgxG2NWIoWtAyA/pub?gid=197107346&single=true&output=csv",
+        "dest": "data/flyers_database.csv",
+        "required_headers": ["Title", "Date/Year", "Drive_Link", "Original_File_Name"],
+        "validators": {
+            "Title": lambda val: len(val.strip()) > 0,
+            "Drive_Link": lambda val: len(val.strip()) > 0 and val.strip().startswith("http")
+        },
+        "image_column": "Drive_Link",
+        "image_dest_dir": "Assests/Talks"
     }
 ]
 
