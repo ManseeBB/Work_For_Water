@@ -90,7 +90,7 @@ CONFIGS = [
     },
     {
         "name": "talks_database",
-        "url": "https://docs.google.com/spreadsheets/d/e/YOUR_TALKS_SHEET_ID/pub?output=csv",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_GPwpYO10hCWKLZDoOKeoAGhJNNpRWcKwkC2melsgD2wcsd2LmrKSvjbbQCE9P79xr-yuysAzu4fm/pub?gid=1122012666&single=true&output=csv",
         "dest": "data/talks_database.csv",
         "required_headers": ["Title", "Date_Year", "Host", "Poster_Link", "Video_Link", "Read_More_Link"],
         "validators": {
@@ -98,6 +98,35 @@ CONFIGS = [
         },
         "image_column": "Poster_Link",
         "image_dest_dir": "Assests/Talks"
+    },
+    {
+        "name": "response_thoughts",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSV7oHS8lmZ8fcsShZTQLOiylOprk26r2M7wfwwNYta8cwzGc5ATq7rewNSmhQyjYqrAYs7gyUq0K0x/pub?gid=2083656055&single=true&output=csv",
+        "dest": "data/response_thoughts.csv",
+        "required_headers": ["Year", "Date", "Platform", "Title", "Link"],
+        "validators": {
+            "Year": lambda val: len(val.strip()) > 0,
+            "Title": lambda val: len(val.strip()) > 0
+        }
+    },
+    {
+        "name": "response_tributes",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBcZszMPe6QuEuv8GaRJM4eZAarXgeAsdtHwNk_BzVu0eVnd9XVAn6-H65QTbgR2M7e3gv7bSqC3tV/pub?gid=533639586&single=true&output=csv",
+        "dest": "data/response_tributes.csv",
+        "required_headers": ["Icon", "Title", "Description", "Link"],
+        "validators": {
+            "Title": lambda val: len(val.strip()) > 0,
+            "Link": lambda val: len(val.strip()) > 0
+        }
+    },
+    {
+        "name": "response_works",
+        "url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQL_s1P1DjxwiUQYLnS-iehjD4rHQcNX0xXtjm740Fv4mP9JKf7HxakFuPe_Gdr_0XFLjkAtTsUtA5/pub?gid=434141343&single=true&output=csv",
+        "dest": "data/response_works.csv",
+        "required_headers": ["Icon", "Title"],
+        "validators": {
+            "Title": lambda val: len(val.strip()) > 0
+        }
     }
 ]
 
@@ -270,7 +299,7 @@ def validate_csv(csv_text, name, required_headers, validators, errors_list):
                     passed = False
     return passed
 
-def process_images_in_csv(csv_text, image_column, image_dest_dir, name, errors_list):
+def process_images_in_csv(csv_text, image_column, image_dest_dir, name, errors_list, download_images=True):
     f = io.StringIO(csv_text.strip())
     reader = csv.DictReader(f)
     fieldnames = reader.fieldnames
@@ -292,39 +321,60 @@ def process_images_in_csv(csv_text, image_column, image_dest_dir, name, errors_l
                 errors_list.append(f"{name}: {msg}")
                 return None
                 
-            print(f"  Row {row_num}: Found Google Drive image link. Downloading file ID: {file_id}")
-            download_url_str = f"https://drive.google.com/uc?export=download&id={file_id}"
+            # Check if we already have a local file for this file_id
+            existing_filename = None
+            for ext in [".jpg", ".png", ".gif", ".webp", ".jpeg"]:
+                test_filename = f"gdrive_img_{file_id}{ext}"
+                if os.path.exists(os.path.join(image_dest_dir, test_filename)):
+                    existing_filename = test_filename
+                    break
             
-            try:
-                img_data, content_type = download_url(download_url_str)
-                # Map content type to file extension
-                ext = ".jpg"
-                if "png" in content_type:
-                    ext = ".png"
-                elif "gif" in content_type:
-                    ext = ".gif"
-                elif "webp" in content_type:
-                    ext = ".webp"
-                
-                filename = f"gdrive_img_{file_id}{ext}"
-                filepath = os.path.join(image_dest_dir, filename)
-                
-                # Save file
-                with open(filepath, "wb") as f_img:
-                    f_img.write(img_data)
-                print(f"    Saved to {filepath} ({len(img_data)} bytes)")
-                
-                # Optimize image if Pillow is available
-                optimize_image(filepath)
-                
-                # Rewrite the column value in the CSV to point to the local filename
-                row[image_column] = filename
-                
-            except Exception as e:
-                msg = f"Row {row_num}: Failed to download image from Google Drive: {e}"
-                print(f"Error in {name}: {msg}")
-                errors_list.append(f"{name}: {msg}")
-                return None
+            if existing_filename:
+                # We already have it, so we can just use the existing filename
+                row[image_column] = existing_filename
+                if download_images:
+                    print(f"  Row {row_num}: Local image {existing_filename} exists. Skipping download.")
+            else:
+                if not download_images:
+                    # We don't have it locally, and download_images is False.
+                    # We use a default .jpg extension for the reference.
+                    default_filename = f"gdrive_img_{file_id}.jpg"
+                    row[image_column] = default_filename
+                    print(f"  Row {row_num}: Image {default_filename} not found locally. Skipping download (run with --images to download).")
+                else:
+                    print(f"  Row {row_num}: Found Google Drive image link. Downloading file ID: {file_id}")
+                    download_url_str = f"https://drive.google.com/uc?export=download&id={file_id}"
+                    
+                    try:
+                        img_data, content_type = download_url(download_url_str)
+                        # Map content type to file extension
+                        ext = ".jpg"
+                        if "png" in content_type:
+                            ext = ".png"
+                        elif "gif" in content_type:
+                            ext = ".gif"
+                        elif "webp" in content_type:
+                            ext = ".webp"
+                        
+                        filename = f"gdrive_img_{file_id}{ext}"
+                        filepath = os.path.join(image_dest_dir, filename)
+                        
+                        # Save file
+                        with open(filepath, "wb") as f_img:
+                            f_img.write(img_data)
+                        print(f"    Saved to {filepath} ({len(img_data)} bytes)")
+                        
+                        # Optimize image if Pillow is available
+                        optimize_image(filepath)
+                        
+                        # Rewrite the column value in the CSV to point to the local filename
+                        row[image_column] = filename
+                        
+                    except Exception as e:
+                        msg = f"Row {row_num}: Failed to download image from Google Drive: {e}"
+                        print(f"Error in {name}: {msg}")
+                        errors_list.append(f"{name}: {msg}")
+                        return None
         
         updated_rows.append(row)
         
@@ -412,6 +462,15 @@ GOOGLE_DOCS = [
 <p>My understanding of water as a complex <strong>social-ecological system</strong> has made me a keen political observer and gender-sensitive advocate. For maximizing governance and minimizing government to facilitate civil society in understanding the problems and finding the solutions, the crucial role of women must be clearly and cleverly integrated.</p>
 <p>This thinking comes from multidisciplinary global scholarships supported by various fellowships and fraternities, alongside active on-ground engagement to connect science and society. My engagements converge with my passion, as I do what I do to try to remain sensitive and sensible, causing the least possible harm to the planet and the people—including if that means doing nothing!</p>
 <p>I believe it is time to slow down to heal the planet for us to even live now. Besides, there is a longing for a just society, where humanity and biodiversity are the primary drivers. A line that describes me in short is: <strong>an open inquisitive child for whom the god, if any, lies in the freedom, and the value of that freedom is immeasurable!</strong></p>"""
+    },
+    {
+        "id": "response_intro",
+        "url": "https://docs.google.com/document/d/e/2PACX-1vR9ZXnPMt3SZ-9nRBEKcAd_N4kFpMjKh7ewo-bF4inqthrnCB2iZo-EU8-vFJH9qQF9Vk9DpSoMO186/pub",
+        "target_file": "response.html",
+        "placeholder": "response_intro",
+        "fallback_text": """<h2>Active Citizenship & Critical Engagement</h2>
+<p>Expressing concerns about the events happening both within and outside related to living and working is an integral part of being a responsible citizen. I believe in active and sensitive citizenship, and thus actively engage and respond to key issues. If more citizens register their opinions, the functioning of our social-ecological system and democratic values can be restored.</p>
+<p>My focus areas are embedded in humanity and biodiversity, bridging environment and economy, government and governance, people and politics, and education and scholarship.</p>"""
     }
 ]
 
@@ -520,6 +579,18 @@ def fetch_and_clean_google_doc(url):
                         
             text_val = str(child).strip()
             text_val = text_val.replace('\xa0', ' ')
+            
+            # Auto-convert markdown headers typed inside regular paragraphs
+            if child.name == 'p':
+                import html
+                plain_text = child.get_text().strip()
+                if plain_text.startswith('# '):
+                    header_text = plain_text[2:].strip()
+                    text_val = f"<h2>{html.escape(header_text)}</h2>"
+                elif plain_text.startswith('## '):
+                    header_text = plain_text[3:].strip()
+                    text_val = f"<h2>{html.escape(header_text)}</h2>"
+                    
             if text_val and text_val not in {'<p></p>', '<p> </p>', '<p>&nbsp;</p>'}:
                 paragraphs.append(text_val)
                 
@@ -565,6 +636,12 @@ def main():
     else:
         print("Local or non-production environment detected. Fallback mechanisms are ENABLED.")
         
+    download_images = is_vercel or "--images" in sys.argv
+    if download_images:
+        print("Image downloading/synchronization is ENABLED.")
+    else:
+        print("Image downloading/synchronization is DISABLED (use --images flag to enable locally).")
+        
     all_passed = True
     all_errors = []
     
@@ -581,15 +658,25 @@ def main():
         success = False
         sheet_errors = []
         try:
-            csv_data_bytes, _ = download_url(url)
-            csv_text = csv_data_bytes.decode('utf-8')
+            if "YOUR_SPREADSHEET_URL" in url:
+                print(f"  [INFO] URL for {name} is a placeholder. Checking local file at {dest}.")
+                if os.path.exists(dest):
+                    print(f"  SUCCESS: Found local file at {dest}. Reusing it.")
+                    with open(dest, "r", encoding="utf-8") as lf:
+                        csv_text = lf.read()
+                    csv_data_bytes = csv_text.encode('utf-8')
+                else:
+                    raise FileNotFoundError(f"Local file at {dest} not found and URL is placeholder.")
+            else:
+                csv_data_bytes, _ = download_url(url)
+                csv_text = csv_data_bytes.decode('utf-8')
             print(f"  Downloaded {len(csv_text)} characters.")
             
             # 1. Validate metadata schema
             if validate_csv(csv_text, name, required_headers, validators, sheet_errors):
                 # 2. If config defines image downloading, process the image rows
                 if image_column and image_dest_dir:
-                    processed_csv = process_images_in_csv(csv_text, image_column, image_dest_dir, name, sheet_errors)
+                    processed_csv = process_images_in_csv(csv_text, image_column, image_dest_dir, name, sheet_errors, download_images)
                     if processed_csv is not None:
                         csv_text = processed_csv
                         success = True

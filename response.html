@@ -68,12 +68,11 @@
     <section class="page-content">
         <div class="subpage-container">
             <div class="response-intro-panel">
-                <p>
-                    Expressing concerns about the events happening both within and outside related to living and working is an integral part of being a responsible citizen. I believe in active and sensitive citizenship, and thus actively engage and respond to key issues. If more citizens register their opinions, the functioning of our social-ecological system and democratic values can be restored.
-                </p>
-                <p style="margin-top: 1rem;">
-                    My focus areas are embedded in humanity and biodiversity, bridging environment and economy, government and governance, people and politics, and education and scholarship.
-                </p>
+                <!-- START_DOC_CONTENT:response_intro -->
+            <h2>Active Citizenship &amp; Critical Engagement</h2>
+<p>Expressing concerns about the events happening both within and outside related to living and working is an integral part of being a responsible citizen. I believe in active and sensitive citizenship, and thus actively engage and respond to key issues. If more citizens register their opinions, the functioning of our social-ecological system and democratic values can be restored.</p>
+<p>My focus areas are embedded in humanity and biodiversity, bridging environment and economy, government and governance, people and politics, and education and scholarship.</p>
+            <!-- END_DOC_CONTENT:response_intro -->
             </div>
 
             <!-- Tab Navigation Row -->
@@ -85,238 +84,323 @@
 
             <!-- Tab Panel 1: Published Thoughts -->
             <div class="response-pane active" id="thoughts">
-                <div class="thoughts-archive-list">
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://www.counterview.net/2021/07/wednesdaysforwater-land-conversion-in.html" target="_blank" rel="noopener noreferrer">Land conversion in Buxwaha to 'kill' forest, water system <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> July 2021</span>
-                                <span class="talk-meta-divider"></span>
-                                <span class="talk-meta-item"><i class="far fa-user"></i> WednesdaysForWater#</span>
-                            </div>
-                        </div>
+                <div class="timeline-search-wrapper">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="timeline-search" placeholder="Search publications by title, year, or platform...">
                     </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://www.counterview.net/2021/06/wednesdaysforwater-pollution-climate.html" target="_blank" rel="noopener noreferrer">Pollution, climate change 'impacting' oceanic life, livelihood <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> June 2021</span>
-                                <span class="talk-meta-divider"></span>
-                                <span class="talk-meta-item"><i class="far fa-user"></i> WednesdaysForWater#</span>
-                            </div>
-                        </div>
+                    <button id="clear-search" class="timeline-reset-btn">Reset</button>
+                </div>
+                <div class="timeline-container-wrapper">
+                    <!-- Left Newspaper Clippings Sidebar -->
+                    <div class="timeline-clippings-sidebar left-sidebar">
+                        <a href="Assests/clippings/2004.jpg" target="_blank" class="clipping-card">
+                            <img src="Assests/clippings/2004.jpg" alt="Newspaper Column 2004">
+                            <span class="clipping-year">2004</span>
+                        </a>
+                        <a href="Assests/clippings/2008_1.jpg" target="_blank" class="clipping-card">
+                            <img src="Assests/clippings/2008_1.jpg" alt="Newspaper Column 2008 Part I">
+                            <span class="clipping-year">2008 (I)</span>
+                        </a>
+                        <a href="Assests/clippings/2008_2.jpg" target="_blank" class="clipping-card">
+                            <img src="Assests/clippings/2008_2.jpg" alt="Newspaper Column 2008 Part II">
+                            <span class="clipping-year">2008 (II)</span>
+                        </a>
+                        <a href="Assests/clippings/2014.jpg" target="_blank" class="clipping-card">
+                            <img src="Assests/clippings/2014.jpg" alt="Newspaper Column 2014">
+                            <span class="clipping-year">2014</span>
+                        </a>
                     </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://www.counterview.net/2021/06/rural-gujarat-was-complacent-as-second.html" target="_blank" rel="noopener noreferrer">Rural Gujarat was 'complacent' as second wave took urban cities by storm <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> June 2021</span>
-                                <span class="talk-meta-divider"></span>
-                                <span class="talk-meta-item"><i class="far fa-user"></i> IMPRI</span>
-                            </div>
-                        </div>
+
+                    <!-- Middle Timeline Viewport-wrapper -->
+                    <div class="timeline-viewport-wrapper">
+                        <div class="citizen-timeline" id="timeline-dynamic-container">
+                            <div class="response-loader"><i class="fas fa-spinner fa-spin"></i> Loading published thoughts...</div>                        </div>
                     </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://www.counterview.net/2021/06/uncomfortable-question-is-it-house-of.html" target="_blank" rel="noopener noreferrer">Uncomfortable question: Is it a house of Narendra Modi or Prime Ministerial house? <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> June 2021</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://www.counterview.net/2021/05/unnoticed-underutilised-fridays-with.html" target="_blank" rel="noopener noreferrer">Unnoticed, underutilised? Fridays with Future: Registering youth voices, thoughts <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> May 2021</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://www.counterview.net/2021/05/uncomfortable-query-positivity-in.html" target="_blank" rel="noopener noreferrer">Uncomfortable query: Positivity in landscape of Heritage Architecture of Central Vista? <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> May 2021</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://www.counterview.net/2021/05/uncomfortable-question-more-power-to.html" target="_blank" rel="noopener noreferrer">Uncomfortable question: More power to Centre, or empower States for Covid care? <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> May 2021</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://www.counterview.net/2021/04/chhattisgarhs-apra-riverfront-imitates.html" target="_blank" rel="noopener noreferrer">Chhattisgarh’s Apra riverfront imitates Sabarmati: 'Devaluing' water, environment <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> April 2021</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://www.counterview.net/2021/04/misuse-of-position-will-president.html" target="_blank" rel="noopener noreferrer">Misuse of position: Will President, Supreme Court, Election Commission keep a check? <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> April 2021</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://www.counterview.net/2021/04/when-will-mother-india-have-more-of.html" target="_blank" rel="noopener noreferrer">When will Mother India have more of women as PM, home minister, other ministers? <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> April 2021</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://www.counterview.net/2021/03/where-are-values-in-indias-private.html" target="_blank" rel="noopener noreferrer">Where are the ‘values’ in India's private varsities that the 2 professors talk about? <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> March 2021</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://counterview.org/2021/01/29/observations-by-sustainable-architecture-students-on-rajpath-central-vista-avenue-project/" target="_blank" rel="noopener noreferrer">Observations on Rajpath-Central Vista Avenue Project <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> Jan 2021</span>
-                                <span class="talk-meta-divider"></span>
-                                <span class="talk-meta-item"><i class="far fa-user"></i> With Sustainable Arch Students (CURAJ)</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://counterview.org/?s=mansee+bal+bhargava" target="_blank" rel="noopener noreferrer">Lack of women representation reflects on patriarchal mindset <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> Dec 2020</span>
-                                <span class="talk-meta-divider"></span>
-                                <span class="talk-meta-item"><i class="far fa-user"></i> With TERI-SAS Students</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://www.indrastra.com/2020/08/OPEN-LETTER-Inputs-on-Draft-EIA-2020-by-SaciWATERs-006-08-2020-0018.html" target="_blank" rel="noopener noreferrer">Inputs on the Draft EIA 2020 from SaciWATERs <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> Oct 2020</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://counterview.org/2020/08/01/bihar-flood-with-coming-rains-and-continued-covid-19-pandemic/" target="_blank" rel="noopener noreferrer">Bihar flood with coming rains and continued COVID-19 pandemic <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> Aug 2020</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://counterview.org/2020/07/27/life-in-vertical-buildings-in-the-covid-lockdown-times-and-otherwise-is-not-good-for-sure/" target="_blank" rel="noopener noreferrer">Life in vertical buildings in the Covid-lockdown times is not good <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> July 2020</span>
-                                <span class="talk-meta-divider"></span>
-                                <span class="talk-meta-item"><i class="far fa-user"></i> With Sherayu Wadekar</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="thought-item-card">
-                        <div class="talk-info-block">
-                            <h4 class="talk-title-row"><a href="https://counterview.org/2020/07/23/would-niti-ayog-position-for-chief-economist-welcome-woman-leadership/" target="_blank" rel="noopener noreferrer">Would Niti Ayog position for chief economist welcome woman leadership? <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 3px;"></i></a></h4>
-                            <div class="talk-meta-row">
-                                <span class="talk-meta-item"><i class="far fa-calendar-alt"></i> July 2020</span>
-                            </div>
-                        </div>
+
+                    <!-- Right Newspaper Clippings Sidebar -->
+                    <div class="timeline-clippings-sidebar right-sidebar">
+                        <a href="Assests/clippings/2016_1.jpg" target="_blank" class="clipping-card">
+                            <img src="Assests/clippings/2016_1.jpg" alt="Newspaper Column 2016 Part I">
+                            <span class="clipping-year">2016 (I)</span>
+                        </a>
+                        <a href="Assests/clippings/2016_2.jpg" target="_blank" class="clipping-card">
+                            <img src="Assests/clippings/2016_2.jpg" alt="Newspaper Column 2016 Part II">
+                            <span class="clipping-year">2016 (II)</span>
+                        </a>
+                        <a href="Assests/clippings/2016_3.jpg" target="_blank" class="clipping-card">
+                            <img src="Assests/clippings/2016_3.jpg" alt="Newspaper Column 2016 Part III">
+                            <span class="clipping-year">2016 (III)</span>
+                        </a>
+                        <a href="Assests/clippings/2016_4.jpg" target="_blank" class="clipping-card">
+                            <img src="Assests/clippings/2016_4.jpg" alt="Newspaper Column 2016 Part IV">
+                            <span class="clipping-year">2016 (IV)</span>
+                        </a>
+                        <a href="Assests/clippings/found_guilty.jpg" target="_blank" class="clipping-card">
+                            <img src="Assests/clippings/found_guilty.jpg" alt="Newspaper Column: Found Guilty">
+                            <span class="clipping-year">Found Guilty</span>
+                        </a>
                     </div>
                 </div>
             </div>
 
             <!-- Tab Panel 2: Tributes -->
             <div class="response-pane" id="tributes">
-                <div class="tributes-row">
-                    <div class="tribute-card">
-                        <i class="fas fa-university"></i>
-                        <h3>Tribute to Elinor Ostrom</h3>
-                        <p>Honoring Nobel Laureate Prof. Elinor Ostrom and her monumental work on resource commons and institutional analysis.</p>
-                        <a href="http://www.mansee.in/wp-content/uploads/2018/07/2012.sep-16.-A-Tribute-to-Lin-Ostrom.pdf" target="_blank" rel="noopener noreferrer" class="download-btn">
-                            <i class="fas fa-file-pdf"></i> Read Tribute
-                        </a>
-                    </div>
-                    <div class="tribute-card">
-                        <i class="fas fa-leaf"></i>
-                        <h3>Tribute to Garrett Hardin</h3>
-                        <p>Reflecting on Garrett Hardin's 'Tragedy of the Commons' and establishing the real sustainable modus operandi for community governance.</p>
-                        <a href="http://www.mansee.in/wp-content/uploads/2018/01/A-chapter-called-Life-The-real-sustainable-modus-operandi.pdf" target="_blank" rel="noopener noreferrer" class="download-btn">
-                            <i class="fas fa-file-pdf"></i> Read Tribute
-                        </a>
-                    </div>
-                </div>
+                <div class="tributes-row" id="tributes-dynamic-container">
+                    <div class="response-loader"><i class="fas fa-spinner fa-spin"></i> Loading tributes...</div>                </div>
             </div>
 
             <!-- Tab Panel 3: Works in Progress -->
             <div class="response-pane" id="works">
-                <div class="works-progress-grid">
-                    <div class="work-progress-card">
-                        <i class="fas fa-gavel"></i>
-                        <span>Swaraj: Grassroots Politics</span>
-                    </div>
-                    <div class="work-progress-card">
-                        <i class="fas fa-coins"></i>
-                        <span>Demonetization & Monetization</span>
-                    </div>
-                    <div class="work-progress-card">
-                        <i class="fas fa-landmark"></i>
-                        <span>Governance and Politics</span>
-                    </div>
-                    <div class="work-progress-card">
-                        <i class="fas fa-id-card"></i>
-                        <span>Niradhaar Adhaar</span>
-                    </div>
-                    <div class="work-progress-card">
-                        <i class="fas fa-chart-line"></i>
-                        <span>The Gujarat Model</span>
-                    </div>
-                    <div class="work-progress-card">
-                        <i class="fas fa-flag"></i>
-                        <span>Saffron Fever</span>
-                    </div>
-                    <div class="work-progress-card">
-                        <i class="fas fa-sun"></i>
-                        <span>Achhe Din</span>
-                    </div>
-                    <div class="work-progress-card">
-                        <i class="fas fa-calendar-check"></i>
-                        <span>2022 Awaited</span>
-                    </div>
-                    <div class="work-progress-card">
-                        <i class="fas fa-book-open"></i>
-                        <span>Pedagogy</span>
-                    </div>
-                    <div class="work-progress-card">
-                        <i class="fas fa-globe-asia"></i>
-                        <span>Planet and People</span>
-                    </div>
-                    <div class="work-progress-card">
-                        <i class="fas fa-venus"></i>
-                        <span>Subtle Traits of Patriarchy</span>
-                    </div>
-                    <div class="work-progress-card">
-                        <i class="fas fa-water"></i>
-                        <span>Ecology, Water & Waste</span>
-                    </div>
-                </div>
+                <div class="works-progress-grid" id="works-dynamic-container">
+                    <div class="response-loader"><i class="fas fa-spinner fa-spin"></i> Loading works in progress...</div>                </div>
             </div>
         </div>
     </section>
 
     <script>
+        // Robust vanilla CSV parser to handle quotes, newlines, and escape characters
+        function parseCSV(text) {
+            const lines = [];
+            let row = [""];
+            let inQuotes = false;
+
+            for (let i = 0; i < text.length; i++) {
+                const c = text[i];
+                const next = text[i+1];
+                if (c === '"') {
+                    if (inQuotes && next === '"') {
+                        row[row.length - 1] += '"';
+                        i++;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (c === ',' && !inQuotes) {
+                    row.push('');
+                } else if ((c === '\r' || c === '\n') && !inQuotes) {
+                    if (c === '\r' && next === '\n') {
+                        i++;
+                    }
+                    lines.push(row);
+                    row = [''];
+                } else {
+                    row[row.length - 1] += c;
+                }
+            }
+            if (row.length > 1 || row[0] !== '') {
+                lines.push(row);
+            }
+            
+            const headers = lines[0].map(h => h.trim());
+            const data = [];
+            for (let i = 1; i < lines.length; i++) {
+                const r = lines[i];
+                if (r.length < headers.length) continue;
+                const obj = {};
+                headers.forEach((h, idx) => {
+                    let val = r[idx] ? r[idx].trim() : '';
+                    obj[h] = val;
+                });
+                data.push(obj);
+            }
+            return data;
+        }
+
+        function getIconForEntry(item, defaultIcon = "fas fa-spinner") {
+            if (item.Icon && item.Icon.trim() !== "") {
+                let icon = item.Icon.trim();
+                if (!icon.includes(" ")) {
+                    return `fas ${icon}`;
+                }
+                return icon;
+            }
+            
+            const textToSearch = ((item.Title || "") + " " + (item.Description || "")).toLowerCase();
+            
+            if (textToSearch.includes("ostrom") || textToSearch.includes("university") || textToSearch.includes("academy") || textToSearch.includes("institution")) {
+                return "fas fa-university";
+            }
+            if (textToSearch.includes("water") || textToSearch.includes("waste") || textToSearch.includes("ecology") || textToSearch.includes("lake") || textToSearch.includes("river")) {
+                return "fas fa-water";
+            }
+            if (textToSearch.includes("leaf") || textToSearch.includes("nature") || textToSearch.includes("environment")) {
+                return "fas fa-leaf";
+            }
+            if (textToSearch.includes("swaraj") || textToSearch.includes("politics") || textToSearch.includes("gavel")) {
+                return "fas fa-gavel";
+            }
+            if (textToSearch.includes("demonetization") || textToSearch.includes("monetization") || textToSearch.includes("coins") || textToSearch.includes("money") || textToSearch.includes("economy")) {
+                return "fas fa-coins";
+            }
+            if (textToSearch.includes("governance") || textToSearch.includes("landmark") || textToSearch.includes("government")) {
+                return "fas fa-landmark";
+            }
+            if (textToSearch.includes("adhaar") || textToSearch.includes("card") || textToSearch.includes("identity")) {
+                return "fas fa-id-card";
+            }
+            if (textToSearch.includes("model") || textToSearch.includes("chart") || textToSearch.includes("gujarat")) {
+                return "fas fa-chart-line";
+            }
+            if (textToSearch.includes("saffron") || textToSearch.includes("flag") || textToSearch.includes("fever")) {
+                return "fas fa-flag";
+            }
+            if (textToSearch.includes("sun") || textToSearch.includes("achhe din") || textToSearch.includes("din")) {
+                return "fas fa-sun";
+            }
+            if (textToSearch.includes("2022") || textToSearch.includes("awaited") || textToSearch.includes("calendar")) {
+                return "fas fa-calendar-check";
+            }
+            if (textToSearch.includes("pedagogy") || textToSearch.includes("book") || textToSearch.includes("open") || textToSearch.includes("education")) {
+                return "fas fa-book-open";
+            }
+            if (textToSearch.includes("planet") || textToSearch.includes("globe") || textToSearch.includes("earth") || textToSearch.includes("world")) {
+                return "fas fa-globe-asia";
+            }
+            if (textToSearch.includes("patriarchy") || textToSearch.includes("women") || textToSearch.includes("gender") || textToSearch.includes("venus")) {
+                return "fas fa-venus";
+            }
+            if (textToSearch.includes("tribute") || textToSearch.includes("ribbon") || textToSearch.includes("hardin")) {
+                return "fas fa-ribbon";
+            }
+            
+            return defaultIcon;
+        }
+
+        function renderThoughts(thoughts) {
+            const container = document.getElementById("timeline-dynamic-container");
+            if (!container) return;
+            container.innerHTML = "";
+
+            if (thoughts.length === 0) {
+                container.innerHTML = `<div class="response-loader" style="padding: 4rem 2rem; color: var(--text-secondary); font-family: var(--font-heading); text-align: center;"><i class="fas fa-info-circle" style="color: var(--accent); margin-right: 8px;"></i> No publications found matching your search.</div>`;
+                return;
+            }
+
+            let currentYear = null;
+            let currentGroup = null;
+
+            thoughts.forEach(item => {
+                const year = item.Year ? item.Year.trim() : "";
+                if (!year) return;
+
+                if (year !== currentYear) {
+                    currentYear = year;
+                    currentGroup = document.createElement("div");
+                    currentGroup.className = "timeline-year-group";
+                    currentGroup.setAttribute("data-year", year);
+                    
+                    const header = document.createElement("div");
+                    header.className = "timeline-year-header";
+                    header.textContent = year;
+                    currentGroup.appendChild(header);
+                    
+                    container.appendChild(currentGroup);
+                }
+
+                const timelineItem = document.createElement("div");
+                timelineItem.className = "timeline-item";
+
+                const dot = document.createElement("div");
+                dot.className = "timeline-dot";
+                timelineItem.appendChild(dot);
+
+                const content = document.createElement("div");
+                content.className = "timeline-content";
+
+                const meta = document.createElement("div");
+                meta.className = "timeline-meta";
+
+                const dateSpan = document.createElement("span");
+                dateSpan.className = "timeline-date";
+                dateSpan.innerHTML = `<i class="far fa-calendar-alt"></i> ${item.Date}`;
+                meta.appendChild(dateSpan);
+
+                if (item.Platform && item.Platform.trim() !== "") {
+                    const platformSpan = document.createElement("span");
+                    platformSpan.className = "timeline-author";
+                    platformSpan.innerHTML = `<i class="far fa-user"></i> ${item.Platform}`;
+                    meta.appendChild(platformSpan);
+                }
+                content.appendChild(meta);
+
+                const titleH4 = document.createElement("h4");
+                titleH4.className = "timeline-title";
+
+                if (item.Link && item.Link.trim() !== "") {
+                    const a = document.createElement("a");
+                    a.href = item.Link.trim();
+                    a.target = "_blank";
+                    a.rel = "noopener noreferrer";
+                    a.innerHTML = `${item.Title} <i class="fas fa-external-link-alt"></i>`;
+                    titleH4.appendChild(a);
+                } else {
+                    titleH4.textContent = item.Title;
+                }
+                content.appendChild(titleH4);
+                timelineItem.appendChild(content);
+
+                currentGroup.appendChild(timelineItem);
+            });
+        }
+
+        function renderTributes(tributes) {
+            const container = document.getElementById("tributes-dynamic-container");
+            if (!container) return;
+            container.innerHTML = "";
+
+            tributes.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "tribute-card";
+
+                const icon = document.createElement("i");
+                icon.className = getIconForEntry(item, "fas fa-ribbon");
+                card.appendChild(icon);
+
+                const h3 = document.createElement("h3");
+                h3.textContent = item.Title;
+                card.appendChild(h3);
+
+                const p = document.createElement("p");
+                p.textContent = item.Description;
+                card.appendChild(p);
+
+                if (item.Link && item.Link.trim() !== "") {
+                    const a = document.createElement("a");
+                    a.href = item.Link.trim();
+                    a.target = "_blank";
+                    a.rel = "noopener noreferrer";
+                    a.className = "download-btn";
+                    a.innerHTML = `<i class="fas fa-file-pdf"></i> Read Tribute`;
+                    card.appendChild(a);
+                }
+
+                container.appendChild(card);
+            });
+        }
+
+        function renderWorks(works) {
+            const container = document.getElementById("works-dynamic-container");
+            if (!container) return;
+            container.innerHTML = "";
+
+            works.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "work-progress-card";
+
+                const icon = document.createElement("i");
+                icon.className = getIconForEntry(item, "fas fa-spinner");
+                card.appendChild(icon);
+
+                const span = document.createElement("span");
+                span.textContent = item.Title;
+                card.appendChild(span);
+
+                container.appendChild(card);
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching logic
             const tabs = document.querySelectorAll('.response-tab-btn');
             const panes = document.querySelectorAll('.response-pane');
 
@@ -324,11 +408,9 @@
                 tab.addEventListener('click', function() {
                     const target = this.getAttribute('data-target');
 
-                    // Set active tab button
                     tabs.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
 
-                    // Set active pane
                     panes.forEach(p => {
                         if (p.id === target) {
                             p.classList.add('active');
@@ -338,6 +420,73 @@
                     });
                 });
             });
+
+            let allThoughts = [];
+
+            // Fetch and render CSV data
+            Promise.all([
+                fetch("data/response_thoughts.csv").then(r => {
+                    if (!r.ok) throw new Error("Failed to load thoughts");
+                    return r.text();
+                }),
+                fetch("data/response_tributes.csv").then(r => {
+                    if (!r.ok) throw new Error("Failed to load tributes");
+                    return r.text();
+                }),
+                fetch("data/response_works.csv").then(r => {
+                    if (!r.ok) throw new Error("Failed to load works");
+                    return r.text();
+                })
+            ]).then(([thoughtsCSV, tributesCSV, worksCSV]) => {
+                allThoughts = parseCSV(thoughtsCSV);
+                const tributes = parseCSV(tributesCSV);
+                const works = parseCSV(worksCSV);
+
+                renderThoughts(allThoughts);
+                renderTributes(tributes);
+                renderWorks(works);
+            }).catch(err => {
+                console.error("Error loading dynamic response data:", err);
+                const loaders = document.querySelectorAll(".response-loader");
+                loaders.forEach(loader => {
+                    loader.innerHTML = `<span style="color: var(--text-secondary);"><i class="fas fa-exclamation-triangle"></i> Failed to load database entries.</span>`;
+                });
+            });
+
+            // Search input listener
+            const searchInput = document.getElementById("timeline-search");
+            const clearSearchBtn = document.getElementById("clear-search");
+
+            if (searchInput) {
+                searchInput.addEventListener("input", function(e) {
+                    const query = e.target.value.toLowerCase().trim();
+                    
+                    if (clearSearchBtn) {
+                        clearSearchBtn.style.display = e.target.value.length > 0 ? "flex" : "none";
+                    }
+
+                    if (query === "") {
+                        renderThoughts(allThoughts);
+                    } else {
+                        const filtered = allThoughts.filter(item => {
+                            const title = (item.Title || "").toLowerCase();
+                            const year = (item.Year || "").toLowerCase();
+                            const platform = (item.Platform || "").toLowerCase();
+                            return title.includes(query) || year.includes(query) || platform.includes(query);
+                        });
+                        renderThoughts(filtered);
+                    }
+                });
+            }
+
+            if (clearSearchBtn && searchInput) {
+                clearSearchBtn.addEventListener("click", function() {
+                    searchInput.value = "";
+                    clearSearchBtn.style.display = "none";
+                    renderThoughts(allThoughts);
+                    searchInput.focus();
+                });
+            }
         });
     </script>
 
