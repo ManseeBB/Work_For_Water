@@ -397,7 +397,7 @@ function initMain() {
             
             const imgName = item.Image_Name ? item.Image_Name.trim() : '';
             const img = document.createElement('img');
-            img.src = imgName ? `teaching/${imgName}` : 'Assests/3rd.jpg';
+            img.src = imgName ? `teaching/${imgName}` : 'Assets/3rd.jpg';
             img.alt = item.Title.trim();
             img.className = 'card-image';
             imgWrapper.appendChild(img);
@@ -447,13 +447,15 @@ function initMain() {
             
             const link = item.Link ? item.Link.trim() : '';
             if (link) {
-                const a = document.createElement('a');
-                a.href = link;
-                a.target = '_blank';
-                a.rel = 'noopener noreferrer';
-                a.className = 'course-outline-btn';
-                a.innerHTML = `<i class="fas fa-file-pdf"></i> View Outline`;
-                cardContent.appendChild(a);
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'course-outline-btn';
+                btn.innerHTML = `<i class="fas fa-file-pdf"></i> View Outline`;
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openOutlineModal(link, item.Title.trim());
+                });
+                cardContent.appendChild(btn);
             } else {
                 const span = document.createElement('span');
                 span.className = 'course-outline-btn';
@@ -1109,7 +1111,7 @@ function renderMindMap(projects) {
         leftProjects.forEach(p => {
             html += `
                 <div class="floating-project">
-                    <img src="${p.ImageName && p.ImageName.startsWith('http') ? p.ImageName : 'Assests/' + (p.ImageName || 'default.jpg')}" class="proj-thumb" alt="${p.Title}">
+                    <img src="${p.ImageName && p.ImageName.startsWith('http') ? p.ImageName : 'Assets/' + (p.ImageName || 'default.jpg')}" class="proj-thumb" alt="${p.Title}">
                     <div class="proj-text">
                         <h4>${p.Title}</h4>
                         <p>${p.Description} ${p.Link ? `<br><a href="${p.Link}" target="_blank" class="external-link" style="margin-top:5px; display:inline-block; color:var(--accent);">Visit Link ➔</a>` : ''}</p>
@@ -1152,7 +1154,7 @@ function renderMindMap(projects) {
         rightProjects.forEach(p => {
             html += `
                 <div class="floating-project">
-                    <img src="${p.ImageName && p.ImageName.startsWith('http') ? p.ImageName : 'Assests/' + (p.ImageName || 'default.jpg')}" class="proj-thumb" alt="${p.Title}">
+                    <img src="${p.ImageName && p.ImageName.startsWith('http') ? p.ImageName : 'Assets/' + (p.ImageName || 'default.jpg')}" class="proj-thumb" alt="${p.Title}">
                     <div class="proj-text">
                         <h4>${p.Title}</h4>
                         <p>${p.Description} ${p.Link ? `<br><a href="${p.Link}" target="_blank" class="external-link" style="margin-top:5px; display:inline-block; color:var(--accent);">Visit Link ➔</a>` : ''}</p>
@@ -1727,4 +1729,71 @@ function escapeHtml(unsafe) {
          .replace(/"/g, "&quot;")
          .replace(/'/g, "&#039;");
 }
+
+/* View-Only PDF Modal Handlers */
+function openOutlineModal(link, title) {
+    const modal = document.getElementById('outlineModal');
+    const modalTitle = document.getElementById('outlineModalTitle');
+    const iframe = document.getElementById('outlineIframe');
+    
+    if (!modal || !iframe) return;
+    
+    modalTitle.textContent = title + " - Course Outline";
+    
+    // Append toolbar=0 to request browsers to hide PDF download toolbar
+    const viewerLink = link + '#toolbar=0&navpanes=0&scrollbar=0';
+    iframe.src = viewerLink;
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    
+    // Disable context menu inside the modal to prevent saving page/links
+    modal.addEventListener('contextmenu', preventDefaultAction);
+}
+
+function preventDefaultAction(e) {
+    e.preventDefault();
+}
+
+function closeOutlineModal() {
+    const modal = document.getElementById('outlineModal');
+    const iframe = document.getElementById('outlineIframe');
+    
+    if (!modal || !iframe) return;
+    
+    modal.classList.remove('active');
+    document.body.style.overflow = ''; // Restore background scrolling
+    
+    // Reset iframe src so the content stops loading/rendering in the background
+    iframe.src = '';
+    
+    modal.removeEventListener('contextmenu', preventDefaultAction);
+}
+
+// Setup Close Handlers when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const closeBtn = document.getElementById('closeOutlineModal');
+    const modal = document.getElementById('outlineModal');
+    
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeOutlineModal);
+    }
+    
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            // Close if clicking outside the modal container (on backdrop)
+            if (e.target === modal) {
+                closeOutlineModal();
+            }
+        });
+    }
+    
+    // Close on Escape key press
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+            closeOutlineModal();
+        }
+    });
+});
+
 

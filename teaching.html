@@ -63,7 +63,7 @@
                                     <a href="travel.html" class="dim-link ">Travel</a>
                                 </nav>
                             </div>
-<header class="inner-hero" style="background-image: linear-gradient(to bottom, rgba(3,7,18,0.7), rgba(3,7,18,1)), url('Assests/3rd.jpg');">
+<header class="inner-hero" style="background-image: linear-gradient(to bottom, rgba(3,7,18,0.7), rgba(3,7,18,1)), url('Assets/3rd.jpg');">
         <div class="hero-content">
             <h1 class="reveal-text">Teaching</h1>
             <p class="subtitle reveal-text delay-1">Educating the next generation of architects and planners.</p>
@@ -437,6 +437,21 @@
             <p>&copy; 2026 Mansee Bal Bhargava. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <!-- View-Only Course Outline Modal -->
+    <div id="outlineModal" class="pdf-modal">
+        <div class="pdf-modal-container">
+            <div class="pdf-modal-header">
+                <h3 id="outlineModalTitle">Course Outline</h3>
+                <button class="pdf-modal-close-btn" id="closeOutlineModal" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="pdf-iframe-wrapper">
+                <div class="pdf-click-blocker"></div>
+                <iframe id="outlineIframe" src="" type="application/pdf"></iframe>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

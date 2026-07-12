@@ -58,7 +58,7 @@
 <a class="dim-link" href="travel.html">Travel</a>
 </nav>
 </div>
-<header class="inner-hero" style="background-image: linear-gradient(to bottom, rgba(3,7,18,0.7), rgba(3,7,18,1)), url('Assests/6th.jpg');">
+<header class="inner-hero" style="background-image: linear-gradient(to bottom, rgba(3,7,18,0.7), rgba(3,7,18,1)), url('Assets/6th.jpg');">
 <div class="hero-content">
 <h1 class="reveal-text">Talks</h1>
 <p class="subtitle reveal-text delay-1">Speaking engagements and public discourses.</p>
@@ -227,7 +227,7 @@
                         posterUrl = posterUrl.replace('http://', 'https://');
                     }
                     if (posterUrl.startsWith('gdrive_img_')) {
-                        posterUrl = `Assests/Talks/${posterUrl}`;
+                        posterUrl = `Assets/Talks/${posterUrl}`;
                     }
                     
                     const posterBtn = document.createElement('a');
@@ -715,24 +715,24 @@
             const FLYERS_CSV_URL = "data/flyers_database.csv";
             const TALKS_CSV_URL = "data/talks_database.csv";
             const fallbackFlyers = [
-                { title: "All water is holy water...", url: "Assests/Talks/2021.July_.Green-Verandah.jpg" },
-                { title: "Urban Lakes as a Socio-Ecological System", url: "Assests/Talks/2021.July_.TISS_.jpg" },
-                { title: "The Climate Convo with Hemang Vellore", url: "Assests/Talks/climate-convo.jpg" },
-                { title: "The 'Ds' of Water Conservation & Management", url: "Assests/Talks/2021.June_.Ds_.jpg" },
-                { title: "What will it take to make Indian Cities Water Resilient?", url: "Assests/Talks/2021.June_.Jal_.jpg" },
-                { title: "Satyagraha", url: "Assests/Talks/2021.May_Satyagraha.jpg" },
-                { title: "Interactive Workshop on Water Management", url: "Assests/Talks/2021.April_Consulate.jpg" },
-                { title: "Live Research projects Workshop", url: "Assests/Talks/PHOTO-2021-02-13-19-01-33.jpg" },
-                { title: "A Social-Ecological Approach to Urban Lake Governance and Sustainability in India", url: "Assests/Talks/PHOTO-2021-02-01-11-51-53.jpg" },
-                { title: "SDG06 and Ways to achieve by the Youth", url: "Assests/Talks/2020.Dec_SDG06.jpg" },
-                { title: "Time has Arrived for Women to Lead", url: "Assests/Talks/APGFWN.jpg" },
-                { title: "My Experiment with Learning, Loving, and Living the Urban Lakes of India", url: "Assests/Talks/CEPT4.jpg" },
-                { title: "The Future Planning of cities after Corona", url: "Assests/Talks/Netherlands.jpg" },
-                { title: "Interactive Water Governance", url: "Assests/Talks/CEPT3.jpg" },
-                { title: "Rebuild our Lives by Social Entrepreneurship", url: "Assests/Talks/Sdps.jpg" },
-                { title: "Water Governance", url: "Assests/Talks/CEPT2.jpg" },
-                { title: "Planning for the New Normal", url: "Assests/Talks/ITPI-Srilanka.jpg" },
-                { title: "The politics of water development in India", url: "Assests/Talks/RV-College.jpg" }
+                { title: "All water is holy water...", url: "Assets/Talks/2021.July_.Green-Verandah.jpg" },
+                { title: "Urban Lakes as a Socio-Ecological System", url: "Assets/Talks/2021.July_.TISS_.jpg" },
+                { title: "The Climate Convo with Hemang Vellore", url: "Assets/Talks/climate-convo.jpg" },
+                { title: "The 'Ds' of Water Conservation & Management", url: "Assets/Talks/2021.June_.Ds_.jpg" },
+                { title: "What will it take to make Indian Cities Water Resilient?", url: "Assets/Talks/2021.June_.Jal_.jpg" },
+                { title: "Satyagraha", url: "Assets/Talks/2021.May_Satyagraha.jpg" },
+                { title: "Interactive Workshop on Water Management", url: "Assets/Talks/2021.April_Consulate.jpg" },
+                { title: "Live Research projects Workshop", url: "Assets/Talks/PHOTO-2021-02-13-19-01-33.jpg" },
+                { title: "A Social-Ecological Approach to Urban Lake Governance and Sustainability in India", url: "Assets/Talks/PHOTO-2021-02-01-11-51-53.jpg" },
+                { title: "SDG06 and Ways to achieve by the Youth", url: "Assets/Talks/2020.Dec_SDG06.jpg" },
+                { title: "Time has Arrived for Women to Lead", url: "Assets/Talks/APGFWN.jpg" },
+                { title: "My Experiment with Learning, Loving, and Living the Urban Lakes of India", url: "Assets/Talks/CEPT4.jpg" },
+                { title: "The Future Planning of cities after Corona", url: "Assets/Talks/Netherlands.jpg" },
+                { title: "Interactive Water Governance", url: "Assets/Talks/CEPT3.jpg" },
+                { title: "Rebuild our Lives by Social Entrepreneurship", url: "Assets/Talks/Sdps.jpg" },
+                { title: "Water Governance", url: "Assets/Talks/CEPT2.jpg" },
+                { title: "Planning for the New Normal", url: "Assets/Talks/ITPI-Srilanka.jpg" },
+                { title: "The politics of water development in India", url: "Assets/Talks/RV-College.jpg" }
             ];
 
             let globalFlyersList = [];
@@ -747,7 +747,7 @@
                     const parsedFlyers = results.data.map(item => {
                         return {
                             title: item.Title || '',
-                            url: item.Drive_Link ? `Assests/Talks/${item.Drive_Link}` : ''
+                            url: item.Drive_Link ? `Assets/Talks/${item.Drive_Link}` : ''
                         };
                     }).filter(item => item.url !== '');
                     

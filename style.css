@@ -757,39 +757,39 @@ section {
 
 /* Unique backgrounds for cards using natural photos */
 .practice-bg {
-    background-image: url('Assests/1st.jpg');
+    background-image: url('Assets/1st.jpg');
 }
 
 .research-bg {
-    background-image: url('Assests/2nd.jpg');
+    background-image: url('Assets/2nd.jpg');
 }
 
 .teaching-bg {
-    background-image: url('Assests/3rd.jpg');
+    background-image: url('Assets/3rd.jpg');
 }
 
 .purpose-bg {
-    background-image: url('Assests/4th.jpg');
+    background-image: url('Assets/4th.jpg');
 }
 
 .response-bg {
-    background-image: url('Assests/5th.jpg');
+    background-image: url('Assets/5th.jpg');
 }
 
 .talks-bg {
-    background-image: url('Assests/6th.jpg');
+    background-image: url('Assets/6th.jpg');
 }
 
 .people-bg {
-    background-image: url('Assests/7th.jpg');
+    background-image: url('Assets/7th.jpg');
 }
 
 .resume-bg {
-    background-image: url('Assests/8th.jpg');
+    background-image: url('Assets/8th.jpg');
 }
 
 .travel-bg {
-    background-image: url('Assests/9th.jpg');
+    background-image: url('Assets/9th.jpg');
 }
 
 /* Connect Section */
@@ -2324,6 +2324,9 @@ footer p {
     transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     margin-top: 0.3rem;
     will-change: transform, background, border-color, box-shadow;
+    cursor: pointer;
+    font-family: inherit;
+    outline: none;
 }
 
 .teaching-card.c-blue .course-outline-btn:hover {
@@ -7793,5 +7796,111 @@ body.flyers-grid-mode .flyers-grid-view {
     color: var(--text-secondary);
     border-bottom-color: var(--text-secondary);
 }
+
+/* View-Only PDF Modal */
+.pdf-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(3, 7, 18, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.pdf-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.pdf-modal-container {
+    width: 90%;
+    max-width: 1000px;
+    height: 85vh;
+    background: rgba(17, 24, 39, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pdf-modal.active .pdf-modal-container {
+    transform: scale(1);
+}
+
+.pdf-modal-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(3, 7, 18, 0.4);
+}
+
+.pdf-modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+}
+
+.pdf-modal-close-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.pdf-modal-close-btn:hover {
+    color: var(--accent);
+    transform: rotate(90deg);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.pdf-iframe-wrapper {
+    flex: 1;
+    position: relative;
+    background: #111;
+    overflow: hidden;
+}
+
+.pdf-iframe-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.pdf-click-blocker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    pointer-events: auto;
+    z-index: 10;
+    background: transparent;
+}
+
 
 

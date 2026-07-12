@@ -1,7 +1,7 @@
 Backup/
-Assests/
+Assets/
 teaching/
-Mansee_Custom_Theme/Assests/
+Mansee_Custom_Theme/Assets/
 __pycache__/
 *.pyc
 .DS_Store
