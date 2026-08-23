@@ -1,10 +1,8 @@
 Backup/
-Assets/
-teaching/
 Mansee_Custom_Theme/Assets/
 __pycache__/
 *.pyc
 .DS_Store
 Thumbs.db
-data/
+
 
