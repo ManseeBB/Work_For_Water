@@ -397,7 +397,7 @@ function initMain() {
             
             const imgName = item.Image_Name ? item.Image_Name.trim() : '';
             const img = document.createElement('img');
-            img.src = imgName ? `teaching/${imgName}` : 'Assets/3rd.jpg';
+            img.src = imgName ? `Assets/teaching/${imgName}` : 'Assets/3rd.jpg';
             img.alt = item.Title.trim();
             img.className = 'card-image';
             imgWrapper.appendChild(img);

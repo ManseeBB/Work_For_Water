@@ -38,7 +38,7 @@ CONFIGS = [
             "Title": lambda val: len(val.strip()) > 0
         },
         "image_column": "Image_Name",
-        "image_dest_dir": "teaching"
+        "image_dest_dir": "Assets/teaching"
     },
     {
         "name": "teaching_credentials",
