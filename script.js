@@ -397,9 +397,21 @@ function initMain() {
             
             const imgName = item.Image_Name ? item.Image_Name.trim() : '';
             const img = document.createElement('img');
-            img.src = imgName ? `Assets/teaching/${imgName}` : 'Assets/3rd.jpg';
-            img.alt = item.Title.trim();
+            let imgSrc = 'Assets/3rd.jpg';
+            if (imgName) {
+                if (imgName.startsWith('http://') || imgName.startsWith('https://') || imgName.startsWith('/') || imgName.startsWith('Assets/')) {
+                    imgSrc = imgName;
+                } else {
+                    imgSrc = `Assets/teaching/${imgName}`;
+                }
+            }
+            img.src = imgSrc;
+            img.alt = item.Title ? item.Title.trim() : 'Teaching Card';
             img.className = 'card-image';
+            img.onerror = function() {
+                this.onerror = null;
+                this.src = 'Assets/3rd.jpg';
+            };
             imgWrapper.appendChild(img);
             card.appendChild(imgWrapper);
             
