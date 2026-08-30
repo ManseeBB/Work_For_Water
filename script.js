@@ -9,7 +9,7 @@ function initMain() {
         gsap.set(".about-glass-panel", { y: 120, opacity: 0 }); // Initial submerged state
 
         ScrollTrigger.create({
-            trigger: "#about",
+            trigger: "#awards",
             start: "top 85%", // Triggers when the top of the section hits 85% down the viewport
             onEnter: () => gsap.to(".about-glass-panel", {
                 y: 0,
@@ -130,7 +130,7 @@ function initMain() {
                 gsap.killTweensOf(".bento-card");
                 gsap.set(".bento-card", { y: 0, opacity: 1, clearProps: "transform,opacity" });
                 document.querySelectorAll(".bento-card").forEach(el => el.classList.add('hover-ready'));
-            } else if (targetId.includes('#about')) {
+            } else if (targetId.includes('#about') || targetId.includes('#awards')) {
                 gsap.killTweensOf(".about-glass-panel");
                 gsap.set(".about-glass-panel", { y: 0, opacity: 1 });
             }
