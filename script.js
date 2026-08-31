@@ -359,21 +359,35 @@ function initMain() {
     const nextBtn = document.querySelector('.carousel-nav-btn.next');
     const viewport = document.querySelector('.carousel-viewport');
 
-    const TEACHING_CSV_URL = "data/teaching_slideshow.csv";
+    const TEACHING_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRSppB_DmolzMha_PoBvwvSGkmZLoNBksyGVO63Xjch7n-m__ywR7MNR5P8ZJwrbanYy0KW2fV_afar/pub?gid=1903645478&single=true&output=csv";
+    const TEACHING_CSV_FALLBACK = "data/teaching_slideshow.csv";
 
     if (track && typeof gsap !== 'undefined' && typeof Papa !== 'undefined') {
-        const cacheBuster = `?t=${new Date().getTime()}`;
-        Papa.parse(TEACHING_CSV_URL + cacheBuster, {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            complete: function(results) {
-                renderTeachingCards(results.data);
-            },
-            error: function(err) {
-                console.error("Error loading teaching CSV from Google Sheets:", err);
-            }
-        });
+        const sep = TEACHING_CSV_URL.includes('?') ? '&' : '?';
+        const cacheBuster = `${sep}_t=${new Date().getTime()}`;
+        
+        function fetchTeachingCSV(targetUrl, isFallback = false) {
+            Papa.parse(targetUrl + (isFallback ? '' : cacheBuster), {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if (results.data && results.data.length > 0) {
+                        renderTeachingCards(results.data);
+                    } else if (!isFallback) {
+                        fetchTeachingCSV(TEACHING_CSV_FALLBACK, true);
+                    }
+                },
+                error: function(err) {
+                    console.warn("Error loading teaching CSV, attempting fallback:", err);
+                    if (!isFallback) {
+                        fetchTeachingCSV(TEACHING_CSV_FALLBACK, true);
+                    }
+                }
+            });
+        }
+        
+        fetchTeachingCSV(TEACHING_CSV_URL);
     }
 
     function renderTeachingCards(data) {
@@ -813,22 +827,36 @@ function initMain() {
     }
 
     // Dynamic Academic Credentials from Google Sheets
-    const CREDENTIALS_CSV_URL = "data/teaching_credentials.csv";
+    const CREDENTIALS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT5Lxb9oeEHUnQ0wrUcUDlfWR3izrn_zr3La_vRBegvgLOuIMEWeNn6MB7pZhWCROHudg_g5eaKjJJW/pub?gid=566631475&single=true&output=csv";
+    const CREDENTIALS_CSV_FALLBACK = "data/teaching_credentials.csv";
 
     const tabsTrack = document.querySelector('.teaching-tabs');
     if (tabsTrack && typeof Papa !== 'undefined') {
-        const cacheBuster = `?t=${new Date().getTime()}`;
-        Papa.parse(CREDENTIALS_CSV_URL + cacheBuster, {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            complete: function(results) {
-                renderCredentials(results.data);
-            },
-            error: function(err) {
-                console.error("Error loading academic credentials CSV from Google Sheets:", err);
-            }
-        });
+        const sep = CREDENTIALS_CSV_URL.includes('?') ? '&' : '?';
+        const cacheBuster = `${sep}_t=${new Date().getTime()}`;
+        
+        function fetchCredentialsCSV(targetUrl, isFallback = false) {
+            Papa.parse(targetUrl + (isFallback ? '' : cacheBuster), {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if (results.data && results.data.length > 0) {
+                        renderCredentials(results.data);
+                    } else if (!isFallback) {
+                        fetchCredentialsCSV(CREDENTIALS_CSV_FALLBACK, true);
+                    }
+                },
+                error: function(err) {
+                    console.warn("Error loading academic credentials CSV, attempting fallback:", err);
+                    if (!isFallback) {
+                        fetchCredentialsCSV(CREDENTIALS_CSV_FALLBACK, true);
+                    }
+                }
+            });
+        }
+        
+        fetchCredentialsCSV(CREDENTIALS_CSV_URL);
     }
 
     function renderCredentials(data) {
@@ -1039,8 +1067,9 @@ function toggleReveal(btn, id) {
 // DYNAMIC MIND-MAP GENERATION FROM CSV (Google Sheets)
 // ---------------------------------------------------------
 
-// Change this URL to your Google Sheets Published CSV link later!
-const SPREADSHEET_CSV_URL = "data/projects_database.csv";
+// Published Google Sheets CSV URL for Practice Tab & Local Fallback
+const SPREADSHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTz8DEv50SYuwwCTd_vxL7NzsWt0Ir_4y1QWS7qSevFm2N7iiUb5k0pICmCvhvCpS3Jgk8Fc59ovWfz/pub?output=csv";
+const SPREADSHEET_CSV_FALLBACK = "data/projects_database.csv";
 
 const CATEGORY_MAP = {
     "Institutional": { num: "01", icon: "fa-university", color: "c-blue", title: "Institutional<br>& Campus" },
@@ -1055,21 +1084,34 @@ function initMindMap() {
     if (!container) return; // Only run on practice.html
 
     if (typeof Papa !== 'undefined') {
-        const cacheBuster = `?t=${new Date().getTime()}`;
-        Papa.parse(SPREADSHEET_CSV_URL + cacheBuster, {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            complete: function(results) {
-                renderMindMap(results.data);
-                // Draw connections after DOM has rendered
-                setTimeout(drawConnections, 100);
-            },
-            error: function(err) {
-                console.error("Error fetching CSV:", err);
-                container.innerHTML = "<p style='color:white; text-align:center;'>Error loading projects. Please check the CSV link.</p>";
-            }
-        });
+        const sep = SPREADSHEET_CSV_URL.includes('?') ? '&' : '?';
+        const cacheBuster = `${sep}_t=${new Date().getTime()}`;
+
+        function fetchMindMapCSV(targetUrl, isFallback = false) {
+            Papa.parse(targetUrl + (isFallback ? '' : cacheBuster), {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if (results.data && results.data.length > 0) {
+                        renderMindMap(results.data);
+                        setTimeout(drawConnections, 100);
+                    } else if (!isFallback) {
+                        fetchMindMapCSV(SPREADSHEET_CSV_FALLBACK, true);
+                    }
+                },
+                error: function(err) {
+                    console.warn("Error fetching live mindmap CSV from Google Sheets, trying fallback:", err);
+                    if (!isFallback) {
+                        fetchMindMapCSV(SPREADSHEET_CSV_FALLBACK, true);
+                    } else {
+                        container.innerHTML = "<p style='color:white; text-align:center;'>Error loading projects. Please check the CSV link.</p>";
+                    }
+                }
+            });
+        }
+
+        fetchMindMapCSV(SPREADSHEET_CSV_URL);
     }
 
     window.addEventListener('resize', () => {
@@ -1256,7 +1298,8 @@ document.addEventListener('click', (e) => {
 // DYNAMIC RESEARCH PAGE 3D SEPTAGON TUNNEL & REAL-TIME SEARCH
 // ---------------------------------------------------------
 
-const RESEARCH_CSV_URL = "data/research.csv";
+const RESEARCH_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQysLY9yKZ4NEaFbuDBDosAPlth1YzoKEH1Wj7O-VGLarH5_QRz93Onu7QH88vUnLJow8DX0eOVuj7T/pub?output=csv";
+const RESEARCH_CSV_FALLBACK = "data/research.csv";
 const RESEARCH_CACHE_KEY = "mbb_publications_data";
 
 // Map category names from CSV to sidebar navigation buttons and details panels
@@ -1373,63 +1416,76 @@ function initResearch() {
     
     // Fetch fresh data from CSV
     if (typeof Papa !== 'undefined') {
-        const cacheBuster = `?t=${new Date().getTime()}`;
-        Papa.parse(RESEARCH_CSV_URL + cacheBuster, {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            complete: function(results) {
-                const freshData = results.data;
-                
-                if (freshData && freshData.length > 0) {
-                    const serializedFresh = JSON.stringify(freshData);
-                    if (serializedFresh !== cachedData) {
-                        localStorage.setItem(RESEARCH_CACHE_KEY, serializedFresh);
-                    }
-                    allPublications = freshData;
-                    renderShowcase(allPublications, currentCategoryIndex);
-                }
+        const sep = RESEARCH_CSV_URL.includes('?') ? '&' : '?';
+        const cacheBuster = `${sep}_t=${new Date().getTime()}`;
 
-                // Hide loader and show content now that everything is loaded correctly
-                const latestLoadingWrapper = document.getElementById("research-loading-wrapper");
-                const latestGridSection = document.getElementById("publications-grid-section");
-                if (latestLoadingWrapper) latestLoadingWrapper.style.display = "none";
-                if (latestGridSection) latestGridSection.style.display = "block";
-
-                // Re-trigger search filter if there is active search term
-                if (searchInput && searchInput.value.trim()) {
-                    handleSearch(searchInput.value, allPublications, resultsCount, clearBtn);
-                } else {
-                    if (resultsCount) {
-                        const items = allPublications.filter(p => p.Category === RESEARCH_CATEGORIES[currentCategoryIndex].name);
-                        resultsCount.textContent = `${items.length} entries`;
+        function fetchResearchCSV(targetUrl, isFallback = false) {
+            Papa.parse(targetUrl + (isFallback ? '' : cacheBuster), {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    const freshData = results.data;
+                    
+                    if (freshData && freshData.length > 0) {
+                        const serializedFresh = JSON.stringify(freshData);
+                        if (serializedFresh !== cachedData) {
+                            localStorage.setItem(RESEARCH_CACHE_KEY, serializedFresh);
+                        }
+                        allPublications = freshData;
+                        renderShowcase(allPublications, currentCategoryIndex);
+                    } else if (!isFallback) {
+                        fetchResearchCSV(RESEARCH_CSV_FALLBACK, true);
+                        return;
                     }
-                }
-            },
-            error: function(err) {
-                console.error("Error fetching publications CSV:", err);
-                
-                // Fallback to cache if we have cached data parsed in memory
-                if (allPublications && allPublications.length > 0) {
+
+                    // Hide loader and show content now that everything is loaded correctly
                     const latestLoadingWrapper = document.getElementById("research-loading-wrapper");
                     const latestGridSection = document.getElementById("publications-grid-section");
                     if (latestLoadingWrapper) latestLoadingWrapper.style.display = "none";
                     if (latestGridSection) latestGridSection.style.display = "block";
-                    return;
-                }
 
-                const latestLoadingWrapper = document.getElementById("research-loading-wrapper");
-                if (latestLoadingWrapper) {
-                    latestLoadingWrapper.innerHTML = `
-                        <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; color: #ff5a5f; margin-bottom: 1rem;"></i>
-                        <p style="color: rgba(255,255,255,0.6); font-family: var(--font-heading);">Failed to load publications database.</p>
-                    `;
+                    // Re-trigger search filter if there is active search term
+                    if (searchInput && searchInput.value.trim()) {
+                        handleSearch(searchInput.value, allPublications, resultsCount, clearBtn);
+                    } else {
+                        if (resultsCount) {
+                            const items = allPublications.filter(p => p.Category === RESEARCH_CATEGORIES[currentCategoryIndex].name);
+                            resultsCount.textContent = `${items.length} entries`;
+                        }
+                    }
+                },
+                error: function(err) {
+                    console.warn("Error fetching publications CSV, trying fallback:", err);
+                    if (!isFallback) {
+                        fetchResearchCSV(RESEARCH_CSV_FALLBACK, true);
+                        return;
+                    }
+
+                    // Fallback to cache if we have cached data parsed in memory
+                    if (allPublications && allPublications.length > 0) {
+                        const latestLoadingWrapper = document.getElementById("research-loading-wrapper");
+                        const latestGridSection = document.getElementById("publications-grid-section");
+                        if (latestLoadingWrapper) latestLoadingWrapper.style.display = "none";
+                        if (latestGridSection) latestGridSection.style.display = "block";
+                        return;
+                    }
+
+                    const latestLoadingWrapper = document.getElementById("research-loading-wrapper");
+                    if (latestLoadingWrapper) {
+                        latestLoadingWrapper.innerHTML = `
+                            <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; color: #ff5a5f; margin-bottom: 1rem;"></i>
+                            <p style="color: rgba(255,255,255,0.6); font-family: var(--font-heading);">Failed to load publications database.</p>
+                        `;
+                    }
+                    if (!allPublications.length && resultsCount) {
+                        resultsCount.textContent = "Error loading publications.";
+                    }
                 }
-                if (!allPublications.length && resultsCount) {
-                    resultsCount.textContent = "Error loading publications.";
-                }
-            }
-        });
+            });
+        }
+
+        fetchResearchCSV(RESEARCH_CSV_URL);
     }
 
     // Set up search event listeners

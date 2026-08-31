@@ -200,44 +200,57 @@ class TravelMapController {
     }
 
     loadCSVData() {
-        const csvPath = 'data/travel_database.csv';
-        const separator = csvPath.includes('?') ? '&' : '?';
-        const cacheBuster = `${separator}t=${new Date().getTime()}`;
+        const liveCsvPath = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRe_Apew1QOi1mLUa91ZO8G0NpKX7S2c1puCQRI4IXe4Qdp01tGzM82e0DKTbDneNQpJydAwmZzGJuJ/pub?gid=0&single=true&output=csv';
+        const fallbackCsvPath = 'data/travel_database.csv';
 
         if (typeof Papa === 'undefined') {
             console.error("PapaParse is missing!");
             return;
         }
 
-        Papa.parse(csvPath + cacheBuster, {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            complete: (results) => {
-                this.travelRegistry = results.data.map(row => ({
-                    type: row.Type ? row.Type.trim() : "Lecture",
-                    city: row.City ? row.City.trim() : "",
-                    country: row.Country ? row.Country.trim() : "",
-                    year: row.Year ? row.Year.trim() : "",
-                    institution: row.Institution ? row.Institution.trim() : "",
-                    title: row.Title ? row.Title.trim() : "",
-                    description: row.Description ? row.Description.trim() : "",
-                    link: row.Link ? row.Link.trim() : "",
-                    lat: parseFloat(row.Latitude),
-                    lng: parseFloat(row.Longitude)
-                })).filter(item => !isNaN(item.lat) && !isNaN(item.lng));
+        const fetchTravelCSV = (targetPath, isFallback = false) => {
+            const separator = targetPath.includes('?') ? '&' : '?';
+            const cacheBuster = isFallback ? '' : `${separator}_t=${new Date().getTime()}`;
 
-                this.filteredData = [...this.travelRegistry];
+            Papa.parse(targetPath + cacheBuster, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: (results) => {
+                    if (results.data && results.data.length > 0) {
+                        this.travelRegistry = results.data.map(row => ({
+                            type: row.Type ? row.Type.trim() : "Lecture",
+                            city: row.City ? row.City.trim() : "",
+                            country: row.Country ? row.Country.trim() : "",
+                            year: row.Year ? row.Year.trim() : "",
+                            institution: row.Institution ? row.Institution.trim() : "",
+                            title: row.Title ? row.Title.trim() : "",
+                            description: row.Description ? row.Description.trim() : "",
+                            link: row.Link ? row.Link.trim() : "",
+                            lat: parseFloat(row.Latitude),
+                            lng: parseFloat(row.Longitude)
+                        })).filter(item => !isNaN(item.lat) && !isNaN(item.lng));
 
-                this.renderMarkers();
-                this.updateStats(true);
-                this.renderTable();
-                this.populateLocationDropdown();
-            },
-            error: (err) => {
-                console.error("Error loading travels CSV file:", err);
-            }
-        });
+                        this.filteredData = [...this.travelRegistry];
+
+                        this.renderMarkers();
+                        this.updateStats(true);
+                        this.renderTable();
+                        this.populateLocationDropdown();
+                    } else if (!isFallback) {
+                        fetchTravelCSV(fallbackCsvPath, true);
+                    }
+                },
+                error: (err) => {
+                    console.warn("Error fetching travel CSV from live Sheet, trying fallback:", err);
+                    if (!isFallback) {
+                        fetchTravelCSV(fallbackCsvPath, true);
+                    }
+                }
+            });
+        };
+
+        fetchTravelCSV(liveCsvPath);
     }
 
     // ---------------------------------------------------------

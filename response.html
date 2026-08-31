@@ -423,20 +423,37 @@
 
             let allThoughts = [];
 
+            const THOUGHTS_LIVE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSV7oHS8lmZ8fcsShZTQLOiylOprk26r2M7wfwwNYta8cwzGc5ATq7rewNSmhQyjYqrAYs7gyUq0K0x/pub?gid=2083656055&single=true&output=csv";
+            const THOUGHTS_FALLBACK = "data/response_thoughts.csv";
+
+            const TRIBUTES_LIVE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBcZszMPe6QuEuv8GaRJM4eZAarXgeAsdtHwNk_BzVu0eVnd9XVAn6-H65QTbgR2M7e3gv7bSqC3tV/pub?gid=533639586&single=true&output=csv";
+            const TRIBUTES_FALLBACK = "data/response_tributes.csv";
+
+            const WORKS_LIVE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSQL_s1P1DjxwiUQYLnS-iehjD4rHQcNX0xXtjm740Fv4mP9JKf7HxakFuPe_Gdr_0XFLjkAtTsUtA5/pub?gid=434141343&single=true&output=csv";
+            const WORKS_FALLBACK = "data/response_works.csv";
+
+            function fetchWithFallback(liveUrl, fallbackUrl) {
+                const sep = liveUrl.includes('?') ? '&' : '?';
+                const buster = `${sep}_t=${Date.now()}`;
+                return fetch(liveUrl + buster)
+                    .then(r => {
+                        if (!r.ok) throw new Error("Failed live fetch");
+                        return r.text();
+                    })
+                    .catch(err => {
+                        console.warn(`Live fetch failed for ${liveUrl}, using fallback ${fallbackUrl}:`, err);
+                        return fetch(fallbackUrl).then(r => {
+                            if (!r.ok) throw new Error("Failed fallback fetch");
+                            return r.text();
+                        });
+                    });
+            }
+
             // Fetch and render CSV data
             Promise.all([
-                fetch("data/response_thoughts.csv").then(r => {
-                    if (!r.ok) throw new Error("Failed to load thoughts");
-                    return r.text();
-                }),
-                fetch("data/response_tributes.csv").then(r => {
-                    if (!r.ok) throw new Error("Failed to load tributes");
-                    return r.text();
-                }),
-                fetch("data/response_works.csv").then(r => {
-                    if (!r.ok) throw new Error("Failed to load works");
-                    return r.text();
-                })
+                fetchWithFallback(THOUGHTS_LIVE, THOUGHTS_FALLBACK),
+                fetchWithFallback(TRIBUTES_LIVE, TRIBUTES_FALLBACK),
+                fetchWithFallback(WORKS_LIVE, WORKS_FALLBACK)
             ]).then(([thoughtsCSV, tributesCSV, worksCSV]) => {
                 allThoughts = parseCSV(thoughtsCSV);
                 const tributes = parseCSV(tributesCSV);

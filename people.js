@@ -1,6 +1,7 @@
 // People Data and Honeycomb Network Logic
 let people = [];
-const CSV_URL = "data/people.csv";
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTYkcq2-Y9OhZsOz8u8VWe0pcjyqQkdl-97ABd1Ddt2rTNX_waZK11S2gh4twljl4YzOOQF1k7nvVfj/pub?output=csv";
+const CSV_FALLBACK_URL = "data/people.csv";
 
 // Robust vanilla CSV parser to handle quotes, newlines, and escape characters
 function parseCSV(text) {
@@ -561,23 +562,34 @@ function setupInteractions(cellsData) {
 // Init Setup on Load
 document.addEventListener("DOMContentLoaded", () => {
     // Fetch and parse live data from published Google Sheets
-    fetch(CSV_URL)
-        .then(response => {
-            if (!response.ok) throw new Error("Network response was not ok");
-            return response.text();
-        })
-        .then(csvText => {
-            people = parseCSV(csvText);
-            layoutGrid();
-            window.addEventListener("resize", layoutGrid);
-        })
-        .catch(error => {
-            console.error("Error loading professional network data:", error);
-            const grid = document.getElementById("honeycomb-grid");
-            if (grid) {
-                grid.innerHTML = `<div class="error-placeholder" style="color: var(--text-secondary); padding: 3rem; text-align: center; font-family: var(--font-heading); font-size: 1.1rem; width: 100%;">Failed to load network data. Please refresh or check your internet connection.</div>`;
-            }
-        });
+    const sep = CSV_URL.includes('?') ? '&' : '?';
+    const cacheBuster = `${sep}_t=${Date.now()}`;
+
+    function loadPeopleData(url, isFallback = false) {
+        fetch(url + (isFallback ? '' : cacheBuster))
+            .then(response => {
+                if (!response.ok) throw new Error("Network response was not ok");
+                return response.text();
+            })
+            .then(csvText => {
+                people = parseCSV(csvText);
+                layoutGrid();
+                window.addEventListener("resize", layoutGrid);
+            })
+            .catch(error => {
+                console.warn("Error loading professional network data from live Sheet, trying fallback:", error);
+                if (!isFallback) {
+                    loadPeopleData(CSV_FALLBACK_URL, true);
+                } else {
+                    const grid = document.getElementById("honeycomb-grid");
+                    if (grid) {
+                        grid.innerHTML = `<div class="error-placeholder" style="color: var(--text-secondary); padding: 3rem; text-align: center; font-family: var(--font-heading); font-size: 1.1rem; width: 100%;">Failed to load network data. Please refresh or check your internet connection.</div>`;
+                    }
+                }
+            });
+    }
+
+    loadPeopleData(CSV_URL);
 
     // Search Box Listener
     const search = document.getElementById("honeycomb-search");

@@ -712,8 +712,12 @@
             });
 
             // --- Initial Loaders ---
-            const FLYERS_CSV_URL = "data/flyers_database.csv";
-            const TALKS_CSV_URL = "data/talks_database.csv";
+            // --- Initial Loaders ---
+            const FLYERS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRmBa0BcQPRRis1cGpm8de0H7kFv_IxGO_o6OksYQabmRhpfyEKiBsq9wusmtUq_WGgxG2NWIoWtAyA/pub?gid=197107346&single=true&output=csv";
+            const FLYERS_CSV_FALLBACK = "data/flyers_database.csv";
+            const TALKS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT_GPwpYO10hCWKLZDoOKeoAGhJNNpRWcKwkC2melsgD2wcsd2LmrKSvjbbQCE9P79xr-yuysAzu4fm/pub?gid=1122012666&single=true&output=csv";
+            const TALKS_CSV_FALLBACK = "data/talks_database.csv";
+
             const fallbackFlyers = [
                 { title: "All water is holy water...", url: "Assets/Talks/2021.July_.Green-Verandah.jpg" },
                 { title: "Urban Lakes as a Socio-Ecological System", url: "Assets/Talks/2021.July_.TISS_.jpg" },
@@ -738,42 +742,68 @@
             let globalFlyersList = [];
             
             // Step 1: Load Flyers
-            const buster = `?t=${new Date().getTime()}`;
-            Papa.parse(FLYERS_CSV_URL + buster, {
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    const parsedFlyers = results.data.map(item => {
-                        return {
-                            title: item.Title || '',
-                            url: item.Drive_Link ? `Assets/Talks/${item.Drive_Link}` : ''
-                        };
-                    }).filter(item => item.url !== '');
-                    
-                    globalFlyersList = parsedFlyers.length > 0 ? parsedFlyers : fallbackFlyers;
-                    initMarquee();
-                    loadTalks();
-                },
-                error: function(err) {
-                    console.error("Error loading flyers CSV:", err);
-                    globalFlyersList = fallbackFlyers;
-                    initMarquee();
-                    loadTalks();
-                }
-            });
-
-            // Step 2: Load Talks
-            function loadTalks() {
-                Papa.parse(TALKS_CSV_URL + buster, {
+            function parseFlyers(url, isFallback = false) {
+                const sep = url.includes('?') ? '&' : '?';
+                const buster = isFallback ? '' : `${sep}_t=${Date.now()}`;
+                Papa.parse(url + buster, {
                     download: true,
                     header: true,
                     skipEmptyLines: true,
                     complete: function(results) {
-                        buildTalkCards(results.data);
+                        const parsedFlyers = results.data.map(item => {
+                            return {
+                                title: item.Title || '',
+                                url: item.Drive_Link ? (item.Drive_Link.startsWith('http') ? item.Drive_Link : `Assets/Talks/${item.Drive_Link}`) : ''
+                            };
+                        }).filter(item => item.url !== '');
+                        
+                        if (parsedFlyers.length > 0) {
+                            globalFlyersList = parsedFlyers;
+                            initMarquee();
+                            loadTalks();
+                        } else if (!isFallback) {
+                            parseFlyers(FLYERS_CSV_FALLBACK, true);
+                        } else {
+                            globalFlyersList = fallbackFlyers;
+                            initMarquee();
+                            loadTalks();
+                        }
                     },
                     error: function(err) {
-                        console.error("Error loading talks CSV:", err);
+                        console.warn("Error loading flyers CSV, trying fallback:", err);
+                        if (!isFallback) {
+                            parseFlyers(FLYERS_CSV_FALLBACK, true);
+                        } else {
+                            globalFlyersList = fallbackFlyers;
+                            initMarquee();
+                            loadTalks();
+                        }
+                    }
+                });
+            }
+
+            parseFlyers(FLYERS_CSV_URL);
+
+            // Step 2: Load Talks
+            function loadTalks(url = TALKS_CSV_URL, isFallback = false) {
+                const sep = url.includes('?') ? '&' : '?';
+                const buster = isFallback ? '' : `${sep}_t=${Date.now()}`;
+                Papa.parse(url + buster, {
+                    download: true,
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        if (results.data && results.data.length > 0) {
+                            buildTalkCards(results.data);
+                        } else if (!isFallback) {
+                            loadTalks(TALKS_CSV_FALLBACK, true);
+                        }
+                    },
+                    error: function(err) {
+                        console.warn("Error loading talks CSV, trying fallback:", err);
+                        if (!isFallback) {
+                            loadTalks(TALKS_CSV_FALLBACK, true);
+                        }
                     }
                 });
             }
