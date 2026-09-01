@@ -725,15 +725,26 @@ section {
 
 .card-bg {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-size: cover;
-    background-position: center;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
     opacity: 0.8;
     transition: all 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
     z-index: 1;
+}
+
+.card-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    opacity: 0.85;
+    transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
 }
 
 .bento-card::after {
@@ -787,7 +798,8 @@ section {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
-.bento-card:hover .card-bg {
+.bento-card:hover .card-bg,
+.bento-card:hover .card-bg-img {
     transform: scale(1.1);
     opacity: 1;
 }
