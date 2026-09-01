@@ -131,9 +131,19 @@ CONFIGS = [
 ]
 
 def download_url(url):
+    import time
+    target_url = url
+    if "docs.google.com" in target_url:
+        sep = "&" if "?" in target_url else "?"
+        target_url = f"{target_url}{sep}_t={int(time.time())}"
+        
     req = urllib.request.Request(
-        url, 
-        headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+        target_url, 
+        headers={
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache'
+        }
     )
     with urllib.request.urlopen(req, timeout=15) as response:
         return response.read(), response.info().get_content_type()
@@ -615,6 +625,16 @@ def inject_content_into_file(target_file, placeholder, content):
         print(f"  [WARNING] Comments for placeholder '{placeholder}' not found in {target_file}.")
         return False
         
+    if placeholder == "research_intro" and "orcid.org" not in content:
+        orcid_html = '''<div style="margin-top: 1.2rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                <span style="color: var(--text-secondary); font-weight: 500;">ORCID iD:</span>
+                <a id="cy-effective-orcid-url" class="underline" href="https://orcid.org/0000-0003-3216-132X" target="orcid.widget" rel="me noopener noreferrer" style="vertical-align: top; color: var(--accent); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <i class="fab fa-orcid"></i>
+                    https://orcid.org/0000-0003-3216-132X
+                </a>
+            </div>'''
+        content = content + "\n            " + orcid_html
+
     new_content = (
         file_content[:start_idx + len(start_tag)] +
         "\n            " + content + "\n            " +
