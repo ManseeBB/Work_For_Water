@@ -813,39 +813,39 @@ section {
 
 /* Unique backgrounds for cards using natural photos */
 .practice-bg {
-    background-image: url('Assets/1st.jpg');
+    background-image: url('Assets/1st.webp');
 }
 
 .research-bg {
-    background-image: url('Assets/2nd.jpg');
+    background-image: url('Assets/2nd.webp');
 }
 
 .teaching-bg {
-    background-image: url('Assets/3rd.jpg');
+    background-image: url('Assets/3rd.webp');
 }
 
 .purpose-bg {
-    background-image: url('Assets/4th.jpg');
+    background-image: url('Assets/4th.webp');
 }
 
 .response-bg {
-    background-image: url('Assets/5th.jpg');
+    background-image: url('Assets/5th.webp');
 }
 
 .talks-bg {
-    background-image: url('Assets/6th.jpg');
+    background-image: url('Assets/6th.webp');
 }
 
 .people-bg {
-    background-image: url('Assets/7th.jpg');
+    background-image: url('Assets/7th.webp');
 }
 
 .resume-bg {
-    background-image: url('Assets/8th.jpg');
+    background-image: url('Assets/8th.webp');
 }
 
 .travel-bg {
-    background-image: url('Assets/9th.jpg');
+    background-image: url('Assets/9th.webp');
 }
 
 /* Connect Section */
